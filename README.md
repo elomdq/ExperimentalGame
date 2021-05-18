@@ -34,3 +34,20 @@ implementación en el informe técnico.
 ● Antes de empezar con la codificación del trabajo se deberá entregar y ser aprobado el
 diagrama UML con las clases, interfaces y algunos métodos.
 
+
+**Tema Libre**
+
+El estudiante puede realizar este trabajo creando la temática que desee. Pero deberá
+cumplir con las siguientes pautas técnicas:
+
+- Implementación del paradigma orientado a objetos: Al menos 8 clases, implementación
+de herencia, uso de polimorfismo, etc
+- Creación de interfaces propias. Se solicitará al menos una interfaz que sea implementada
+por más de una clase.
+- Aplicar distintos tipos de clases o interfaces que brinda Java como por ej: Collection,
+Map, Comparable, Enum, etc.
+- Uso de excepciones para controlar distintos tipos de errores en el sistema.
+- Implementación de persistencia de información a través del uso de archivos (Clase File o
+Json).
+- Encontrar soluciones lógicas por medio de Genericidad.
+
