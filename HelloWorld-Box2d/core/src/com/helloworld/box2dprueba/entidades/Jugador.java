@@ -10,6 +10,14 @@ public class Jugador extends Personaje{
     private Iluminacion tipoIluminacionEquipada;
     private List<ItemEquipable> mochila;
 
+
+    //Constructor
+    public Jugador(World mundo, float posX, float posY, float largo, float ancho, String textura) {
+        //Constructor
+        super(mundo, posX, posY, largo, ancho, textura);
+    }
+
+
     //Getter & Setter
     public boolean isEstaVivo() {
         return estaVivo;
@@ -35,10 +43,4 @@ public class Jugador extends Personaje{
         this.mochila = mochila;
     }
 
-    //Constructor
-    public Jugador(World mundo, float posX, float posY, float largo, float ancho, String textura) {
-        super(mundo, posX, posY, largo, ancho, textura);
-    }
-
-    //Demas Métodos
 }
