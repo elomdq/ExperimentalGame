@@ -1,54 +1,68 @@
 package com.helloworld.box2dprueba.states;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.helloworld.box2dprueba.JuegoPrueba;
 
 import java.util.Stack;
 
 public class GameStateManager {
 
     //referencia a la aplicacion
-    private final Application app;
+    private final JuegoPrueba app;
 
     private Stack<State> states;
 
-    public enum State
+    public enum GameState
     {
         SPLASH,
         MENU,
-        PLAYGAME
+        PLAY
     }
 
-    //constructor
-    public GameStateManager(PlayState playState, final Application app)
+     public GameStateManager(final JuegoPrueba app)
     {
         this.app = app;
         states = new Stack<State>();
-        this.set(State.PLAYGAME);
+        this.setState(GameState.SPLASH);
     }
 
-    //ingresamos un nuevo state a la pila
+
     public void push(State state)
     {
         states.push(state);
     }
 
-    //sacamos un state de la pila
+
     public State pop()
     {
         return states.pop();
     }
 
+
     //sacamos un state e ingresamos a la vez otro state
-    public void set(State state)
+    public void setState(GameState state)
     {
-        states.pop().dispose();
-        states.push(state);
+        if(!states.empty())
+            states.pop().dispose();
+        states.push(getState(state));
+    }
+
+    public State getState(GameState state)
+    {
+        switch(state)
+        {
+            case SPLASH: return new SplashState(this);
+            case MENU:
+                break;
+            case PLAY: return new PlayStateGame(this);
+            default:
+                break;
+        }
+
+        return null;
     }
 
 
-
-    public Application getApplication()
+    public JuegoPrueba getApplication()
     {
         return app;
     }
@@ -63,9 +77,9 @@ public class GameStateManager {
     }
 
     //renderiza el state que se encuentra en el tope de la pila
-    public void render(/*SpriteBatch sb*/)
+    public void render()
     {
-        states.peek().render(sb);
+        states.peek().render();
     }
 
     public void dispose()
@@ -76,9 +90,9 @@ public class GameStateManager {
         }
     }
 
-    public void resize(float w, float h)
+    public void resize(int w, int h, float scale)
     {
-        states.peek().resize(w, h);
+        states.peek().resize(w, h, scale);
     }
 
 }
