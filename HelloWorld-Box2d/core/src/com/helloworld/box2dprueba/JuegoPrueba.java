@@ -21,6 +21,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.helloworld.box2dprueba.states.State;
+import com.helloworld.box2dprueba.states.GameStateManager;
+import com.helloworld.box2dprueba.states.PlayState;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
 import javax.print.attribute.standard.PagesPerMinute;
@@ -33,18 +36,20 @@ import static java.awt.Color.*;
 
 public class JuegoPrueba extends ApplicationAdapter {
 
+	//Debug
 	private boolean DEBUG = false;
+
 	private final float SCALE = 1.5f;
 
+	private GameStateManager gsm;
 	private OrthographicCamera camera;
-
-	private World world;
-	private Body player, platform;
-
-	private Box2DDebugRenderer b2dr;
 
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap map;
+
+	private Box2DDebugRenderer b2dr;
+	private World world;
+	private Body player, platform;
 
 	private SpriteBatch batch;
 	private Texture tex;
@@ -66,9 +71,12 @@ public class JuegoPrueba extends ApplicationAdapter {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
+		gsm = new GameStateManager(new PlayState(gsm));
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, w/SCALE, h/SCALE);
 
+		/*
 		world = new World(new Vector2(0, 0), false);
 		b2dr = new Box2DDebugRenderer();
 
@@ -125,24 +133,29 @@ public class JuegoPrueba extends ApplicationAdapter {
 		rayHandler.setAmbientLight(0f);
 
 
-		/*light = new PointLight(rayHandler,100,	Color.WHITE,distance, 0 , 0);
-		light.setSoftnessLength(0f);
-		light.attachToBody(player);*/
+		//light = new PointLight(rayHandler,100,	Color.WHITE,distance, 0 , 0);
+		//light.setSoftnessLength(0f);
+		//light.attachToBody(player);
 
 		coneLight = new ConeLight(rayHandler, 100,	Color.WHITE, distance, 0 , 0, player.getAngle(), 30);
 		coneLight.attachToBody(player);
 		coneLight.setSoftnessLength(0f);
 
 		b2dr.setDrawBodies(false);
+		*/
 	}
 
 	@Override
 	public void render () {
 
-		update(Gdx.graphics.getDeltaTime()); //Antes de renderizar updeteo todos los elementos
+		gsm.update(Gdx.graphics.getDeltaTime());
+		gsm.render();
 
+		/*
 		Gdx.gl.glClearColor(0f,0f,0f,1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		update(Gdx.graphics.getDeltaTime()); //Antes de renderizar updeteo todos los elementos
 
 		tmr.render();
 
@@ -150,21 +163,23 @@ public class JuegoPrueba extends ApplicationAdapter {
 
 		rayHandler.render();
 
-
 		batch.begin();
-
 		stateTime += Gdx.graphics.getDeltaTime();
 		currentFrame = (TextureRegion) animation.getKeyFrame(stateTime, true);
 
 		batch.draw(currentFrame,player.getPosition().x * PPM - (32/2), player.getPosition().y * PPM - (32/2));
 		//batch.draw(tex, player.getPosition().x * PPM - (tex.getWidth()/2), player.getPosition().y * PPM - (tex.getHeight()/2));
 		batch.end();
+		 */
 	}
 
 
 	
 	@Override
 	public void dispose () {
+
+		gsm.dispose();
+
 		world.dispose();
 		b2dr.dispose();
 		map.dispose();
@@ -174,12 +189,14 @@ public class JuegoPrueba extends ApplicationAdapter {
 		rayHandler.dispose();
 		light.dispose();
 		coneLight.dispose();
-
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		camera.setToOrtho(false, width/SCALE, height/SCALE);
+
+		gsm.resize((int) width/SCALE, (int)height/SCALE); //revisar porque el metodo original es con int creo
+
+		//camera.setToOrtho(false, width/SCALE, height/SCALE);
 	}
 
 	public void update(float delta)
