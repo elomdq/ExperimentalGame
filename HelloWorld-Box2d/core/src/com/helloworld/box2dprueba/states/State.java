@@ -18,7 +18,7 @@ public abstract class State {
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
 
-    protected State(GameStateManager gsm)
+    public State(GameStateManager gsm)
     {
         this.gsm = gsm;
         this.app = gsm.getApplication();

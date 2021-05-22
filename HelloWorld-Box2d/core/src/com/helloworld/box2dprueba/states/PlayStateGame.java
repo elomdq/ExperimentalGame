@@ -3,16 +3,11 @@ package com.helloworld.box2dprueba.states;
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -20,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.helloworld.box2dprueba.objetos.Jugador;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
@@ -31,17 +27,11 @@ public class PlayStateGame extends State {
 
     private Box2DDebugRenderer b2dr;
     private World world;
-    private Body player, platform;
 
-    private Texture tex;
-    private TextureRegion[] animationFrames, animationFramesUp, animationFramesDown, animationFramesLeft, animationFramesRight;
-    private TextureRegion currentFrame;
-    private TextureRegion [][] tmpFrames;
-    private Animation animation, animationUp, animationDown, animationLeft, animationRight;
-    private float stateTime;
+    private Jugador jugador;
 
     private RayHandler rayHandler;
-    private PointLight light;
+    //private PointLight light;
     private float distance = 5;
 
     private ConeLight coneLight;
@@ -52,51 +42,22 @@ public class PlayStateGame extends State {
         world = new World(new Vector2(0, 0), false);
         b2dr = new Box2DDebugRenderer();
 
-        player = createBox(40, 40,32,32,false, false);
-
         map = new TmxMapLoader().load("maps/mapita.tmx"); // Devuelve un TiledMap
         tmr = new OrthogonalTiledMapRenderer(map);
 
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("colision").getObjects());
 
-        tex = new Texture("images/Male01.png");
-
-        tmpFrames = TextureRegion.split(tex, 32,32);
-        animationFramesUp = new TextureRegion[3];
-        animationFramesDown = new TextureRegion[3];
-        animationFramesLeft = new TextureRegion[3];
-        animationFramesRight = new TextureRegion[3];
-        stateTime = 0f;
-
-        for(int row=0; row<4; row++)
-        {
-            for (int col = 0; col<3; col++)
-            {
-                switch (row)
-                {
-                    case 0:
-                        animationFramesDown[col] = tmpFrames[row][col];
-                        break;
-                    case 1:
-                        animationFramesLeft[col] = tmpFrames[row][col];
-                        break;
-                    case 2:
-                        animationFramesRight[col] = tmpFrames[row][col];
-                        break;
-                    case 3:
-                        animationFramesUp[col] = tmpFrames[row][col];
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        animationDown = new Animation(0.1f, animationFramesDown);;
-        animationLeft = new Animation(0.1f, animationFramesLeft);;
-        animationRight = new Animation(0.1f, animationFramesRight);
-        animationUp = new Animation(0.1f, animationFramesUp);
-        animation = new Animation(0, animationFramesUp);
+        jugador = new Jugador(world,
+                40,
+                40,
+                32,
+                32,
+                false,
+                false,
+                "images/Male01.png",
+                32,
+                32,
+                3);
 
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f);
@@ -105,8 +66,8 @@ public class PlayStateGame extends State {
         //light.setSoftnessLength(0f);
         //light.attachToBody(player);
 
-        coneLight = new ConeLight(rayHandler, 100,	Color.WHITE, distance, 0 , 0, player.getAngle(), 30);
-        coneLight.attachToBody(player);
+        coneLight = new ConeLight(rayHandler, 100,	Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 30);
+        coneLight.attachToBody(jugador.getBody());
         coneLight.setSoftnessLength(0f);
 
         b2dr.setDrawBodies(false);
@@ -145,12 +106,17 @@ public class PlayStateGame extends State {
 
         rayHandler.render();
 
-        batch.begin();
-        stateTime += Gdx.graphics.getDeltaTime();
-        currentFrame = (TextureRegion) animation.getKeyFrame(stateTime, true);
+        //Inicio de Batch
 
-        batch.draw(currentFrame,player.getPosition().x * PPM - (32/2), player.getPosition().y * PPM - (32/2));
-        //batch.draw(tex, player.getPosition().x * PPM - (tex.getWidth()/2), player.getPosition().y * PPM - (tex.getHeight()/2));
+        batch.begin();
+
+        jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
+        jugador.setCurrentFrame();
+
+        batch.draw( (TextureRegion) jugador.getAnimation().getKeyFrame(jugador.getStateTime(),true),
+                jugador.getBody().getPosition().x * PPM - (jugador.getTexture().getWidth()/2),
+                jugador.getBody().getPosition().y * PPM - (jugador.getTexture().getHeight()/2) );
+
         batch.end();
     }
 
@@ -161,10 +127,10 @@ public class PlayStateGame extends State {
         map.dispose();
         tmr.dispose();
         batch.dispose();
-        tex.dispose();
         rayHandler.dispose();
         light.dispose();
         coneLight.dispose();
+        jugador.dispose();
     }
 
     public void inputUpdate(float delta)
@@ -174,98 +140,51 @@ public class PlayStateGame extends State {
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             horizontalForce -= 1;
-            animation = animationLeft;
+            jugador.setAnimation(jugador.getAnimationLeft());
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             horizontalForce += 1;
-            animation = animationRight;
+            jugador.setAnimation(jugador.getAnimationRight());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            //player.applyForceToCenter(0, 300, false);
             verticalForce += 1;
-            animation = animationUp;
+            jugador.setAnimation(jugador.getAnimationUp());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            //player.applyForceToCenter(0, 300, false);
             verticalForce -= 1;
-            animation = animationDown;
+            jugador.setAnimation(jugador.getAnimationDown());
         }
 
 		/*if(!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.UP)
 				&& !Gdx.input.isKeyPressed(Input.Keys.LEFT) && !Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 			animation.setPlayMode();*/
 
-        player.setLinearVelocity(horizontalForce * 5, verticalForce * 5);
+        jugador.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
 
         rotatePlayerToMouse(camera);
     }
 
-    public void animationUpdate()
-    {
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            animation = animationLeft;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            animation = animationRight;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            animation = animationUp;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            animation = animationDown;
-        }
-    }
 
     private void rotatePlayerToMouse(OrthographicCamera camera) {
 
         Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
-        float deltaX = mousePos.x - player.getPosition().x*PPM;
-        float deltaY = mousePos.y - player.getPosition().y*PPM;
+        float deltaX = mousePos.x - jugador.getBody().getPosition().x *PPM;
+        float deltaY = mousePos.y - jugador.getBody().getPosition().y *PPM;
 
         float nuevoAngulo = (float) Math.atan2(deltaY, deltaX);
 
-        player.setAngularVelocity(0);
-        player.setTransform(player.getPosition().x, player.getPosition().y, nuevoAngulo);
+        jugador.getBody().setAngularVelocity(0);
+        jugador.getBody().setTransform(jugador.getBody().getPosition().x, jugador.getBody().getPosition().y, nuevoAngulo);
     }
 
-    public Body createBox(int x, int y, int width, int height, boolean isStatic, boolean fixRotation)
-    {
-        Body pBody;
-        BodyDef def = new BodyDef();
-
-        if(isStatic)
-            def.type = BodyDef.BodyType.StaticBody;
-        else
-            def.type = BodyDef.BodyType.DynamicBody;
-
-        def.position.set(x/PPM, y/PPM);
-
-        if(fixRotation)
-            def.fixedRotation = true;
-        else
-            def.fixedRotation = false;
-
-        pBody = world.createBody(def);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width/2/PPM, height/2/PPM);
-
-        pBody.createFixture(shape, 1.0f);
-        shape.dispose();
-
-        return pBody;
-    }
 
     public void cameraUpdate() {
         Vector3 position = camera.position;
-        position.x = player.getPosition().x * PPM;
-        position.y = player.getPosition().y * PPM;
+        position.x = jugador.getBody().getPosition().x * PPM;
+        position.y = jugador.getBody().getPosition().y * PPM;
 
         camera.position.set(position);
 
