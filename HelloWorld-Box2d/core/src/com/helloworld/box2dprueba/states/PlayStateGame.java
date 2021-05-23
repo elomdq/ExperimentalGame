@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.helloworld.box2dprueba.objetos.Enemigo;
 import com.helloworld.box2dprueba.objetos.Jugador;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
@@ -29,6 +30,7 @@ public class PlayStateGame extends State {
     private World world;
 
     private Jugador jugador;
+    private Enemigo skeleton;
 
     private RayHandler rayHandler;
     //private PointLight light;
@@ -55,6 +57,18 @@ public class PlayStateGame extends State {
                 false,
                 false,
                 "images/Male01.png",
+                32,
+                32,
+                3);
+
+        skeleton = new Enemigo(world,
+                50,
+                60,
+                32,
+                32,
+                false,
+                true,
+                "images/skeleton.png",
                 32,
                 32,
                 3);
@@ -113,9 +127,16 @@ public class PlayStateGame extends State {
         jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
         jugador.setCurrentFrame();
 
-        batch.draw( (TextureRegion) jugador.getAnimation().getKeyFrame(jugador.getStateTime(),true),
-                jugador.getBody().getPosition().x * PPM - (jugador.getTexture().getWidth()/2),
-                jugador.getBody().getPosition().y * PPM - (jugador.getTexture().getHeight()/2) );
+        skeleton.setStateTime(skeleton.getStateTime() + Gdx.graphics.getDeltaTime());
+        skeleton.setCurrentFrame();
+
+        batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
+                jugador.getBody().getPosition().x * PPM - (32 / 2),
+                jugador.getBody().getPosition().y * PPM - (32/2));
+
+        batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
+                skeleton.getBody().getPosition().x * PPM - (32 / 2),
+                skeleton.getBody().getPosition().y * PPM - (32/2));
 
         batch.end();
     }
@@ -128,9 +149,10 @@ public class PlayStateGame extends State {
         tmr.dispose();
         batch.dispose();
         rayHandler.dispose();
-        light.dispose();
+        //light.dispose();
         coneLight.dispose();
         jugador.dispose();
+        skeleton.dispose();
     }
 
     public void inputUpdate(float delta)
