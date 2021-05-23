@@ -1,22 +1,20 @@
 package com.helloworld.box2dprueba.states;
 
 import box2dLight.ConeLight;
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.helloworld.box2dprueba.objetos.Enemigo;
-import com.helloworld.box2dprueba.objetos.Jugador;
+import com.helloworld.box2dprueba.entidades.Enemigo;
+import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;

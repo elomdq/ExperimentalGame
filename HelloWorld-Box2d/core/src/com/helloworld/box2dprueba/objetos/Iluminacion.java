@@ -1,8 +1,8 @@
-package com.helloworld.box2dprueba.entidades;
+package com.helloworld.box2dprueba.objetos;
 
 import com.badlogic.gdx.physics.box2d.World;
 
-public abstract class Iluminacion extends ItemEquipable{
+public abstract class Iluminacion extends ItemEquipable {
 
     private Float energiaRestante;
 

@@ -1,46 +1,50 @@
 package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.objetos.ItemEquipable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Jugador extends Personaje{
+public class Jugador extends Personaje {
 
-    private boolean estaVivo;
-    private Iluminacion tipoIluminacionEquipada;
-    private List<ItemEquipable> mochila;
+    private boolean vive;
+    //private Iluminacion luminaria;
+    List<com.helloworld.box2dprueba.objetos.ItemEquipable> inventario;
 
-
-    //Constructor
-    public Jugador(World mundo, float posX, float posY, float largo, float ancho, String textura) {
-        //Constructor
-        super(mundo, posX, posY, largo, ancho, textura);
+    public Jugador(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
+        super(world, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
+        inventario = new ArrayList<>();
     }
 
 
-    //Getter & Setter
-    public boolean isEstaVivo() {
-        return estaVivo;
+    //Setters & getters
+    public boolean isVive() {
+        return vive;
     }
 
-    public void setEstaVivo(boolean estaVivo) {
-        this.estaVivo = estaVivo;
+    public void setVive(boolean vive) {
+        this.vive = vive;
     }
 
-    public Iluminacion getTipoIluminacionEquipada() {
-        return tipoIluminacionEquipada;
+    /*public Iluminacion getEquipo() {
+        return equipo;
+    }*/
+
+   /* public void setEquipo(Luminaria equipo) {
+        this.equipo = equipo;
+    }*/
+
+    public List<com.helloworld.box2dprueba.objetos.ItemEquipable> getInventario() {
+        return inventario;
     }
 
-    public void setTipoIluminacionEquipada(Iluminacion tipoIluminacionEquipada) {
-        this.tipoIluminacionEquipada = tipoIluminacionEquipada;
+    public void setInventario(List<ItemEquipable> inventario) {
+        this.inventario = inventario;
     }
 
-    public List<ItemEquipable> getMochila() {
-        return mochila;
+    public void dispose(){
+        super.dispose();
+        //luminaria.dispose();
     }
-
-    public void setMochila(List<ItemEquipable> mochila) {
-        this.mochila = mochila;
-    }
-
 }

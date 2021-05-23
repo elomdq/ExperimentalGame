@@ -1,62 +1,85 @@
 package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 public abstract class Entidad {
 
-    private Body cuerpo;
-    private Texture textura;
+    private Body body;
+    private Texture texture;
 
+    //Contructor
+    //Se le pasa una referencia del mundo donde se va a crear (porque el mundo crea la referencia del body a asignar)
+    //Se le pasa posicion con X e Y, ancho y alto, Si es cuerpo estatico o dinamico, y si no va a rotar
+    public Entidad(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation)
+    {
+        body = createBox(world, x, y, width, height, isStatic, fixRotation);
+    }
 
-    //Constructor
-    public Entidad(World mundo, float posX, float posY, float largo, float ancho,String textura){
-        crearCuerpo(mundo,posX,posY,largo,ancho);
-        this.textura =new Texture(textura);
+    public Entidad(Body body, Texture texture)
+    {
+        this.body = body;
+        this.texture = texture;
     }
 
 
-    //Getter & Setter
-    public Body getCuerpo() {
-        return cuerpo;
+    //setters & getters
+
+    public Body getBody() {
+        return body;
     }
 
-    public void setCuerpo(Body cuerpo) {
-        this.cuerpo = cuerpo;
+    public void setBody(Body body) {
+        this.body = body;
     }
 
-    public Texture getTextura() {
-        return textura;
+    public Texture getTexture() {
+        return texture;
     }
 
-    public void setTextura(Texture textura) {
-        this.textura = textura;
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
 
-    //Otros métodos
-    private void crearCuerpo(World mundo, float posX, float posY, float largo, float ancho) {
+    //Otros metodos
 
-        BodyDef cuerpoDef = new BodyDef(); //Caracteristicas del cuerpo de la clase
+    public Body createBox(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation)
+    {
+        Body pBody;
+        BodyDef def = new BodyDef();
 
-        cuerpoDef.fixedRotation = true;
-
-        if(this instanceof Jugador || this instanceof Enemigo)
-            cuerpoDef.type = BodyDef.BodyType.DynamicBody;//Si se trata de un jugador o enemigo lo crea dinámico
+        if(isStatic)
+            def.type = BodyDef.BodyType.StaticBody;
         else
-            cuerpoDef.type = BodyDef.BodyType.StaticBody;//Caso contrario lo crea estático
+            def.type = BodyDef.BodyType.DynamicBody;
 
-        cuerpoDef.position.set(posX/PPM, posY/PPM);//Desfine una posicion inicial
+        def.position.set(x/PPM, y/PPM);
 
-        PolygonShape forma = new PolygonShape();
-        forma.setAsBox(largo/2/PPM,ancho/2/PPM);//Define la forma del "hitbox"
+        if(fixRotation)
+            def.fixedRotation = true;
+        else
+            def.fixedRotation = false;
 
-        FixtureDef fixDef = new FixtureDef();//Asigna la forma anteriormente creada
-        fixDef.shape = forma;
-        fixDef.density = 1.0f;
-        this.cuerpo = mundo.createBody(cuerpoDef);//Le asigna la forma ya seteada al cuerpo
-        this.cuerpo.createFixture(fixDef).setUserData(this);//Le asigna los datos de la instancia al fixture (para coliciones)
+        pBody = world.createBody(def);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width/2/PPM, height/2/PPM);
+
+        pBody.createFixture(shape, 1.0f);
+        shape.dispose();
+
+        return pBody;
     }
+
+    public void dispose()
+    {
+        texture.dispose();
+    }
+
 }

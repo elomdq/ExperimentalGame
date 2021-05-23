@@ -1,9 +1,9 @@
-package com.helloworld.box2dprueba.entidades;
+package com.helloworld.box2dprueba.objetos;
 
 import box2dLight.PointLight;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Farol extends Iluminacion{
+public class Farol extends Iluminacion {
 
     private PointLight luz;
 

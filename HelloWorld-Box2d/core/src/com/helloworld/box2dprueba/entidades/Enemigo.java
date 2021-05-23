@@ -1,13 +1,12 @@
 package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.entidades.Personaje;
 
-public class Enemigo extends Personaje{
+public class Enemigo extends Personaje {
 
-
-    //Constructor
-    public Enemigo(World mundo, float posX, float posY, float largo, float ancho, String textura) {
-        super(mundo, posX, posY, largo, ancho, textura);
+    public Enemigo(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
+        super(world, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
     }
 
 }

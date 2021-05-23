@@ -1,9 +1,9 @@
-package com.helloworld.box2dprueba.entidades;
+package com.helloworld.box2dprueba.objetos;
 
 import box2dLight.ConeLight;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Linterna extends Iluminacion{
+public class Linterna extends Iluminacion {
 
     private ConeLight luz;
 

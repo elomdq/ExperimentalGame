@@ -1,16 +1,16 @@
-package com.helloworld.box2dprueba.entidades;
+package com.helloworld.box2dprueba.objetos;
 
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.entidades.Entidad;
 
-public class Cofre extends Entidad{
+public class Cofre extends Entidad {
 
     private ItemEquipable item;
 
 
     //Constructor
-    public Cofre(World mundo, float posX, float posY, float largo, float ancho, String textura) {
-        super(mundo, posX, posY, largo, ancho, textura);
+    public Cofre(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation) {
+        super(world, x, y, width, height, isStatic, fixRotation);
         this.item = agregarItemRandom();
     }
 

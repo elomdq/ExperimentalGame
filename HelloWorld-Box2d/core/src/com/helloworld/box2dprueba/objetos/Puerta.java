@@ -1,8 +1,9 @@
-package com.helloworld.box2dprueba.entidades;
+package com.helloworld.box2dprueba.objetos;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.entidades.Entidad;
 
-public class Puerta extends Entidad{
+public class Puerta extends Entidad {
 
     private boolean estaAbierta;
 
