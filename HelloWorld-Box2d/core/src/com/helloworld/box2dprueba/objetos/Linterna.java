@@ -7,11 +7,11 @@ public class Linterna extends Iluminacion {
 
     private ConeLight luz;
 
-    //Constructor
-    public Linterna(World mundo, float posX, float posY, float largo, float ancho, String textura, boolean estaEquipado, Float energiaRestante) {
-        super(mundo, posX, posY, largo, ancho, textura, estaEquipado, energiaRestante);
-    }
 
+    //Constructor
+    public Linterna(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation) {
+        super(world, x, y, width, height, isStatic, fixRotation);
+    }
 
     //Getter & Setter
     public ConeLight getLuz() {

@@ -7,11 +7,16 @@ public class Puerta extends Entidad {
 
     private boolean estaAbierta;
 
-    //Constructor
-    public Puerta(World mundo, float posX, float posY, float largo, float ancho, String textura) {
-        super(mundo, posX, posY, largo, ancho, textura);
+    public Puerta(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation) {
+        super(world, x, y, width, height, isStatic, fixRotation);
         this.estaAbierta = false;
     }
+
+    //Constructor
+    /*public Puerta(World mundo, float posX, float posY, float largo, float ancho, String textura) {
+        super(mundo, posX, posY, largo, ancho, textura);
+        this.estaAbierta = false;
+    }*/
 
 
     //Getter & Setter

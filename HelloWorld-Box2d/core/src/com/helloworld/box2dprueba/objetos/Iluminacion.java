@@ -6,11 +6,9 @@ public abstract class Iluminacion extends ItemEquipable {
 
     private Float energiaRestante;
 
-
-    //Constructor
-    public Iluminacion(World mundo, float posX, float posY, float largo, float ancho, String textura, boolean estaEquipado, Float energiaRestante) {
-        super(mundo, posX, posY, largo, ancho, textura, estaEquipado);
-        this.energiaRestante = energiaRestante;
+    //constructor
+    public Iluminacion(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation) {
+        super(world, x, y, width, height, isStatic, fixRotation);
     }
 
 

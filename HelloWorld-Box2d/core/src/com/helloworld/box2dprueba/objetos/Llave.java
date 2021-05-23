@@ -4,9 +4,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Llave extends ItemEquipable {
 
+
     //Constructor
-    public Llave(World mundo, float posX, float posY, float largo, float ancho, String textura, boolean estaEquipado) {
-        super(mundo, posX, posY, largo, ancho, textura, estaEquipado);
+    public Llave(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation) {
+        super(world, x, y, width, height, isStatic, fixRotation);
     }
 
 }

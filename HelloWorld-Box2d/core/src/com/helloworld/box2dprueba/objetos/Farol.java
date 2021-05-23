@@ -9,8 +9,8 @@ public class Farol extends Iluminacion {
 
 
     //Constructor
-    public Farol(World mundo, float posX, float posY, float largo, float ancho, String textura, boolean estaEquipado, Float energiaRestante) {
-        super(mundo, posX, posY, largo, ancho, textura, estaEquipado, energiaRestante);
+    public Farol(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation) {
+        super(world, x, y, width, height, isStatic, fixRotation);
     }
 
 

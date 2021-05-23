@@ -1,18 +1,21 @@
 package com.helloworld.box2dprueba.states;
 
 import box2dLight.ConeLight;
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
@@ -65,7 +68,7 @@ public class PlayStateGame extends State {
                 32,
                 32,
                 false,
-                true,
+                false,
                 "images/skeleton.png",
                 32,
                 32,
@@ -74,11 +77,11 @@ public class PlayStateGame extends State {
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f);
 
-        //light = new PointLight(rayHandler,100,	Color.WHITE,distance, 0 , 0);
+        //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
         //light.attachToBody(player);
 
-        coneLight = new ConeLight(rayHandler, 100,	Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 30);
+        coneLight = new ConeLight(rayHandler, 100, Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 30);
         coneLight.attachToBody(jugador.getBody());
         coneLight.setSoftnessLength(0f);
 
@@ -100,8 +103,8 @@ public class PlayStateGame extends State {
         tmr.setView(camera);
         batch.setProjectionMatrix(camera.combined);
 
-       	/*distance *= 0.999f;
-		light.setDistance(distance);*/
+           /*distance *= 0.999f;
+      light.setDistance(distance);*/
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -129,7 +132,7 @@ public class PlayStateGame extends State {
         skeleton.setCurrentFrame();
 
         batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
-                jugador.getBody().getPosition().x * PPM - (32 / 2),
+                jugador.getBody().getPosition().x * PPM - (32/2),
                 jugador.getBody().getPosition().y * PPM - (32/2));
 
         batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
@@ -177,9 +180,9 @@ public class PlayStateGame extends State {
             jugador.setAnimation(jugador.getAnimationDown());
         }
 
-		/*if(!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.UP)
-				&& !Gdx.input.isKeyPressed(Input.Keys.LEFT) && !Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			animation.setPlayMode();*/
+      /*if(!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.UP)
+            && !Gdx.input.isKeyPressed(Input.Keys.LEFT) && !Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+         animation.setPlayMode();*/
 
         jugador.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
 
@@ -212,3 +215,4 @@ public class PlayStateGame extends State {
     }
 
 }
+
