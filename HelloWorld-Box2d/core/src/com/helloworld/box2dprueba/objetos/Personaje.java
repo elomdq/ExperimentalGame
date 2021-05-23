@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
 
 public abstract class Personaje extends Entidad {
 
@@ -14,6 +15,7 @@ public abstract class Personaje extends Entidad {
     private int frameWidth, frameHeight;
     private Animation animation, animationUp, animationDown, animationLeft, animationRight;
     private float stateTime;
+    private B2DSteeringEntity entity;
 
     //constructor
     public Personaje(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath)
@@ -29,7 +31,7 @@ public abstract class Personaje extends Entidad {
         tex = new Texture(texturePath);
         stateTime = 0f;
         generarAnimaciones(frameWidth, frameHeight, frames);
-
+        entity = new B2DSteeringEntity(this.getBody(), 1);
     }
 
     //setters & getters

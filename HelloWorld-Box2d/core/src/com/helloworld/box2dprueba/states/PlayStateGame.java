@@ -5,6 +5,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -69,7 +70,7 @@ public class PlayStateGame extends State {
 
         skeleton = new Enemigo(world,
                 50,
-                60,
+                100,
                 32,
                 32,
                 false,
@@ -83,12 +84,19 @@ public class PlayStateGame extends State {
         target = new B2DSteeringEntity(jugador.getBody(), 30/PPM);
         entity = new B2DSteeringEntity(skeleton.getBody(), 30/PPM);
 
-        Arrive<Vector2> arriveSB = new Arrive<>(entity, target).setTimeToTarget(0.01f).setArrivalTolerance(2f).setDecelerationRadius(30/PPM);
+        Wander<Vector2> wanderSB = new Wander<>(entity)
+                .setOwner(target)
+                .setWanderRadius(1/PPM)
+                .setWanderOffset(1/PPM)
+                .setWanderRate(0.1f)
+                .setFaceEnabled(false);
+
+        Arrive<Vector2> arriveSB = new Arrive<>(entity, target).setTimeToTarget(0.1f).setArrivalTolerance(2/PPM).setDecelerationRadius(10/PPM);
         entity.setBehavior(arriveSB);
 
         //Seteo Luz Ambiental
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0f);
+        rayHandler.setAmbientLight(0.8f);
 
         //light = new PointLight(rayHandler,100,	Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
@@ -232,17 +240,18 @@ public class PlayStateGame extends State {
 
     public void updateAnimationEnemy(Enemigo enemigo)
     {
-        //float rads = (float)  Math.PI/180;
-        float angle = enemigo.getBody().getAngle();
+        float toDegrees = (float) ((float)  180 / Math.PI);
+        float angle = enemigo.getBody().getAngle() * toDegrees;
 
+        System.out.println("angle = " + angle);
         
-        if(angle>0 && angle<0.78)
+        if(angle>-45 && angle<45)
             enemigo.setAnimation(enemigo.getAnimationRight());
-        if(angle>2.35 && angle<3.92)
-            enemigo.setAnimation(enemigo.getAnimationLeft());
-        if(angle>0.78 && angle<2.35)
+        if(angle>45 && angle<135)
             enemigo.setAnimation(enemigo.getAnimationUp());
-        if(angle>3.92 && angle<6.28)
+        if(angle>135 && angle<-135)
+            enemigo.setAnimation(enemigo.getAnimationLeft());
+        if(angle>-135 && angle<-0)
             enemigo.setAnimation(enemigo.getAnimationDown());
     }
 

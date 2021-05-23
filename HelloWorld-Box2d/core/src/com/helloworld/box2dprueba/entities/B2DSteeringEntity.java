@@ -26,10 +26,10 @@ public class B2DSteeringEntity implements Steerable<Vector2> {
         this.body = body;
         this.boundingRadius = boundingRadius;
 
-        this.maxLinearSpeed = 500/PPM;
-        this.maxLinearAcceleration = 5000/PPM;
-        this.maxAngularSpeed = 30/PPM;
-        this.maxAngularAcceleration = 5/PPM;
+        this.maxLinearSpeed = 160/PPM;
+        this.maxLinearAcceleration = 10000/PPM;
+        this.maxAngularSpeed = 50/PPM;
+        this.maxAngularAcceleration = 10/PPM;
 
         this.tagged = false;
 
