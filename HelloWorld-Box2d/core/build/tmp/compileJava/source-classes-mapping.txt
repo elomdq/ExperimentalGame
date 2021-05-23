@@ -1,25 +1,31 @@
-com/helloworld/box2dprueba/objetos/ItemEquipable.java
- com.helloworld.box2dprueba.objetos.ItemEquipable
-com/helloworld/box2dprueba/objetos/Personaje.java
- com.helloworld.box2dprueba.objetos.Personaje
-com/helloworld/box2dprueba/utils/Constants.java
- com.helloworld.box2dprueba.utils.Constants
-com/helloworld/box2dprueba/objetos/Luminaria.java
- com.helloworld.box2dprueba.objetos.Luminaria
-com/helloworld/box2dprueba/states/SplashState.java
- com.helloworld.box2dprueba.states.SplashState
 com/helloworld/box2dprueba/states/State.java
  com.helloworld.box2dprueba.states.State
+com/helloworld/box2dprueba/utils/Constants.java
+ com.helloworld.box2dprueba.utils.Constants
+com/helloworld/box2dprueba/states/SplashState.java
+ com.helloworld.box2dprueba.states.SplashState
+com/helloworld/box2dprueba/utils/SteeringUtils.java
+ com.helloworld.box2dprueba.utils.SteeringUtils
+com/helloworld/box2dprueba/entities/B2DSteeringEntity.java
+ com.helloworld.box2dprueba.entities.B2DSteeringEntity
 com/helloworld/box2dprueba/objetos/Entidad.java
  com.helloworld.box2dprueba.objetos.Entidad
+com/helloworld/box2dprueba/entities/Box2dLocation.java
+ com.helloworld.box2dprueba.entities.Box2dLocation
+com/helloworld/box2dprueba/objetos/Enemigo.java
+ com.helloworld.box2dprueba.objetos.Enemigo
 com/helloworld/box2dprueba/objetos/Jugador.java
  com.helloworld.box2dprueba.objetos.Jugador
 com/helloworld/box2dprueba/utils/TiledObjectUtil.java
  com.helloworld.box2dprueba.utils.TiledObjectUtil
 com/helloworld/box2dprueba/JuegoPrueba.java
  com.helloworld.box2dprueba.JuegoPrueba
-com/helloworld/box2dprueba/objetos/Enemigo.java
- com.helloworld.box2dprueba.objetos.Enemigo
+com/helloworld/box2dprueba/objetos/ItemEquipable.java
+ com.helloworld.box2dprueba.objetos.ItemEquipable
+com/helloworld/box2dprueba/objetos/Personaje.java
+ com.helloworld.box2dprueba.objetos.Personaje
+com/helloworld/box2dprueba/objetos/Luminaria.java
+ com.helloworld.box2dprueba.objetos.Luminaria
 com/helloworld/box2dprueba/states/GameStateManager.java
  com.helloworld.box2dprueba.states.GameStateManager
  com.helloworld.box2dprueba.states.GameStateManager$1

@@ -15,9 +15,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
 import com.helloworld.box2dprueba.objetos.Enemigo;
 import com.helloworld.box2dprueba.objetos.Jugador;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
@@ -29,6 +31,8 @@ public class PlayStateGame extends State {
     private Box2DDebugRenderer b2dr;
     private World world;
 
+    private B2DSteeringEntity entity, target;
+
     private Jugador jugador;
     private Enemigo skeleton;
 
@@ -38,6 +42,8 @@ public class PlayStateGame extends State {
 
     private ConeLight coneLight;
 
+
+    //Constructor
     public PlayStateGame(GameStateManager gsm) {
         super(gsm);
 
@@ -73,6 +79,14 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
+        //IA
+        target = new B2DSteeringEntity(jugador.getBody(), 30/PPM);
+        entity = new B2DSteeringEntity(skeleton.getBody(), 30/PPM);
+
+        Arrive<Vector2> arriveSB = new Arrive<>(entity, target).setTimeToTarget(0.01f).setArrivalTolerance(2f).setDecelerationRadius(30/PPM);
+        entity.setBehavior(arriveSB);
+
+        //Seteo Luz Ambiental
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f);
 
@@ -98,6 +112,9 @@ public class PlayStateGame extends State {
 
         inputUpdate(delta);
         cameraUpdate();
+
+        entity.update(delta);
+        updateAnimationEnemy(skeleton);
 
         tmr.setView(camera);
         batch.setProjectionMatrix(camera.combined);
@@ -211,6 +228,22 @@ public class PlayStateGame extends State {
         camera.position.set(position);
 
         camera.update();
+    }
+
+    public void updateAnimationEnemy(Enemigo enemigo)
+    {
+        //float rads = (float)  Math.PI/180;
+        float angle = enemigo.getBody().getAngle();
+
+        
+        if(angle>0 && angle<0.78)
+            enemigo.setAnimation(enemigo.getAnimationRight());
+        if(angle>2.35 && angle<3.92)
+            enemigo.setAnimation(enemigo.getAnimationLeft());
+        if(angle>0.78 && angle<2.35)
+            enemigo.setAnimation(enemigo.getAnimationUp());
+        if(angle>3.92 && angle<6.28)
+            enemigo.setAnimation(enemigo.getAnimationDown());
     }
 
 }
