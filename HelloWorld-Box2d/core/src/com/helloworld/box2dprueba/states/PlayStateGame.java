@@ -5,6 +5,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
+
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
@@ -30,6 +33,8 @@ public class PlayStateGame extends State {
     private Box2DDebugRenderer b2dr;
     private World world;
 
+    private B2DSteeringEntity entity, target;
+
     private Jugador jugador;
     private Enemigo skeleton;
 
@@ -39,6 +44,8 @@ public class PlayStateGame extends State {
 
     private ConeLight coneLight;
 
+
+    //Constructor
     public PlayStateGame(GameStateManager gsm) {
         super(gsm);
 
@@ -64,7 +71,7 @@ public class PlayStateGame extends State {
 
         skeleton = new Enemigo(world,
                 50,
-                60,
+                100,
                 32,
                 32,
                 false,
@@ -74,8 +81,23 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
+        //IA
+        target = new B2DSteeringEntity(jugador.getBody(), 30/PPM);
+        entity = new B2DSteeringEntity(skeleton.getBody(), 30/PPM);
+
+        Wander<Vector2> wanderSB = new Wander<>(entity)
+                .setOwner(target)
+                .setWanderRadius(1/PPM)
+                .setWanderOffset(1/PPM)
+                .setWanderRate(0.1f)
+                .setFaceEnabled(false);
+
+        Arrive<Vector2> arriveSB = new Arrive<>(entity, target).setTimeToTarget(0.1f).setArrivalTolerance(2/PPM).setDecelerationRadius(10/PPM);
+        entity.setBehavior(arriveSB);
+
+        //Seteo Luz Ambiental
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0f);
+        rayHandler.setAmbientLight(0.8f);
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
@@ -99,6 +121,9 @@ public class PlayStateGame extends State {
 
         inputUpdate(delta);
         cameraUpdate();
+
+        entity.update(delta);
+        updateAnimationEnemy(skeleton);
 
         tmr.setView(camera);
         batch.setProjectionMatrix(camera.combined);
@@ -212,6 +237,23 @@ public class PlayStateGame extends State {
         camera.position.set(position);
 
         camera.update();
+    }
+
+    public void updateAnimationEnemy(Enemigo enemigo)
+    {
+        float toDegrees = (float) ((float)  180 / Math.PI);
+        float angle = enemigo.getBody().getAngle() * toDegrees;
+
+        System.out.println("angle = " + angle);
+        
+        if(angle>-45 && angle<45)
+            enemigo.setAnimation(enemigo.getAnimationRight());
+        if(angle>45 && angle<135)
+            enemigo.setAnimation(enemigo.getAnimationUp());
+        if(angle>135 && angle<-135)
+            enemigo.setAnimation(enemigo.getAnimationLeft());
+        if(angle>-135 && angle<-0)
+            enemigo.setAnimation(enemigo.getAnimationDown());
     }
 
 }

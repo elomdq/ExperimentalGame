@@ -17,7 +17,7 @@ public class SplashState extends State{
     public void update(float delta) {
         timer += delta;
 
-        if(timer>=2)
+        if(timer>=1)
         {
             gsm.setState(GameStateManager.GameState.PLAY);
         }
