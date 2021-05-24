@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
@@ -40,7 +41,7 @@ public class PlayStateGame extends State {
 
     private RayHandler rayHandler;
     //private PointLight light;
-    private float distance = 5;
+    private float distance = 120/PPM;
 
     private ConeLight coneLight;
 
@@ -60,8 +61,8 @@ public class PlayStateGame extends State {
         jugador = new Jugador(world,
                 40,
                 40,
-                32,
-                32,
+                30,
+                30,
                 false,
                 false,
                 "images/Male01.png",
@@ -97,7 +98,7 @@ public class PlayStateGame extends State {
 
         //Seteo Luz Ambiental
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0.8f);
+        rayHandler.setAmbientLight(0f);
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
@@ -144,7 +145,24 @@ public class PlayStateGame extends State {
 
         b2dr.render(world, camera.combined.scl(PPM));
 
+
         rayHandler.render();
+
+        System.out.println(radiansToDegrees(anguloEntreVectores(skeleton.getBody().getPosition(), jugador.getBody().getPosition())));
+        if(distanciaEntreVectores(skeleton.getBody().getPosition(), jugador.getBody().getPosition()) < coneLight.getDistance()*PPM
+        &&  enfrentados(
+                radiansToDegrees(anguloEntreVectores(jugador.getBody().getPosition(), skeleton.getBody().getPosition()))
+                , coneLight.getDirection() - coneLight.getConeDegree()/2,
+                coneLight.getDirection() + coneLight.getConeDegree()/2) )
+        {
+            batch.begin();
+            skeleton.setStateTime(skeleton.getStateTime() + Gdx.graphics.getDeltaTime());
+            skeleton.setCurrentFrame();
+            batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
+                    skeleton.getBody().getPosition().x * PPM - (32 / 2),
+                    skeleton.getBody().getPosition().y * PPM - (32/2));
+            batch.end();
+        }
 
         //Inicio de Batch
 
@@ -153,16 +171,13 @@ public class PlayStateGame extends State {
         jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
         jugador.setCurrentFrame();
 
-        skeleton.setStateTime(skeleton.getStateTime() + Gdx.graphics.getDeltaTime());
-        skeleton.setCurrentFrame();
+
 
         batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
                 jugador.getBody().getPosition().x * PPM - (32/2),
                 jugador.getBody().getPosition().y * PPM - (32/2));
 
-        batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
-                skeleton.getBody().getPosition().x * PPM - (32 / 2),
-                skeleton.getBody().getPosition().y * PPM - (32/2));
+
 
         batch.end();
     }
@@ -183,31 +198,37 @@ public class PlayStateGame extends State {
 
     public void inputUpdate(float delta)
     {
+
         int horizontalForce = 0;
         int verticalForce = 0;
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             horizontalForce -= 1;
             jugador.setAnimation(jugador.getAnimationLeft());
+            jugador.getAnimation().setFrameDuration(0.1f);
+
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             horizontalForce += 1;
             jugador.setAnimation(jugador.getAnimationRight());
+            jugador.getAnimation().setFrameDuration(0.1f);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             verticalForce += 1;
             jugador.setAnimation(jugador.getAnimationUp());
+            jugador.getAnimation().setFrameDuration(0.1f);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             verticalForce -= 1;
             jugador.setAnimation(jugador.getAnimationDown());
+            jugador.getAnimation().setFrameDuration(0.1f);
         }
 
-      /*if(!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.UP)
+      if(!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.UP)
             && !Gdx.input.isKeyPressed(Input.Keys.LEFT) && !Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-         animation.setPlayMode();*/
+         jugador.getAnimation().setFrameDuration(0);
 
         jugador.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
 
@@ -244,7 +265,7 @@ public class PlayStateGame extends State {
         float toDegrees = (float) ((float)  180 / Math.PI);
         float angle = enemigo.getBody().getAngle() * toDegrees;
 
-        System.out.println("angle = " + angle);
+        //System.out.println("angle = " + angle);
         
         if(angle>-45 && angle<45)
             enemigo.setAnimation(enemigo.getAnimationRight());
@@ -254,6 +275,50 @@ public class PlayStateGame extends State {
             enemigo.setAnimation(enemigo.getAnimationLeft());
         if(angle>-135 && angle<-0)
             enemigo.setAnimation(enemigo.getAnimationDown());
+    }
+
+    public float distanciaEntreVectores(Vector2 target, Vector2 referencia)
+    {
+        double deltaX = target.x - referencia.x;
+        double deltaY = target.y - referencia.y;
+
+        double Hypo = Math.hypot(deltaX * PPM, deltaY * PPM);
+
+        return (float) Math.abs(Hypo);
+    }
+
+    public float anguloEntreVectores(Vector2 target, Vector2 referencia)
+    {
+        double deltaX = target.x - referencia.x;
+        double deltaY = target.y - referencia.y;
+
+        double alfa = Math.atan2(deltaY * PPM, deltaX * PPM);
+
+        return (float) alfa;
+    }
+
+    public float radiansToDegrees(float angle)
+    {
+        float toDegrees = (float) ((float)  180 / Math.PI);
+
+        return angle * toDegrees;
+    }
+
+    //en grados, no radianes
+    public float anguloOpuesto(float angle)
+    {
+        if(angle >0 )
+            return angle - 180;
+        else
+            return angle + 180;
+    }
+
+    public boolean enfrentados(float angleTarget, float angle1, float angle2)
+    {
+        if(anguloOpuesto(angleTarget) >= angle1 && anguloOpuesto(angleTarget) <= angle2)
+            return true;
+
+        return false;
     }
 
 }
