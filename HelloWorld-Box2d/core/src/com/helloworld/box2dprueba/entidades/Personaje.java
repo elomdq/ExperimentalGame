@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.entidades.AI.AISteeringBehavior;
 import com.helloworld.box2dprueba.entidades.Entidad;
+import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 public abstract class Personaje extends Entidad {
 
@@ -15,6 +17,8 @@ public abstract class Personaje extends Entidad {
     private int frameWidth, frameHeight;
     private Animation animation, animationUp, animationDown, animationLeft, animationRight;
     private float stateTime;
+    private AISteeringBehavior steeringBehavior;
+
 
     //constructor
     public Personaje(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath)
@@ -30,7 +34,7 @@ public abstract class Personaje extends Entidad {
         tex = new Texture(texturePath);
         stateTime = 0f;
         generarAnimaciones(frameWidth, frameHeight, frames);
-
+        steeringBehavior=  new AISteeringBehavior(getBody(), 30/PPM);
     }
 
     //setters & getters
@@ -126,4 +130,7 @@ public abstract class Personaje extends Entidad {
         tex.dispose();
     }
 
+    public AISteeringBehavior getSteeringBehavior() {
+        return steeringBehavior;
+    }
 }

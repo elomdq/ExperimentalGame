@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
@@ -31,7 +32,7 @@ public class PlayStateGame extends State {
     private World world;
 
     private Jugador jugador;
-    private Enemigo skeleton;
+    private Skeleton skeleton;
 
     private RayHandler rayHandler;
     //private PointLight light;
@@ -62,17 +63,10 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
-        skeleton = new Enemigo(world,
-                50,
+        skeleton = new Skeleton(world,
+                jugador,
                 60,
-                32,
-                32,
-                false,
-                false,
-                "images/skeleton.png",
-                32,
-                32,
-                3);
+                32);
 
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f);
@@ -106,6 +100,8 @@ public class PlayStateGame extends State {
            /*distance *= 0.999f;
       light.setDistance(distance);*/
 
+        skeleton.update(Gdx.graphics.getDeltaTime());
+
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
     }
@@ -127,16 +123,13 @@ public class PlayStateGame extends State {
 
         jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
         jugador.setCurrentFrame();
-
-        skeleton.setStateTime(skeleton.getStateTime() + Gdx.graphics.getDeltaTime());
-        skeleton.setCurrentFrame();
-
         batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
                 jugador.getBody().getPosition().x * PPM - (32/2),
                 jugador.getBody().getPosition().y * PPM - (32/2));
 
+        skeleton.render(Gdx.graphics.getDeltaTime());
         batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
-                skeleton.getBody().getPosition().x * PPM - (32 / 2),
+                skeleton.getBody().getPosition().x * PPM - (32/2),
                 skeleton.getBody().getPosition().y * PPM - (32/2));
 
         batch.end();
@@ -153,7 +146,7 @@ public class PlayStateGame extends State {
         //light.dispose();
         coneLight.dispose();
         jugador.dispose();
-        skeleton.dispose();
+//        skeleton.dispose();
     }
 
     public void inputUpdate(float delta)
