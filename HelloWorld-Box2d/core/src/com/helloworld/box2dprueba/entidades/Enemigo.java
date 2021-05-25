@@ -1,5 +1,6 @@
 package com.helloworld.box2dprueba.entidades;
 
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.Personaje;
 
@@ -9,4 +10,8 @@ public class Enemigo extends Personaje {
         super(world, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
     }
 
+    @Override
+    public void colisionar(Fixture fixtureColisionada) {
+
+    }
 }

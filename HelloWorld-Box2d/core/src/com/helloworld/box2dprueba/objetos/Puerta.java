@@ -1,9 +1,11 @@
 package com.helloworld.box2dprueba.objetos;
 
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.Entidad;
+import com.helloworld.box2dprueba.utils.IColision;
 
-public class Puerta extends Entidad {
+public class Puerta extends Entidad implements IColision {
 
     private boolean estaAbierta;
 
@@ -28,4 +30,8 @@ public class Puerta extends Entidad {
         this.estaAbierta = estaAbierta;
     }
 
+    @Override
+    public void colisionar(Fixture fixtureColisionada) {
+
+    }
 }

@@ -1,9 +1,11 @@
 package com.helloworld.box2dprueba.objetos;
 
 import box2dLight.PointLight;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.utils.IColision;
 
-public class Farol extends Iluminacion {
+public class Farol extends Iluminacion implements IColision {
 
     private PointLight luz;
 
@@ -23,4 +25,8 @@ public class Farol extends Iluminacion {
         this.luz = luz;
     }
 
+    @Override
+    public void colisionar(Fixture fixtureColisionada) {
+
+    }
 }

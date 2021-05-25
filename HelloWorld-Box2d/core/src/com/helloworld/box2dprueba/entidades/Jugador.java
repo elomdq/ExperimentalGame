@@ -1,5 +1,6 @@
 package com.helloworld.box2dprueba.entidades;
 
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.objetos.ItemEquipable;
 
@@ -46,5 +47,10 @@ public class Jugador extends Personaje {
     public void dispose(){
         super.dispose();
         //luminaria.dispose();
+    }
+
+    @Override
+    public void colisionar(Fixture fixtureColisionada) {
+
     }
 }

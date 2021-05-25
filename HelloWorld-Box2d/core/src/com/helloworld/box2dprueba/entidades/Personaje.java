@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.Entidad;
+import com.helloworld.box2dprueba.utils.IColision;
 
-public abstract class Personaje extends Entidad {
+public abstract class Personaje extends Entidad implements IColision {
 
     private Texture tex;
     private TextureRegion[] animationFrames, animationFramesUp, animationFramesDown, animationFramesLeft, animationFramesRight;
