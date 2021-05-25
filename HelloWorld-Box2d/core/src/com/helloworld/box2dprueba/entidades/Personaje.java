@@ -4,10 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
-import com.helloworld.box2dprueba.entidades.Entidad;
-import com.helloworld.box2dprueba.utils.IColision;
+import com.helloworld.box2dprueba.utils.ICollision;
 
-public abstract class Personaje extends Entidad implements IColision {
+public abstract class Personaje extends Entidad implements ICollision {
 
     private Texture tex;
     private TextureRegion[] animationFrames, animationFramesUp, animationFramesDown, animationFramesLeft, animationFramesRight;

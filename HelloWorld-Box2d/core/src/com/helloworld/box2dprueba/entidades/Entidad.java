@@ -1,10 +1,7 @@
 package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
@@ -71,7 +68,15 @@ public abstract class Entidad {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width/2/PPM, height/2/PPM);
 
+        //////////////Colisiones "NO MODIFICAR"//////////////
+        FixtureDef fixDef = new FixtureDef();
+        fixDef.shape = shape;
+        fixDef.density = 1.0f;
+
         pBody.createFixture(shape, 1.0f);
+        pBody.createFixture(fixDef).setUserData(this);
+        ////////////////////////////////////////////////////
+
         shape.dispose();
 
         return pBody;

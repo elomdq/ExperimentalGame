@@ -11,7 +11,7 @@ public class Enemigo extends Personaje {
     }
 
     @Override
-    public void colisionar(Fixture fixtureColisionada) {
+    public void collision(Fixture fixture) {
 
     }
 }

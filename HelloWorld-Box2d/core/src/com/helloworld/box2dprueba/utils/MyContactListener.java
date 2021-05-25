@@ -1,6 +1,7 @@
 package com.helloworld.box2dprueba.utils;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.Cofre;
 import com.helloworld.box2dprueba.objetos.Farol;
@@ -14,7 +15,7 @@ import com.helloworld.box2dprueba.objetos.Puerta;
  * "IColision"
  *
  */
-public class MiContactListener implements ContactListener {
+public class MyContactListener implements ContactListener {
 
     /**
      * Método en el cual se define la reacción de objetos
@@ -28,44 +29,52 @@ public class MiContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        if(intervieneElJugador(fixtureA,fixtureB)){
+        if(playerInvolved(fixtureA,fixtureB)){
 
             //Colisión con un cofre
-            if(esCofre(fixtureA,fixtureB)){
-                if(esJugador(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Cofre)fixtureA.getUserData()).colisionar(fixtureA);
-                    ((Jugador)fixtureA.getUserData()).colisionar(fixtureB);
+            if(isChest(fixtureA,fixtureB)){
+                if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
+                    ((Cofre)fixtureB.getUserData()).collision(fixtureA);
+                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
                 }else{
-                    ((Jugador)fixtureA.getUserData()).colisionar(fixtureB);
-                    ((Cofre)fixtureA.getUserData()).colisionar(fixtureA);
+                    ((Jugador)fixtureB.getUserData()).collision(fixtureA);
+                    ((Cofre)fixtureA.getUserData()).collision(fixtureB);
                 }
             }
 
             //Colisión con una puerta
-            if(esPuerta(fixtureA,fixtureB)){
-                if(esJugador(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Puerta)fixtureA.getUserData()).colisionar(fixtureA);
-                    ((Jugador)fixtureA.getUserData()).colisionar(fixtureB);
+            if(isDoor(fixtureA,fixtureB)){
+                if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
+                    ((Puerta)fixtureB.getUserData()).collision(fixtureA);
+                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
                 }else {
-                    ((Jugador) fixtureA.getUserData()).colisionar(fixtureB);
-                    ((Puerta) fixtureA.getUserData()).colisionar(fixtureA);
+                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+                    ((Puerta) fixtureA.getUserData()).collision(fixtureB);
                 }
             }
 
             //Colisión con un farol
-            if(esFarol(fixtureA,fixtureB)){
-                if(esJugador(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Farol)fixtureA.getUserData()).colisionar(fixtureA);
-                    ((Jugador)fixtureA.getUserData()).colisionar(fixtureB);
+            if(isLantern(fixtureA,fixtureB)){
+                if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
+                    ((Farol)fixtureB.getUserData()).collision(fixtureA);
+                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
                 }else {
-                    ((Jugador) fixtureA.getUserData()).colisionar(fixtureB);
-                    ((Farol) fixtureA.getUserData()).colisionar(fixtureA);
+                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+                    ((Farol) fixtureA.getUserData()).collision(fixtureB);
                 }
             }
 
             //Colisión con un enemigo
+            if(isEnemy(fixtureA,fixtureB)){
+                if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
+                    ((Enemigo)fixtureB.getUserData()).collision(fixtureA);
+                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                }else {
+                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+                    ((Enemigo) fixtureA.getUserData()).collision(fixtureB);
+                }
+            }
         }
-
     }
 
     /**
@@ -80,10 +89,10 @@ public class MiContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        if(intervieneElJugador(fixtureA,fixtureB)){
+        if(playerInvolved(fixtureA,fixtureB)){
 
-            if(esCofre(fixtureA,fixtureB)){
-                if(esJugador(fixtureA)){
+            if(isChest(fixtureA,fixtureB)){
+                if(isPlayer(fixtureA)){
 
                 }else{
 
@@ -112,7 +121,7 @@ public class MiContactListener implements ContactListener {
      *
      * @return
      */
-    private boolean intervieneElJugador(Fixture fa, Fixture fb){
+    private boolean playerInvolved(Fixture fa, Fixture fb){
         if(fa.getUserData() instanceof Jugador || fb.getUserData() instanceof Jugador)
             return true;
         return false;
@@ -125,8 +134,8 @@ public class MiContactListener implements ContactListener {
      * @param fixture
      * @return
      */
-    private boolean esJugador(Fixture fixture){
-        if(fixture.getUserData() instanceof Cofre)
+    private boolean isPlayer(Fixture fixture){
+        if(fixture.getUserData() instanceof Jugador)
             return true;
         return false;
     }
@@ -139,7 +148,7 @@ public class MiContactListener implements ContactListener {
      * @param fb
      * @return
      */
-    private boolean esCofre(Fixture fa, Fixture fb){
+    private boolean isChest(Fixture fa, Fixture fb){
         if(fa.getUserData() instanceof Cofre || fb.getUserData() instanceof Cofre)
             return true;
         return false;
@@ -153,7 +162,7 @@ public class MiContactListener implements ContactListener {
      * @param fb
      * @return
      */
-    private boolean esPuerta(Fixture fa, Fixture fb){
+    private boolean isDoor(Fixture fa, Fixture fb){
         if(fa.getUserData() instanceof Puerta || fb.getUserData() instanceof Puerta)
             return true;
         return false;
@@ -167,8 +176,22 @@ public class MiContactListener implements ContactListener {
      * @param fb
      * @return
      */
-    private boolean esFarol(Fixture fa, Fixture fb){
+    private boolean isLantern(Fixture fa, Fixture fb){
         if(fa.getUserData() instanceof Farol || fb.getUserData() instanceof Farol)
+            return true;
+        return false;
+    }
+
+    /**
+     * Método que chequea que uno de los objeto que están colisionando
+     * sea un enemigo.
+     *
+     * @param fa
+     * @param fb
+     * @return
+     */
+    private boolean isEnemy(Fixture fa, Fixture fb){
+        if(fa.getUserData() instanceof Enemigo || fb.getUserData() instanceof Enemigo)
             return true;
         return false;
     }
