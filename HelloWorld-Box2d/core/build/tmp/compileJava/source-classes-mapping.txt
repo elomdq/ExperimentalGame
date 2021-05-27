@@ -6,18 +6,20 @@ com/helloworld/box2dprueba/states/SplashState.java
  com.helloworld.box2dprueba.states.SplashState
 com/helloworld/box2dprueba/utils/SteeringUtils.java
  com.helloworld.box2dprueba.utils.SteeringUtils
+com/helloworld/box2dprueba/utils/CositasLindas.java
+ com.helloworld.box2dprueba.utils.CositasLindas
 com/helloworld/box2dprueba/entities/B2DSteeringEntity.java
  com.helloworld.box2dprueba.entities.B2DSteeringEntity
 com/helloworld/box2dprueba/objetos/Cofre.java
  com.helloworld.box2dprueba.objetos.Cofre
+com/helloworld/box2dprueba/JuegoApp.java
+ com.helloworld.box2dprueba.JuegoApp
 com/helloworld/box2dprueba/entities/Box2dLocation.java
  com.helloworld.box2dprueba.entities.Box2dLocation
 com/helloworld/box2dprueba/utils/TiledObjectUtil.java
  com.helloworld.box2dprueba.utils.TiledObjectUtil
 com/helloworld/box2dprueba/objetos/Iluminacion.java
  com.helloworld.box2dprueba.objetos.Iluminacion
-com/helloworld/box2dprueba/JuegoPrueba.java
- com.helloworld.box2dprueba.JuegoPrueba
 com/helloworld/box2dprueba/objetos/ItemEquipable.java
  com.helloworld.box2dprueba.objetos.ItemEquipable
 com/helloworld/box2dprueba/objetos/Llave.java
@@ -30,17 +32,17 @@ com/helloworld/box2dprueba/objetos/Bateria.java
  com.helloworld.box2dprueba.objetos.Bateria
 com/helloworld/box2dprueba/states/State.java
  com.helloworld.box2dprueba.states.State
-com/helloworld/box2dprueba/entidades/Enemigo.java
- com.helloworld.box2dprueba.entidades.Enemigo
-com/helloworld/box2dprueba/objetos/Farol.java
- com.helloworld.box2dprueba.objetos.Farol
-com/helloworld/box2dprueba/entidades/Jugador.java
- com.helloworld.box2dprueba.entidades.Jugador
 com/helloworld/box2dprueba/entidades/Entidad.java
  com.helloworld.box2dprueba.entidades.Entidad
+com/helloworld/box2dprueba/objetos/Farol.java
+ com.helloworld.box2dprueba.objetos.Farol
 com/helloworld/box2dprueba/states/GameStateManager.java
  com.helloworld.box2dprueba.states.GameStateManager
  com.helloworld.box2dprueba.states.GameStateManager$1
  com.helloworld.box2dprueba.states.GameStateManager$GameState
 com/helloworld/box2dprueba/states/PlayStateGame.java
  com.helloworld.box2dprueba.states.PlayStateGame
+com/helloworld/box2dprueba/entidades/Enemigo.java
+ com.helloworld.box2dprueba.entidades.Enemigo
+com/helloworld/box2dprueba/entidades/Jugador.java
+ com.helloworld.box2dprueba.entidades.Jugador
