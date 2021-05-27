@@ -18,6 +18,7 @@ public class Jugador extends Personaje {
     public Jugador(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventario = new ArrayList<>();
+        this.vive = true;
     }
 
 
@@ -53,6 +54,12 @@ public class Jugador extends Personaje {
 
     //Otros Métodos
 
+    /**
+     * Método que retorna la cantidad de llaves que
+     * hay en el inventario del jugador
+     *
+     * @return
+     */
     public int getCantidadDeLlaves(){
 
         int cantidadDeLlaves = 0;
@@ -65,9 +72,36 @@ public class Jugador extends Personaje {
         return cantidadDeLlaves;
     }
 
+    //Se reinicia el inventario cada vez que finaliza un nivel?
     public void emptyInventory(){
         inventario.clear();
-        //Abría que equiparle un nuevo farol
+    }
+
+    /**
+     * Método utilizado para eliminar las llaves una vez que
+     * son utilizadas para abrir la puerta de salida.
+     *
+     */
+    private void useKeys(){
+        while(getCantidadDeLlaves() > 0){
+            inventario.remove(keyToDelete());
+        }
+    }
+
+    /**
+     * Método busca una llave en el inventario y la retorna.
+     *
+     */
+    private Llave keyToDelete(){
+
+        Llave key = null;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Llave)
+                key = (Llave) item;
+        }
+
+        return key;
     }
 
     @Override
@@ -75,14 +109,22 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un cofre
         if(fixture.getUserData() instanceof Cofre){
-//            inventario.add(((Cofre) fixtureColisionada.getUserData()).giveItem());
-            inventario.add(((Cofre) fixture.getUserData()).getItem());
-            ((Cofre) fixture.getUserData()).setItem(null);
+
+            //Este comportamiento quizas haya que definirlo al finalizar la colision
+            //y luego de que el jugador haya "clickeado" en el objeto que contiene.
+
+//            inventario.add(((Cofre) fixture.getUserData()).getItem());
+//            ((Cofre) fixture.getUserData()).setItem(null);
+
+            //Actualizar HUD
+
         }
 
         //Comportamiento que tendrá con una puerta
         if(fixture.getUserData() instanceof Puerta){
-            if(this.getCantidadDeLlaves() == LLAVES_NECESARIAS);
+            if(this.getCantidadDeLlaves() == LLAVES_NECESARIAS){
+                useKeys();
+            }
         }
 
         //Comportamiento que tendrá con un farol
@@ -92,7 +134,7 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un enemigo
         if(fixture.getUserData() instanceof Enemigo){
-
+            this.vive = false;
         }
     }
 }

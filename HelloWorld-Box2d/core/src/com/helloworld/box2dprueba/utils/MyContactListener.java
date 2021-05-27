@@ -85,23 +85,7 @@ public class MyContactListener implements ContactListener {
      */
     @Override
     public void endContact(Contact contact) {
-
-        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
-
-        if(playerInvolved(fixtureA,fixtureB)){
-
-            if(isChest(fixtureA,fixtureB)){
-                if(isPlayer(fixtureA)){
-
-                }else{
-
-                }
-            }
-
-        }
-
-
+        //De momento no hay comportamiento cuando finaliza un contacto.
     }
 
     @Override

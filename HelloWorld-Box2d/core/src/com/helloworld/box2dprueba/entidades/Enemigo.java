@@ -12,6 +12,7 @@ public class Enemigo extends Personaje {
 
     @Override
     public void collision(Fixture fixture) {
-
+        //Falta definir qué comportamiento tendra el enemigo cuando colisiona con el jugador.
+        //Deberia llamar un metodo que muestre un screamer y finalice el nivel.
     }
 }

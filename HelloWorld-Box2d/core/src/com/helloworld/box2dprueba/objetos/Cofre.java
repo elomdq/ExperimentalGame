@@ -45,13 +45,6 @@ public class Cofre extends Entidad implements ICollision {
         return null;
     }
 
-//    public ItemEquipable giveItem(){
-//
-//        this.item = null;
-//
-//        return item;
-//    }
-
     private void openAnimation(){
         if(!this.isClosed){
             //Animacion de apertura de cofre
