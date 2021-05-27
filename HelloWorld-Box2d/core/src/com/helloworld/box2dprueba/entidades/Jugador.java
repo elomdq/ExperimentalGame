@@ -56,7 +56,7 @@ public class Jugador extends Personaje {
     public void update(float delta)
     {
         inputUpdate(delta);
-        updateAnimation();
+        //updateAnimation();
     }
 
     public void dispose(){
@@ -72,45 +72,45 @@ public class Jugador extends Personaje {
 
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             horizontalForce -= 1;
-            /*this.setAnimation(this.getAnimationLeft());
-            this.getAnimation().setFrameDuration(0.1f);*/
+            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationLeft());
+            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
 
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
             horizontalForce += 1;
-            /*this.setAnimation(this.getAnimationRight());
-            this.getAnimation().setFrameDuration(0.1f);*/
+            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationRight());
+            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.W)){
             verticalForce += 1;
-          /*  this.setAnimation(this.getAnimationUp());
-            this.getAnimation().setFrameDuration(0.1f);*/
+            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationUp());
+            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
             verticalForce -= 1;
-           /* this.setAnimation(this.getAnimationDown());
-            this.getAnimation().setFrameDuration(0.1f);*/
+            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationDown());
+            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
         }
 
-        /*if(!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.UP)
-                && !Gdx.input.isKeyPressed(Input.Keys.LEFT) && !Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            this.getAnimation().setFrameDuration(0);*/
+        if(!Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.W)
+                && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A))
+            this.getAnimacion().getAnimacionActual().setFrameDuration(0);
 
         this.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
 
     }
 
 
-    public void updateAnimation()
+    /*public void updateAnimation()
     {
         float angle = radiansToDegrees(this.getBody().getAngle());
 
         float angularVelocity = distanciaEntreVectores(this.getBody().getLinearVelocity(), this.getBody().getPosition());
 
-        System.out.println("X = " + this.getBody().getPosition().x);
-        System.out.println("Y = " + this.getBody().getPosition().y);
+        System.out.println("X = " + this.getBody().getPosition().x * PPM);
+        System.out.println("Y = " + this.getBody().getPosition().y * PPM);
 
         if(angularVelocity != 0)
         {
@@ -139,5 +139,5 @@ public class Jugador extends Personaje {
         {
             this.getAnimation().setFrameDuration(0);
         }
-    }
+    }*/
 }

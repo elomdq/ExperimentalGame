@@ -59,8 +59,10 @@ public class PlayStateGame extends State {
         map = new TmxMapLoader().load("maps/mapita.tmx"); // Devuelve un TiledMap
         tmr = new OrthogonalTiledMapRenderer(map);
 
+        //generacion de los cuerpos solidos del mapa
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("colision").getObjects());
 
+        //Creacion de personajes
         jugador = new Jugador(world,
                 40,
                 40,
@@ -100,6 +102,7 @@ public class PlayStateGame extends State {
         Arrive<Vector2> arriveSB = new Arrive<>(entity, target).setTimeToTarget(0.2f).setArrivalTolerance(1f).setDecelerationRadius(10/PPM);
         entity.setBehavior(arriveSB);
 
+
         //Seteo Luz Ambiental
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f);
@@ -108,6 +111,7 @@ public class PlayStateGame extends State {
         //light.setSoftnessLength(0f);
         //light.attachToBody(player);
 
+        //seteo luz linterna
         coneLight = new ConeLight(rayHandler, 100, Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 25);
         coneLight.attachToBody(jugador.getBody());
         coneLight.setSoftnessLength(0f);
@@ -150,16 +154,32 @@ public class PlayStateGame extends State {
         tmr.render();
 
 
-        skeleton.setStateTime(skeleton.getStateTime() + Gdx.graphics.getDeltaTime());
-        skeleton.setCurrentFrame();
+        skeleton.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
+        skeleton.getAnimacion().setCurrentFrame();
 
-        jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
-        jugador.setCurrentFrame();
+        jugador.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
+        jugador.getAnimacion().setCurrentFrame();
 
-        /*System.out.println("Skeleton: " + skeleton.distanciaAlTarget(skeleton.getTarget().getBody().getPosition()));
-        System.out.println("luz: " + coneLight.getDistance());*/
 
-        if(skeleton.distanciaAlTarget(skeleton.getTarget().getBody().getPosition()) < coneLight.getDistance()
+        //Seteo posicion de Imagen de personajes
+        jugador.getAnimacion().getCurrentFrame()
+                .setPosition(jugador.getBody().getPosition().x * PPM - (32/2),jugador.getBody().getPosition().y * PPM - (32/2));
+        skeleton.getAnimacion().getCurrentFrame()
+                .setPosition(skeleton.getBody().getPosition().x * PPM - (32/2),skeleton.getBody().getPosition().y * PPM - (32/2));
+
+
+        rayHandler.render();
+
+        batch.begin();
+        skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
+        jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
+        batch.end();
+
+
+
+
+
+        /*if(skeleton.distanciaAlTarget(skeleton.getTarget().getBody().getPosition()) < coneLight.getDistance()
         &&  enfrentados(
                 radiansToDegrees(anguloEntreVectores(jugador.getBody().getPosition(), skeleton.getBody().getPosition()))
                 , coneLight.getDirection() - coneLight.getConeDegree(),
@@ -172,21 +192,10 @@ public class PlayStateGame extends State {
             batch.begin();
 
 
-            /*batch.draw((TextureRegion) jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
-                    jugador.getBody().getPosition().x * PPM - (32/2),
-                    jugador.getBody().getPosition().y * PPM - (32/2));
+            jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
 
-            batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
-                    skeleton.getBody().getPosition().x * PPM - (30/2),
-                    skeleton.getBody().getPosition().y * PPM - (30/2));*/
 
-            jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime())
-                    .setPosition(jugador.getBody().getPosition().x * PPM - (32/2),jugador.getBody().getPosition().y * PPM - (32/2));
-            jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()).draw(batch, 1f);
-
-            skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime())
-                    .setPosition(skeleton.getBody().getPosition().x * PPM - (32/2),skeleton.getBody().getPosition().y * PPM - (32/2));
-            skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()).draw(batch, alpha);
+            skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
 
 
            batch.enableBlending();
@@ -196,23 +205,17 @@ public class PlayStateGame extends State {
             batch.begin();
 
 
-            batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
-                    skeleton.getBody().getPosition().x * PPM - (32 / 2),
-                    skeleton.getBody().getPosition().y * PPM - (32/2));
-
             batch.end();
 
             rayHandler.render();
 
             batch.begin();
 
-            batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
-                    jugador.getBody().getPosition().x * PPM - (32/2),
-                    jugador.getBody().getPosition().y * PPM - (32/2));
 
+            batch.end();
 
-        }
-        batch.end();
+        }*/
+
 
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
 
@@ -268,18 +271,24 @@ public class PlayStateGame extends State {
 
         float alpha;
         float ratio, coefA, coefB;
-        float min=0.7f, max=1.4f;
+        float min=0.65f, max=1f;
 
-        coefA = 1 / (max - min);
-        coefB = -1 * coefA * min;
+        coefA = 1 / (min - max);
+        coefB =  -1 * max * coefA;
         ratio = enemigo.distanciaAlTarget(enemigo.getTarget().getBody().getPosition()) / coneLight.getDistance();
 
         if(ratio<min)
             alpha=1;
         else if(ratio>max)
-            alpha=0f;
+            alpha=0;
         else
             alpha = coefA * ratio + coefB;
+
+        if(!enfrentados(radiansToDegrees(anguloEntreVectores(jugador.getBody().getPosition(), skeleton.getBody().getPosition()))
+                , coneLight.getDirection() - coneLight.getConeDegree(),
+                coneLight.getDirection() + coneLight.getConeDegree()))
+            alpha=0;
+
         return alpha;
     }
 

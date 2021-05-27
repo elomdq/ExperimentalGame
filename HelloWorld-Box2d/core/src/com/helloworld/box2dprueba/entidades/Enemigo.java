@@ -2,9 +2,7 @@ package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.helloworld.box2dprueba.entidades.Personaje;
 
-import static com.helloworld.box2dprueba.utils.Constants.PPM;
 import static com.helloworld.box2dprueba.utils.CositasLindas.radiansToDegrees;
 
 public class Enemigo extends Personaje {
@@ -51,6 +49,7 @@ public class Enemigo extends Personaje {
         distancia = distanciaAlTarget(target.getBody().getPosition());
     }
 
+
     public void updateAnimationEnemy(Enemigo enemigo)
     {
         float angle = radiansToDegrees(enemigo.getBody().getAngle());
@@ -61,28 +60,28 @@ public class Enemigo extends Personaje {
         {
             if(angle>-45 && angle<45)
             {
-                enemigo.setAnimation(enemigo.getAnimationRight());
-                enemigo.getAnimation().setFrameDuration(0.1f);
+                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationRight());
+                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
             else if(angle>45 && angle<135)
             {
-                enemigo.setAnimation(enemigo.getAnimationUp());
-                enemigo.getAnimation().setFrameDuration(0.1f);
+                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationUp());
+                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
             else if(angle>-135 && angle<-45)
             {
-                enemigo.setAnimation(enemigo.getAnimationDown());
-                enemigo.getAnimation().setFrameDuration(0.1f);
+                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationDown());
+                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
             else
             {
-                enemigo.setAnimation(enemigo.getAnimationLeft());
-                enemigo.getAnimation().setFrameDuration(0.1f);
+                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationLeft());
+                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
         }
         else
         {
-            enemigo.getAnimation().setFrameDuration(0);
+            enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0);
         }
 
     }
