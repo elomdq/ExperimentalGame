@@ -10,6 +10,8 @@ public abstract class Entidad {
     private Body body;
     private Texture texture;
 
+
+
     //Contructor
     //Se le pasa una referencia del mundo donde se va a crear (porque el mundo crea la referencia del body a asignar)
     //Se le pasa posicion con X e Y, ancho y alto, Si es cuerpo estatico o dinamico, y si no va a rotar

@@ -2,40 +2,46 @@ package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.World;
+
 import com.helloworld.box2dprueba.utils.ICollision;
+
+import com.helloworld.box2dprueba.animaciones.Animacion;
+import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public abstract class Personaje extends Entidad implements ICollision {
 
-    private Texture tex;
-    private TextureRegion[] animationFrames, animationFramesUp, animationFramesDown, animationFramesLeft, animationFramesRight;
-    private TextureRegion currentFrame;
-    private TextureRegion [][] tmpFrames;
-    private int frameWidth, frameHeight;
-    private Animation animation, animationUp, animationDown, animationLeft, animationRight;
-    private float stateTime;
+    private Animacion animacion;
+
+    private B2DSteeringEntity entity;
+
 
     //constructor
-    public Personaje(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath)
-    {
-        super(world,x, y, width, height, isStatic, fixRotation);
-        tex = new Texture(texturePath);
-        stateTime = 0f;
-    }
-
     public Personaje(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames)
     {
         super(world,x, y, width, height, isStatic, fixRotation);
-        tex = new Texture(texturePath);
-        stateTime = 0f;
-        generarAnimaciones(frameWidth, frameHeight, frames);
-
+        this.animacion = new Animacion(texturePath, frameWidth, frameHeight, frames);
+        entity = new B2DSteeringEntity(this.getBody(), 1);
     }
 
     //setters & getters
 
-    public float getStateTime()
+    public Animacion getAnimacion() {
+        return animacion;
+    }
+
+    public void setAnimacion(Animacion animacion) {
+        this.animacion = animacion;
+    }
+
+
+    /*public float getStateTime()
     { return this.stateTime;}
 
     public void setStateTime(float time)
@@ -43,12 +49,12 @@ public abstract class Personaje extends Entidad implements ICollision {
         this.stateTime = time;
     }
 
-    public void setCurrentFrame(/*float stateTime*/)
+    public void setCurrentFrame(*//*float stateTime*//*)
     {
-        this.currentFrame = (TextureRegion) animation.getKeyFrame(this.stateTime, true);
+        this.currentFrame = animation.getKeyFrame(this.stateTime, true);
     }
 
-    public TextureRegion getCurrentFrame(Animation animation, float stateTime)
+    public Sprite getCurrentFrame(Animation animation, float stateTime)
     {
         return currentFrame;
     }
@@ -79,7 +85,7 @@ public abstract class Personaje extends Entidad implements ICollision {
 
     public Animation getAnimationRight() {
         return animationRight;
-    }
+    }*/
 
 
 
@@ -87,7 +93,7 @@ public abstract class Personaje extends Entidad implements ICollision {
 
     //antes de realizar la sectorizacion de los frames tengo indicar la cantidad de frames
     //para definir el tamaño de los arrays de las texturas
-    private void generarAnimaciones(int frameWidth, int frameHeight, int frames)
+    /*private void generarAnimaciones(int frameWidth, int frameHeight, int frames)
     {
         animationFramesUp = new TextureRegion[frames];
         animationFramesDown = new TextureRegion[frames];
@@ -119,11 +125,55 @@ public abstract class Personaje extends Entidad implements ICollision {
         animationUp = new Animation(0.1f, animationFramesUp);
         animation = new Animation(0, animationFramesUp);
     }
+*/
+    /*public void animacionesConSprites(int frames)
+    {
+        int i=0, counter=1;
+
+        animationFramesUp = new Sprite[frames];
+        animationFramesDown = new Sprite[frames];
+        animationFramesLeft = new Sprite[frames];
+        animationFramesRight = new Sprite[frames];
+
+        tmpFrames = new ArrayList<>();
+
+        for (TextureAtlas.AtlasRegion region:
+             textureAtlas.getRegions()) {
+            tmpFrames.add(new Sprite(region));
+        }
+
+        for (Sprite sprite:
+                tmpFrames) {
+
+                if(i >= frames)
+                    i=0;
+
+                if(counter<=frames)
+                    animationFramesDown[i] = sprite;
+                if(counter>frames && counter<=frames*2)
+                    animationFramesLeft[i] = sprite;
+                if(counter>frames*2 && counter<=frames*3)
+                    animationFramesRight[i] = sprite;
+                if(counter>frames*3 && counter<=frames*4)
+                    animationFramesUp[i] = sprite;
+
+                i++;
+                counter++;
+            }
+
+
+        animationDown = new Animation(0.1f, animationFramesDown);
+        animationLeft = new Animation(0.1f, animationFramesLeft);
+        animationRight = new Animation(0.1f, animationFramesRight);
+        animationUp = new Animation(0.1f, animationFramesUp);
+        animation = new Animation(0, animationFramesUp);
+
+    }*/
 
     public void dispose()
     {
         super.dispose();
-        tex.dispose();
+        animacion.dispose();
     }
 
 }

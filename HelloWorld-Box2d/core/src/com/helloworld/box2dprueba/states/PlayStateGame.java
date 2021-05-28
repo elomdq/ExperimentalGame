@@ -4,22 +4,32 @@ import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
+
 import com.helloworld.box2dprueba.utils.MyContactListener;
+
+import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
+
+
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
+import static com.helloworld.box2dprueba.utils.CositasLindas.*;
+
 
 public class PlayStateGame extends State {
 
@@ -29,15 +39,20 @@ public class PlayStateGame extends State {
     private Box2DDebugRenderer b2dr;
     private World world;
 
+    private B2DSteeringEntity entity, target;
+
     private Jugador jugador;
     private Enemigo skeleton;
 
     private RayHandler rayHandler;
     //private PointLight light;
-    private float distance = 5;
+    private float distance = 220/PPM;
 
     private ConeLight coneLight;
 
+    private float alpha =1;
+
+    //Constructor
     public PlayStateGame(GameStateManager gsm) {
         super(gsm);
 
@@ -48,32 +63,51 @@ public class PlayStateGame extends State {
         map = new TmxMapLoader().load("maps/mapita.tmx"); // Devuelve un TiledMap
         tmr = new OrthogonalTiledMapRenderer(map);
 
+        //generacion de los cuerpos solidos del mapa
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("colision").getObjects());
 
+        //Creacion de personajes
         jugador = new Jugador(world,
                 40,
                 40,
-                32,
-                32,
+                30,
+                30,
                 false,
                 false,
-                "images/Male01.png",
+                "images/sprites2.txt",
                 32,
                 32,
                 3);
 
         skeleton = new Enemigo(world,
-                50,
-                60,
-                32,
-                32,
+                120,
+                400,
+                15,
+                15,
                 false,
                 false,
-                "images/skeleton.png",
+                "images/sprites.txt",
                 32,
                 32,
-                3);
+                3,
+                jugador);
 
+        //IA
+        target = new B2DSteeringEntity(jugador.getBody(), 10/PPM);
+        entity = new B2DSteeringEntity(skeleton.getBody(), 10/PPM);
+
+        Wander<Vector2> wanderSB = new Wander<>(entity)
+                .setOwner(target)
+                .setWanderRadius(10/PPM)
+                .setWanderOffset(10/PPM)
+                .setWanderRate(0.1f)
+                .setFaceEnabled(false);
+
+        Arrive<Vector2> arriveSB = new Arrive<>(entity, target).setTimeToTarget(0.2f).setArrivalTolerance(1f).setDecelerationRadius(10/PPM);
+        entity.setBehavior(arriveSB);
+
+
+        //Seteo Luz Ambiental
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f);
 
@@ -81,30 +115,36 @@ public class PlayStateGame extends State {
         //light.setSoftnessLength(0f);
         //light.attachToBody(player);
 
-        coneLight = new ConeLight(rayHandler, 100, Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 30);
+        //seteo luz linterna
+        coneLight = new ConeLight(rayHandler, 100, Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 25);
         coneLight.attachToBody(jugador.getBody());
         coneLight.setSoftnessLength(0f);
 
         b2dr.setDrawBodies(false);
+        //b2dr.setDrawVelocities(true);
+        //b2dr.setDrawAABBs(true);
+        //b2dr.setDrawContacts(true);
     }
 
-    @Override
-    public void handleInput() {
-
-    }
 
     @Override
     public void update(float delta) {
         world.step(1/60f, 6, 2);
 
-        inputUpdate(delta);
         cameraUpdate();
+
+        entity.update(delta);
+        skeleton.update(delta);
+        jugador.update(delta);
+        rotatePlayerToMouse(camera);
+
+        alpha = updateAlphaEnemigo(skeleton, coneLight);
 
         tmr.setView(camera);
         batch.setProjectionMatrix(camera.combined);
 
-           /*distance *= 0.999f;
-      light.setDistance(distance);*/
+         /*distance *= 0.999f;
+         light.setDistance(distance);*/
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -117,29 +157,40 @@ public class PlayStateGame extends State {
 
         tmr.render();
 
-        b2dr.render(world, camera.combined.scl(PPM));
+
+        skeleton.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
+        skeleton.getAnimacion().setCurrentFrame();
+
+        jugador.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
+        jugador.getAnimacion().setCurrentFrame();
+
+
+        //Seteo posicion de Imagen de personajes
+        jugador.getAnimacion().getCurrentFrame()
+                .setPosition(jugador.getBody().getPosition().x * PPM - (32/2),jugador.getBody().getPosition().y * PPM - (32/2));
+        skeleton.getAnimacion().getCurrentFrame()
+                .setPosition(skeleton.getBody().getPosition().x * PPM - (32/2),skeleton.getBody().getPosition().y * PPM - (32/2));
+
 
         rayHandler.render();
 
-        //Inicio de Batch
+        batch.enableBlending();
 
         batch.begin();
-
-        jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
-        jugador.setCurrentFrame();
-
-        skeleton.setStateTime(skeleton.getStateTime() + Gdx.graphics.getDeltaTime());
-        skeleton.setCurrentFrame();
-
-        batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
-                jugador.getBody().getPosition().x * PPM - (32/2),
-                jugador.getBody().getPosition().y * PPM - (32/2));
-
-        batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
-                skeleton.getBody().getPosition().x * PPM - (32 / 2),
-                skeleton.getBody().getPosition().y * PPM - (32/2));
-
+        skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
+        jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
         batch.end();
+
+        batch.disableBlending();
+
+
+        b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
+
+    }
+
+    @Override
+    public void resize(int w, int h, float scale) {
+        super.resize(w, h, scale);
     }
 
     @Override
@@ -156,39 +207,15 @@ public class PlayStateGame extends State {
         skeleton.dispose();
     }
 
-    public void inputUpdate(float delta)
-    {
-        int horizontalForce = 0;
-        int verticalForce = 0;
+    public void cameraUpdate() {
+        Vector3 position = camera.position;
+        position.x = jugador.getBody().getPosition().x * PPM;
+        position.y = jugador.getBody().getPosition().y * PPM;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            horizontalForce -= 1;
-            jugador.setAnimation(jugador.getAnimationLeft());
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            horizontalForce += 1;
-            jugador.setAnimation(jugador.getAnimationRight());
-        }
+        camera.position.set(position);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            verticalForce += 1;
-            jugador.setAnimation(jugador.getAnimationUp());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            verticalForce -= 1;
-            jugador.setAnimation(jugador.getAnimationDown());
-        }
-
-      /*if(!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.UP)
-            && !Gdx.input.isKeyPressed(Input.Keys.LEFT) && !Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-         animation.setPlayMode();*/
-
-        jugador.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
-
-        rotatePlayerToMouse(camera);
+        camera.update();
     }
-
 
     private void rotatePlayerToMouse(OrthographicCamera camera) {
 
@@ -203,16 +230,35 @@ public class PlayStateGame extends State {
         jugador.getBody().setTransform(jugador.getBody().getPosition().x, jugador.getBody().getPosition().y, nuevoAngulo);
     }
 
+    public float updateAlphaEnemigo(Enemigo enemigo, ConeLight coneLight)
+    {
+        //establecemos una relacion minima para un alpha=1 de 0,8 - entonces distnacia/distanciaLuz = 0,8 -> alpha=1
+        //y una relacion maxima de 1.4 para alpha = 0;
+        //y hacemos una funcion lineal con esos datos alpha = ratio 1/0.6 - 0.8/0.6
 
-    public void cameraUpdate() {
-        Vector3 position = camera.position;
-        position.x = jugador.getBody().getPosition().x * PPM;
-        position.y = jugador.getBody().getPosition().y * PPM;
+        float alpha;
+        float ratio, coefA, coefB;
+        float min=0.65f, max=1f;
 
-        camera.position.set(position);
+        coefA = 1 / (min - max);
+        coefB =  -1 * max * coefA;
+        ratio = enemigo.distanciaAlTarget(enemigo.getTarget().getBody().getPosition()) / coneLight.getDistance();
 
-        camera.update();
+        if(ratio<min)
+            alpha=1;
+        else if(ratio>max)
+            alpha=0;
+        else
+            alpha = coefA * ratio + coefB;
+
+        if(!enfrentados(radiansToDegrees(anguloEntreVectores(jugador.getBody().getPosition(), skeleton.getBody().getPosition()))
+                , coneLight.getDirection() - coneLight.getConeDegree(),
+                coneLight.getDirection() + coneLight.getConeDegree()))
+            alpha=0;
+
+        return alpha;
     }
+
 
 }
 

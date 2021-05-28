@@ -1,13 +1,13 @@
 package com.helloworld.box2dprueba.states;
 
-import com.helloworld.box2dprueba.JuegoPrueba;
+import com.helloworld.box2dprueba.JuegoApp;
 
 import java.util.Stack;
 
 public class GameStateManager {
 
     //referencia a la aplicacion
-    private final JuegoPrueba app;
+    private final JuegoApp app;
 
     private Stack<State> states;
 
@@ -18,7 +18,7 @@ public class GameStateManager {
         PLAY
     }
 
-     public GameStateManager(final JuegoPrueba app)
+     public GameStateManager(final JuegoApp app)
     {
         this.app = app;
         states = new Stack<State>();
@@ -62,7 +62,7 @@ public class GameStateManager {
     }
 
 
-    public JuegoPrueba getApplication()
+    public JuegoApp getApplication()
     {
         return app;
     }

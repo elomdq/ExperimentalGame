@@ -2,18 +2,17 @@ package com.helloworld.box2dprueba.states;
 
 
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.helloworld.box2dprueba.JuegoPrueba;
+import com.helloworld.box2dprueba.JuegoApp;
 
 public abstract class State {
 
     //protected OrthographicCamera camera;
     protected Vector3 mouse;
     protected GameStateManager gsm; //Funciona como un stack de states (pila de estados), renderiza el del tope de la pila
-    protected JuegoPrueba app;
+    protected JuegoApp app;
 
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
