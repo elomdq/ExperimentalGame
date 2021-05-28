@@ -170,51 +170,14 @@ public class PlayStateGame extends State {
 
         rayHandler.render();
 
+        batch.enableBlending();
+
         batch.begin();
         skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
         jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
         batch.end();
 
-
-
-
-
-        /*if(skeleton.distanciaAlTarget(skeleton.getTarget().getBody().getPosition()) < coneLight.getDistance()
-        &&  enfrentados(
-                radiansToDegrees(anguloEntreVectores(jugador.getBody().getPosition(), skeleton.getBody().getPosition()))
-                , coneLight.getDirection() - coneLight.getConeDegree(),
-                coneLight.getDirection() + coneLight.getConeDegree()) )
-        {
-            rayHandler.render();
-
-            batch.enableBlending();
-
-            batch.begin();
-
-
-            jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
-
-
-            skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
-
-
-           batch.enableBlending();
-        }
-        else
-        {
-            batch.begin();
-
-
-            batch.end();
-
-            rayHandler.render();
-
-            batch.begin();
-
-
-            batch.end();
-
-        }*/
+        batch.disableBlending();
 
 
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro

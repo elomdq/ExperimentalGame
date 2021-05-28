@@ -17,7 +17,7 @@ public class TiledObjectUtil {
             Shape shape;
             if(currentObject instanceof PolygonMapObject)
             {
-                shape = createPolygone( (PolygonMapObject) currentObject); //casteo a polylineMapObject, probablemente porque nose que otras extensiones puede haber
+                shape = createPolygone( (PolygonMapObject) currentObject); //casteo a polygonMapObject, probablemente porque nose que otras extensiones puede haber
             }
             else
             {
