@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
 
+import com.helloworld.box2dprueba.objetos.Iluminacion;
+import com.helloworld.box2dprueba.objetos.Linterna;
 import com.helloworld.box2dprueba.utils.MyContactListener;
 
 import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
@@ -49,6 +51,7 @@ public class PlayStateGame extends State {
     private float distance = 220/PPM;
 
     private ConeLight coneLight;
+    private Linterna linterna;
 
     private float alpha =1;
 
@@ -74,6 +77,7 @@ public class PlayStateGame extends State {
                 30,
                 false,
                 false,
+                batch,
                 "images/sprites2.txt",
                 32,
                 32,
@@ -86,6 +90,7 @@ public class PlayStateGame extends State {
                 15,
                 false,
                 false,
+                batch,
                 "images/sprites.txt",
                 32,
                 32,
@@ -116,11 +121,25 @@ public class PlayStateGame extends State {
         //light.attachToBody(player);
 
         //seteo luz linterna
-        coneLight = new ConeLight(rayHandler, 100, Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 25);
-        coneLight.attachToBody(jugador.getBody());
-        coneLight.setSoftnessLength(0f);
 
-        b2dr.setDrawBodies(false);
+        linterna = new Linterna (world,
+                jugador.getBody().getPosition().x,
+                jugador.getBody().getPosition().y,
+                32,
+                32,
+                false,
+                false,
+                rayHandler,
+                distance);
+        linterna.equipar(jugador);
+
+        jugador.setIluminacion(linterna);
+
+        /*coneLight = new ConeLight(rayHandler, 100, Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 25);
+        coneLight.attachToBody(jugador.getBody());
+        coneLight.setSoftnessLength(0f);*/
+
+        b2dr.setDrawBodies(true);
         //b2dr.setDrawVelocities(true);
         //b2dr.setDrawAABBs(true);
         //b2dr.setDrawContacts(true);
@@ -138,7 +157,7 @@ public class PlayStateGame extends State {
         jugador.update(delta);
         rotatePlayerToMouse(camera);
 
-        alpha = updateAlphaEnemigo(skeleton, coneLight);
+        //alpha = updateAlphaEnemigo(skeleton, coneLight);
 
         tmr.setView(camera);
         batch.setProjectionMatrix(camera.combined);
@@ -157,19 +176,18 @@ public class PlayStateGame extends State {
 
         tmr.render();
 
+        /*skeleton.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
+        skeleton.getAnimacion().setCurrentFrame();*/
 
-        skeleton.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
-        skeleton.getAnimacion().setCurrentFrame();
-
-        jugador.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
-        jugador.getAnimacion().setCurrentFrame();
+        //jugador.getAnimacion().setStateTime(jugador.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
+        //jugador.getAnimacion().setCurrentFrame();
 
 
         //Seteo posicion de Imagen de personajes
-        jugador.getAnimacion().getCurrentFrame()
-                .setPosition(jugador.getBody().getPosition().x * PPM - (32/2),jugador.getBody().getPosition().y * PPM - (32/2));
-        skeleton.getAnimacion().getCurrentFrame()
-                .setPosition(skeleton.getBody().getPosition().x * PPM - (32/2),skeleton.getBody().getPosition().y * PPM - (32/2));
+        //jugador.getAnimacion().getCurrentFrame()
+                //.setPosition(jugador.getBody().getPosition().x * PPM - (32/2),jugador.getBody().getPosition().y * PPM - (32/2));
+        /*skeleton.getAnimacion().getCurrentFrame()
+                .setPosition(skeleton.getBody().getPosition().x * PPM - (32/2),skeleton.getBody().getPosition().y * PPM - (32/2));*/
 
 
         rayHandler.render();
@@ -177,11 +195,14 @@ public class PlayStateGame extends State {
         batch.enableBlending();
 
         batch.begin();
-        skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
-        jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
+        //skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
+        skeleton.render();
+        //jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
+        jugador.render();
         batch.end();
 
         batch.disableBlending();
+
 
 
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
@@ -205,6 +226,7 @@ public class PlayStateGame extends State {
         coneLight.dispose();
         jugador.dispose();
         skeleton.dispose();
+        linterna.dispose();
     }
 
     public void cameraUpdate() {
@@ -230,7 +252,7 @@ public class PlayStateGame extends State {
         jugador.getBody().setTransform(jugador.getBody().getPosition().x, jugador.getBody().getPosition().y, nuevoAngulo);
     }
 
-    public float updateAlphaEnemigo(Enemigo enemigo, ConeLight coneLight)
+    /*public float updateAlphaEnemigo(Enemigo enemigo, ConeLight coneLight)
     {
         //establecemos una relacion minima para un alpha=1 de 0,8 - entonces distnacia/distanciaLuz = 0,8 -> alpha=1
         //y una relacion maxima de 1.4 para alpha = 0;
@@ -257,7 +279,7 @@ public class PlayStateGame extends State {
             alpha=0;
 
         return alpha;
-    }
+    }*/
 
 
 }

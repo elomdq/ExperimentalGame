@@ -8,7 +8,7 @@ public abstract class ItemEquipable extends Entidad {
     private boolean estaEquipado;
 
     //Constructor
-    public ItemEquipable(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation) {
+    public ItemEquipable(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
         super(world, x, y, width, height, isStatic, fixRotation);
         this.estaEquipado = false;
     }

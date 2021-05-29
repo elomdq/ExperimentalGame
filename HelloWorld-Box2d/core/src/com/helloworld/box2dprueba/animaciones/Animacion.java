@@ -200,6 +200,11 @@ public class Animacion {
 
     }
 
+    public void updateStateTime(float delta)
+    {
+        this.stateTime += delta;
+    }
+
     public void dispose()
     {
         textureAtlas.dispose();

@@ -1,6 +1,7 @@
 package com.helloworld.box2dprueba.entidades;
 
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 import com.badlogic.gdx.Gdx;
@@ -23,13 +24,15 @@ import static com.helloworld.box2dprueba.utils.CositasLindas.radiansToDegrees;
 public class Jugador extends Personaje {
 
     private boolean vive;
-    //private Iluminacion luminaria;
+    private Iluminacion luminaria;
     List<ItemEquipable> inventario;
+    private SpriteBatch batch;
 
-    public Jugador(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
+    public Jugador(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation,SpriteBatch batch, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventario = new ArrayList<>();
         this.vive = true;
+        this.batch = batch;
     }
 
 
@@ -62,6 +65,7 @@ public class Jugador extends Personaje {
 
     public void update(float delta)
     {
+        super.update(delta);
         inputUpdate(delta);
         //updateAnimation();
     }
@@ -71,8 +75,15 @@ public class Jugador extends Personaje {
         //luminaria.dispose();
     }
 
-<<<<<<< HEAD
-    //Otros Métodos
+    public void setIluminacion(Iluminacion luminaria)
+    {
+        this.luminaria = luminaria;
+    }
+
+    public Iluminacion getIluminacion()
+    {
+        return this.luminaria;
+    }
 
     /**
      * Método que retorna la cantidad de llaves que
@@ -132,7 +143,6 @@ public class Jugador extends Personaje {
 
             //Este comportamiento quizas haya que definirlo al finalizar la colision
             //y luego de que el jugador haya "clickeado" en el objeto que contiene.
-
             inventario.add(((Cofre) fixture.getUserData()).getItem());
             ((Cofre) fixture.getUserData()).setItem(null);
 
@@ -157,7 +167,7 @@ public class Jugador extends Personaje {
             this.vive = false;
         }
     }
-=======
+
     public void inputUpdate(float delta)
     {
 
@@ -196,6 +206,10 @@ public class Jugador extends Personaje {
 
     }
 
+    public void render()
+    {
+        this.getAnimacion().getCurrentFrame().draw(batch, this.getAlpha());
+    }
 
     /*public void updateAnimation()
     {
@@ -234,5 +248,5 @@ public class Jugador extends Personaje {
             this.getAnimation().setFrameDuration(0);
         }
     }*/
->>>>>>> claseAnimaciones
+
 }

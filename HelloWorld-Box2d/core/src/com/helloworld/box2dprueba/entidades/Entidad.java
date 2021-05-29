@@ -8,14 +8,14 @@ import static com.helloworld.box2dprueba.utils.Constants.PPM;
 public abstract class Entidad {
 
     private Body body;
-    private Texture texture;
+    //private Texture texture;
 
 
 
     //Contructor
     //Se le pasa una referencia del mundo donde se va a crear (porque el mundo crea la referencia del body a asignar)
     //Se le pasa posicion con X e Y, ancho y alto, Si es cuerpo estatico o dinamico, y si no va a rotar
-    public Entidad(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation)
+    public Entidad(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation)
     {
         body = createBox(world, x, y, width, height, isStatic, fixRotation);
     }
@@ -23,7 +23,7 @@ public abstract class Entidad {
     public Entidad(Body body, Texture texture)
     {
         this.body = body;
-        this.texture = texture;
+        //this.texture = texture;
     }
 
 
@@ -37,18 +37,10 @@ public abstract class Entidad {
         this.body = body;
     }
 
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
 
     //Otros metodos
 
-    public Body createBox(World world, int x, int y, int width, int height, boolean isStatic, boolean fixRotation)
+    public Body createBox(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation)
     {
         Body pBody;
         BodyDef def = new BodyDef();
@@ -70,13 +62,13 @@ public abstract class Entidad {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width/2/PPM, height/2/PPM);
 
-        //////////////Colisiones "NO MODIFICAR"//////////////
+        //////////////Colisiones "NO MODIFICAR"////////////// JAJAJA
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
         fixDef.density = 1.0f;
 
         pBody.createFixture(shape, 1.0f);
-        pBody.createFixture(fixDef).setUserData(this);
+        //pBody.createFixture(fixDef).setUserData(this);
         ////////////////////////////////////////////////////
 
         shape.dispose();
@@ -86,7 +78,7 @@ public abstract class Entidad {
 
     public void dispose()
     {
-        texture.dispose();
+       // texture.dispose();
     }
 
 }
