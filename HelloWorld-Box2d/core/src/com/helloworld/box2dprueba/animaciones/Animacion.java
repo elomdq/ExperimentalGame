@@ -200,6 +200,8 @@ public class Animacion {
 
     }
 
+    //hace un update del stateTime que es la variable que nos indicaria hace cuanto estan las animaciones creadas
+    //se updetea con el tiempo entre frames
     public void updateStateTime(float delta)
     {
         this.stateTime += delta;

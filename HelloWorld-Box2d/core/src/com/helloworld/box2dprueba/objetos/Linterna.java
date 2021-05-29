@@ -4,6 +4,7 @@ import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.ai.utils.Ray;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.Personaje;
 
@@ -14,8 +15,8 @@ public class Linterna extends Iluminacion {
 
     //Constructor
     // HAY QUE REVISAR EL TEMA DEL ANGULO DE DIRECCION DE LA LUZ QUE AL PRINCIPIO VA A SER LA DEL CUERPO QUE VA A CARGAR ESTA LUZ PERO DSP ES LA DEL PERSONAJE
-    public Linterna(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
-        super(world, x, y, width, height, isStatic, fixRotation, distancia);
+    public Linterna(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
+        super(world, batch, x, y, width, height, isStatic, fixRotation, distancia);
         linterna = new ConeLight(rayHandler, 100, Color.WHITE, distancia, 0 , 0, 0, 25);
         linterna.setSoftnessLength(0f);
     }

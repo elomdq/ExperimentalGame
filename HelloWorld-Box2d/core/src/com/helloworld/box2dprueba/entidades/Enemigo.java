@@ -12,12 +12,10 @@ public class Enemigo extends Personaje {
 
     private float distanciaAlTarget;
     private Jugador target;
-    private SpriteBatch batch;
 
-    public Enemigo(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, SpriteBatch batch, String texturePath, int frameWidth, int frameHeight, int frames, Jugador jugador) {
-        super(world, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
-        this.target = jugador;
-        this.batch = batch;
+    public Enemigo(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target) {
+        super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
+        this.target = target;
     }
 
     //setter & getters
@@ -32,6 +30,21 @@ public class Enemigo extends Personaje {
 
 
     //Otros metodos
+
+    @Override
+    public void update(float delta)
+    {
+        updateDistancia();
+        selectEnemyAnimation(this);
+        updateAlpha(this.target);
+        super.update(delta);
+    }
+
+    @Override
+    public  void render()
+    {
+        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
+    }
 
     public float distanciaAlTarget(Vector2 target)
     {
@@ -50,7 +63,7 @@ public class Enemigo extends Personaje {
     }
 
 
-    public void selectAnimationEnemy(Enemigo enemigo)
+    public void selectEnemyAnimation(Enemigo enemigo)
     {
         float angle = radiansToDegrees(enemigo.getBody().getAngle());
 
@@ -114,18 +127,4 @@ public class Enemigo extends Personaje {
         //Deberia llamar un metodo que muestre un screamer y finalice el nivel.
     }
 
-    @Override
-    public void update(float delta)
-    {
-        super.update(delta);
-        updateDistancia();
-        selectAnimationEnemy(this);
-        updateAlpha(this.target);
-    }
-
-    @Override
-    public  void render()
-    {
-        this.getAnimacion().getCurrentFrame().draw(batch, this.getAlpha());
-    }
 }

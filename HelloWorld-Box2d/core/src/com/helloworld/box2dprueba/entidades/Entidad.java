@@ -1,6 +1,7 @@
 package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
@@ -8,6 +9,7 @@ import static com.helloworld.box2dprueba.utils.Constants.PPM;
 public abstract class Entidad {
 
     private Body body;
+    private SpriteBatch batch;
     //private Texture texture;
 
 
@@ -15,15 +17,10 @@ public abstract class Entidad {
     //Contructor
     //Se le pasa una referencia del mundo donde se va a crear (porque el mundo crea la referencia del body a asignar)
     //Se le pasa posicion con X e Y, ancho y alto, Si es cuerpo estatico o dinamico, y si no va a rotar
-    public Entidad(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation)
+    public Entidad(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation)
     {
         body = createBox(world, x, y, width, height, isStatic, fixRotation);
-    }
-
-    public Entidad(Body body, Texture texture)
-    {
-        this.body = body;
-        //this.texture = texture;
+        this.batch = batch;
     }
 
 
@@ -37,6 +34,13 @@ public abstract class Entidad {
         this.body = body;
     }
 
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public void setBatch(SpriteBatch batch) {
+        this.batch = batch;
+    }
 
     //Otros metodos
 
@@ -68,7 +72,7 @@ public abstract class Entidad {
         fixDef.density = 1.0f;
 
         pBody.createFixture(shape, 1.0f);
-        //pBody.createFixture(fixDef).setUserData(this);
+        pBody.createFixture(fixDef).setUserData(this);
         ////////////////////////////////////////////////////
 
         shape.dispose();
@@ -79,6 +83,7 @@ public abstract class Entidad {
     public void dispose()
     {
        // texture.dispose();
+        batch.dispose();
     }
 
 }

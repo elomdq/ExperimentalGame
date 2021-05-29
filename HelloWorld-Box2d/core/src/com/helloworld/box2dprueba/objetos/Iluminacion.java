@@ -1,5 +1,6 @@
 package com.helloworld.box2dprueba.objetos;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.helloworld.box2dprueba.entidades.Personaje;
@@ -11,8 +12,8 @@ public abstract class Iluminacion extends ItemEquipable {
 
 
     //constructor
-    public Iluminacion(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, float distancia) {
-        super(world, x, y, width, height, isStatic, fixRotation);
+    public Iluminacion(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, float distancia) {
+        super(world, batch, x, y, width, height, isStatic, fixRotation);
         this.distancia = distancia;
     }
 

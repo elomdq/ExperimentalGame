@@ -25,9 +25,9 @@ public abstract class Personaje extends Entidad implements ICollision {
 
 
     //constructor
-    public Personaje(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames)
+    public Personaje(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames)
     {
-        super(world,x, y, width, height, isStatic, fixRotation);
+        super(world, batch, x, y, width, height, isStatic, fixRotation);
         this.animacion = new Animacion(texturePath, frameWidth, frameHeight, frames);
         entity = new B2DSteeringEntity(this.getBody(), 1);
         alpha = 1f;
@@ -53,13 +53,14 @@ public abstract class Personaje extends Entidad implements ICollision {
 
     //otros metodos
 
+    //Hace un update del stateTime y del frame que deberia renderizarse en ese valor de tiempo
     public void updateAnimation(float delta)
     {
         this.animacion.updateStateTime(delta);
         this.animacion.setCurrentFrame();
     }
 
-    //Tomo la posicion del body de la entidad y actualizo la posicion de renderizado del Sprite frame de la animacion
+    //Tomo la posicion del Body del Personaje y actualizo la posicion de renderizado del Sprite
     public void updateFramePosition()
     {
         this.animacion.getCurrentFrame().setPosition(this.getBody().getPosition().x * PPM - (32/2),this.getBody().getPosition().y * PPM - (32/2));
@@ -73,15 +74,12 @@ public abstract class Personaje extends Entidad implements ICollision {
     }
 
     //Con este metodo renderizo el frame preciso actualizado
-    public void render()
-    {
-
-    }
+    public abstract void render();
 
     public void dispose()
     {
-        super.dispose();
         animacion.dispose();
+        super.dispose();
     }
 
 }

@@ -71,26 +71,26 @@ public class PlayStateGame extends State {
 
         //Creacion de personajes
         jugador = new Jugador(world,
-                40,
-                40,
-                30,
-                30,
-                false,
-                false,
                 batch,
+                40,
+                40,
+                30,
+                30,
+                false,
+                false,
                 "images/sprites2.txt",
                 32,
                 32,
                 3);
 
         skeleton = new Enemigo(world,
+                batch,
                 120,
                 400,
                 15,
                 15,
                 false,
                 false,
-                batch,
                 "images/sprites.txt",
                 32,
                 32,
@@ -121,8 +121,8 @@ public class PlayStateGame extends State {
         //light.attachToBody(player);
 
         //seteo luz linterna
-
         linterna = new Linterna (world,
+                batch,
                 jugador.getBody().getPosition().x,
                 jugador.getBody().getPosition().y,
                 32,
@@ -131,15 +131,12 @@ public class PlayStateGame extends State {
                 false,
                 rayHandler,
                 distance);
+        linterna.getLinterna().setConeDegree(25);
         linterna.equipar(jugador);
 
-        jugador.setIluminacion(linterna);
+        jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
 
-        /*coneLight = new ConeLight(rayHandler, 100, Color.WHITE, distance, 0 , 0, jugador.getBody().getAngle(), 25);
-        coneLight.attachToBody(jugador.getBody());
-        coneLight.setSoftnessLength(0f);*/
-
-        b2dr.setDrawBodies(true);
+        b2dr.setDrawBodies(false);
         //b2dr.setDrawVelocities(true);
         //b2dr.setDrawAABBs(true);
         //b2dr.setDrawContacts(true);
@@ -155,9 +152,8 @@ public class PlayStateGame extends State {
         entity.update(delta);
         skeleton.update(delta);
         jugador.update(delta);
-        rotatePlayerToMouse(camera);
 
-        //alpha = updateAlphaEnemigo(skeleton, coneLight);
+        rotatePlayerToMouse(camera);
 
         tmr.setView(camera);
         batch.setProjectionMatrix(camera.combined);
@@ -176,29 +172,15 @@ public class PlayStateGame extends State {
 
         tmr.render();
 
-        /*skeleton.getAnimacion().setStateTime(skeleton.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
-        skeleton.getAnimacion().setCurrentFrame();*/
-
-        //jugador.getAnimacion().setStateTime(jugador.getAnimacion().getStateTime() + Gdx.graphics.getDeltaTime());
-        //jugador.getAnimacion().setCurrentFrame();
-
-
-        //Seteo posicion de Imagen de personajes
-        //jugador.getAnimacion().getCurrentFrame()
-                //.setPosition(jugador.getBody().getPosition().x * PPM - (32/2),jugador.getBody().getPosition().y * PPM - (32/2));
-        /*skeleton.getAnimacion().getCurrentFrame()
-                .setPosition(skeleton.getBody().getPosition().x * PPM - (32/2),skeleton.getBody().getPosition().y * PPM - (32/2));*/
-
-
         rayHandler.render();
 
         batch.enableBlending();
 
         batch.begin();
-        //skeleton.getAnimacion().getCurrentFrame().draw(batch, alpha);
+
         skeleton.render();
-        //jugador.getAnimacion().getCurrentFrame().draw(batch, 1f);
         jugador.render();
+
         batch.end();
 
         batch.disableBlending();
@@ -222,7 +204,6 @@ public class PlayStateGame extends State {
         tmr.dispose();
         batch.dispose();
         rayHandler.dispose();
-        //light.dispose();
         coneLight.dispose();
         jugador.dispose();
         skeleton.dispose();
@@ -251,35 +232,6 @@ public class PlayStateGame extends State {
         jugador.getBody().setAngularVelocity(0);
         jugador.getBody().setTransform(jugador.getBody().getPosition().x, jugador.getBody().getPosition().y, nuevoAngulo);
     }
-
-    /*public float updateAlphaEnemigo(Enemigo enemigo, ConeLight coneLight)
-    {
-        //establecemos una relacion minima para un alpha=1 de 0,8 - entonces distnacia/distanciaLuz = 0,8 -> alpha=1
-        //y una relacion maxima de 1.4 para alpha = 0;
-        //y hacemos una funcion lineal con esos datos alpha = ratio 1/0.6 - 0.8/0.6
-
-        float alpha;
-        float ratio, coefA, coefB;
-        float min=0.65f, max=1f;
-
-        coefA = 1 / (min - max);
-        coefB =  -1 * max * coefA;
-        ratio = enemigo.distanciaAlTarget(enemigo.getTarget().getBody().getPosition()) / coneLight.getDistance();
-
-        if(ratio<min)
-            alpha=1;
-        else if(ratio>max)
-            alpha=0;
-        else
-            alpha = coefA * ratio + coefB;
-
-        if(!enfrentados(radiansToDegrees(anguloEntreVectores(jugador.getBody().getPosition(), skeleton.getBody().getPosition()))
-                , coneLight.getDirection() - coneLight.getConeDegree(),
-                coneLight.getDirection() + coneLight.getConeDegree()))
-            alpha=0;
-
-        return alpha;
-    }*/
 
 
 }
