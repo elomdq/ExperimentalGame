@@ -53,7 +53,7 @@ public class Hud {
         //Se define la información que tendrá cada Label
         worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        //ToDo definir la cantidad de niveles y actualizar esta info con el nivel en cuestión//
+        //ToDo definir la cantidad de niveles y actualizar esta info con el nivel en cuestión
         levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         keyLabel = new Label("LLAVES", new Label.LabelStyle(new BitmapFont(), Color.WHITE));

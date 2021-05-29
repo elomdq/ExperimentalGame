@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.helloworld.box2dprueba.scenes.Hud;
 import com.helloworld.box2dprueba.states.GameStateManager;
 
 public class JuegoPrueba extends ApplicationAdapter {
@@ -18,6 +19,10 @@ public class JuegoPrueba extends ApplicationAdapter {
 
 	private SpriteBatch batch;
 
+	/***************HUD****************/
+	Hud hud;
+	/***************HUD****************/
+
 	@Override
 	public void create () {
 		float w = Gdx.graphics.getWidth();
@@ -29,12 +34,21 @@ public class JuegoPrueba extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		gsm = new GameStateManager(this);
+
+		/***************HUD****************/
+		hud = new Hud(batch);
+		/***************HUD****************/
 	}
 
 	@Override
 	public void render () {
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render();
+
+		/***************HUD****************/
+		batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		hud.stage.draw();
+		/***************HUD****************/
 	}
 
 	@Override
