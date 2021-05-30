@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AISteeringBehavior;
-import com.helloworld.box2dprueba.entidades.Entidad;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 public abstract class Personaje extends Entidad {

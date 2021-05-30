@@ -2,8 +2,8 @@ com/helloworld/box2dprueba/objetos/Farol.java
  com.helloworld.box2dprueba.objetos.Farol
 com/helloworld/box2dprueba/utils/Constants.java
  com.helloworld.box2dprueba.utils.Constants
-com/helloworld/box2dprueba/entidades/Personaje.java
- com.helloworld.box2dprueba.entidades.Personaje
+com/helloworld/box2dprueba/JuegoPrueba.java
+ com.helloworld.box2dprueba.JuegoPrueba
 com/helloworld/box2dprueba/states/State.java
  com.helloworld.box2dprueba.states.State
 com/helloworld/box2dprueba/objetos/Cofre.java
@@ -34,14 +34,14 @@ com/helloworld/box2dprueba/entidades/AI/AIUtils/MathUtils.java
  com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils
 com/helloworld/box2dprueba/entidades/AI/AIUtils/SteeringUtils.java
  com.helloworld.box2dprueba.entidades.AI.AIUtils.SteeringUtils
-com/helloworld/box2dprueba/JuegoPrueba.java
- com.helloworld.box2dprueba.JuegoPrueba
+com/helloworld/box2dprueba/entidades/Personaje.java
+ com.helloworld.box2dprueba.entidades.Personaje
 com/helloworld/box2dprueba/entidades/AI/AISteeringBehavior.java
  com.helloworld.box2dprueba.entidades.AI.AISteeringBehavior
-com/helloworld/box2dprueba/entidades/Jugador.java
- com.helloworld.box2dprueba.entidades.Jugador
 com/helloworld/box2dprueba/entidades/Enemigo.java
  com.helloworld.box2dprueba.entidades.Enemigo
+com/helloworld/box2dprueba/entidades/Jugador.java
+ com.helloworld.box2dprueba.entidades.Jugador
 com/helloworld/box2dprueba/entidades/enemigos/Skeleton.java
  com.helloworld.box2dprueba.entidades.enemigos.Skeleton
 com/helloworld/box2dprueba/entidades/enemigos/Smeller.java

@@ -72,8 +72,8 @@ public class Banshee extends Enemigo {
 
         }
 //        this.scream.setPan(-1f, 1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
-        System.out.println(target.getBody().getPosition().x - this.getBody().getPosition().x);
-        this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
+
+        this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
 
         this.getSteeringBehavior().update(delta);
 

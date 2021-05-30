@@ -9,7 +9,6 @@ import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
 
-import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 public class Smeller extends Enemigo {
 
@@ -24,9 +23,9 @@ public class Smeller extends Enemigo {
         super(world, spawnX, spawnY, 32, 32, false, false, "images/Banshee.png", 32, 32, 3);
 
         this.target = target;
-        this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3"));
+        this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3"));
 
-        this.configSteeringBehavior(47, 4000, 10, 8);
+        this.configSteeringBehavior(47, 4000, 5, 3);
 
         this.arriveBhehavior = new Arrive<Vector2>(this.getSteeringBehavior(), this.target.getSteeringBehavior())
                 //.setTarget(target.getSteeringEntity())
@@ -51,12 +50,18 @@ public class Smeller extends Enemigo {
 
     public void update(float delta) {
 
-        if(this.targetisInRange(target)){
-            //en rango
 
-            if (!this.scream.isPlaying()){
+        if (targetisInRange(target, 20)){
+            if (!this.scream.isPlaying() ){
                 this.scream.play();
             }
+        } else {
+            this.scream.stop();
+        }
+
+        if(this.targetisInRange(target, 3.67f)){
+            //en rango
+
 
 
             this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
@@ -69,7 +74,7 @@ public class Smeller extends Enemigo {
         }
 
 
-        this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
+        this.scream.setVolume(0.5f/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
 
         this.getSteeringBehavior().update(delta);
 
@@ -86,8 +91,8 @@ public class Smeller extends Enemigo {
 //        this.setCurrentFrame();
 //    }
 
-    public boolean targetisInRange(Jugador target) {
-        if (MathUtils.getDistance(target.getBody(), this.getBody()) < 3.67) {
+    public boolean targetisInRange(Jugador target, float range) {
+        if (MathUtils.getDistance(target.getBody(), this.getBody()) < range) {
             return true;
         } else {
             return false;
