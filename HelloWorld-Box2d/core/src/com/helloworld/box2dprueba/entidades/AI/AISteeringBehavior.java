@@ -25,7 +25,7 @@ public class AISteeringBehavior implements Steerable<Vector2> {
         this.body = body;
         this.boundingRadius = boundingRadius;
 
-        this.maxLinearSpeed = 160/PPM;
+        this.maxLinearSpeed = 153/PPM;
         this.maxLinearAcceleration = 10000/PPM;
         this.maxAngularSpeed = 50/PPM;
         this.maxAngularAcceleration = 10/PPM;

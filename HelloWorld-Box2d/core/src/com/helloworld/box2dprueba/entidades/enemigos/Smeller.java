@@ -1,9 +1,7 @@
 package com.helloworld.box2dprueba.entidades.enemigos;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
-import com.badlogic.gdx.ai.steer.behaviors.Evade;
-import com.badlogic.gdx.ai.steer.behaviors.Wander;
+import com.badlogic.gdx.ai.steer.behaviors.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -13,29 +11,22 @@ import com.helloworld.box2dprueba.entidades.Jugador;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class Skeleton extends Enemigo {
+public class Smeller extends Enemigo {
+
 
     private Jugador target;
-    private Wander<Vector2> wanderBehavior;
+    private Pursue<Vector2> pursueBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
     private Music scream;
 
-    public Skeleton(World world, Jugador target, int spawnX, int spawnY) {
-        super(world, spawnX, spawnY, 32, 32, false, false, "images/skeleton.png", 32, 32, 3);
+    public Smeller(World world, Jugador target, int spawnX, int spawnY) {
+        super(world, spawnX, spawnY, 32, 32, false, false, "images/Banshee.png", 32, 32, 3);
 
-        this.target=target;
+        this.target = target;
         this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3"));
 
-        this.getSteeringBehavior().setMaxLinearSpeed(140/PPM);
-
-        this.wanderBehavior = new Wander<Vector2>(this.getSteeringBehavior())
-                .setWanderOffset(0.005f/PPM)
-                .setWanderRadius(5f/PPM)
-                .setWanderRate(2f)
-                .setWanderOrientation(5f)
-                .setFaceEnabled(false)
-                .setTarget(target.getSteeringBehavior());
+        this.configSteeringBehavior(47, 4000, 10, 8);
 
         this.arriveBhehavior = new Arrive<Vector2>(this.getSteeringBehavior(), this.target.getSteeringBehavior())
                 //.setTarget(target.getSteeringEntity())
@@ -43,17 +34,22 @@ public class Skeleton extends Enemigo {
                 .setDecelerationRadius(1)
                 .setTimeToTarget(0.001f);
 
+        this.pursueBehavior = new Pursue<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior())
+                .setEnabled(true)
+                .setMaxPredictionTime(7.5f);
+
         this.evadeBehavior = new Evade<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior(), 8)
-                .setEnabled(true);
+        .setEnabled(true);
 
-        getSteeringBehavior().setBehavior(getWanderBehavior());
+
+        getSteeringBehavior().setBehavior(getPursueBehavior());
     }
 
-    public Wander<Vector2> getWanderBehavior() {
-        return this.wanderBehavior;
+    public Pursue<Vector2> getPursueBehavior() {
+        return this.pursueBehavior;
     }
 
-    public void update(float delta){
+    public void update(float delta) {
 
         if(this.targetisInRange(target)){
             //en rango
@@ -65,11 +61,13 @@ public class Skeleton extends Enemigo {
 
             this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
         }else {
+
             //fuera de rango
 
 
-            this.getSteeringBehavior().setBehavior(this.wanderBehavior);
+            this.getSteeringBehavior().setBehavior(this.pursueBehavior);
         }
+
 
         this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
 
@@ -81,18 +79,17 @@ public class Skeleton extends Enemigo {
          *
          * agregar animaciones
          */
-
-
     }
 
-//    public void render(float delta){
-//
+//    public void render(float delta) {
+//        this.setStateTime(this.getStateTime() + delta);
+//        this.setCurrentFrame();
 //    }
 
-    public boolean targetisInRange(Jugador target){
-        if (MathUtils.getDistance(target.getBody(), this.getBody()) < 4.25 ){
+    public boolean targetisInRange(Jugador target) {
+        if (MathUtils.getDistance(target.getBody(), this.getBody()) < 3.67) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

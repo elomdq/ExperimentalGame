@@ -1,14 +1,12 @@
 package com.helloworld.box2dprueba.states;
 
 import box2dLight.ConeLight;
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -16,9 +14,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
-import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
 import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
+import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
@@ -33,6 +32,8 @@ public class PlayStateGame extends State {
 
     private Jugador jugador;
     private Skeleton skeleton;
+    private Banshee banshee;
+    private Smeller smeller1;
 
     private RayHandler rayHandler;
     //private PointLight light;
@@ -65,11 +66,21 @@ public class PlayStateGame extends State {
 
         skeleton = new Skeleton(world,
                 jugador,
-                60,
-                32);
+                600,
+                320);
+
+        banshee = new Banshee(world,
+                jugador,
+                700,
+                420);
+
+        smeller1 = new Smeller(world,
+                jugador,
+                300,
+                900);
 
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0f);
+        rayHandler.setAmbientLight(0.75f);
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
@@ -101,6 +112,8 @@ public class PlayStateGame extends State {
       light.setDistance(distance);*/
 
         skeleton.update(Gdx.graphics.getDeltaTime());
+        banshee.update(Gdx.graphics.getDeltaTime());
+        smeller1.update(Gdx.graphics.getDeltaTime());
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -121,16 +134,26 @@ public class PlayStateGame extends State {
 
         batch.begin();
 
-        jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
-        jugador.setCurrentFrame();
-        batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
-                jugador.getBody().getPosition().x * PPM - (32/2),
-                jugador.getBody().getPosition().y * PPM - (32/2));
+//        jugador.setStateTime(jugador.getStateTime() + Gdx.graphics.getDeltaTime());
+//        jugador.setCurrentFrame();
+//        batch.draw(jugador.getCurrentFrame(jugador.getAnimation(), jugador.getStateTime()),
+//                jugador.getBody().getPosition().x * PPM - (32/2),
+//                jugador.getBody().getPosition().y * PPM - (32/2));
+//
+//        skeleton.render(Gdx.graphics.getDeltaTime());
+//        batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
+//                skeleton.getBody().getPosition().x * PPM - (32/2),
+//                skeleton.getBody().getPosition().y * PPM - (32/2));
+//
+//        banshee.render(Gdx.graphics.getDeltaTime());
+//        batch.draw(banshee.getCurrentFrame(banshee.getAnimation(), banshee.getStateTime()),
+//                banshee.getBody().getPosition().x * PPM - (32/2),
+//                banshee.getBody().getPosition().y * PPM - (32/2));
 
-        skeleton.render(Gdx.graphics.getDeltaTime());
-        batch.draw(skeleton.getCurrentFrame(skeleton.getAnimation(), skeleton.getStateTime()),
-                skeleton.getBody().getPosition().x * PPM - (32/2),
-                skeleton.getBody().getPosition().y * PPM - (32/2));
+        jugador.renderPersonaje(batch, Gdx.graphics.getDeltaTime());
+        skeleton.renderPersonaje(batch, Gdx.graphics.getDeltaTime());
+        banshee.renderPersonaje(batch, Gdx.graphics.getDeltaTime());
+        smeller1.renderPersonaje(batch, Gdx.graphics.getDeltaTime());
 
         batch.end();
     }
@@ -146,7 +169,8 @@ public class PlayStateGame extends State {
         //light.dispose();
         coneLight.dispose();
         jugador.dispose();
-//        skeleton.dispose();
+        skeleton.dispose();
+        banshee.dispose();
     }
 
     public void inputUpdate(float delta)

@@ -11,7 +11,7 @@ public class JuegoPrueba extends ApplicationAdapter {
 	//Debug
 	private boolean DEBUG = false;
 
-	private final float SCALE = 1.5f;
+	private final float SCALE = 1f;
 
 	private GameStateManager gsm;
 	private OrthographicCamera camera;

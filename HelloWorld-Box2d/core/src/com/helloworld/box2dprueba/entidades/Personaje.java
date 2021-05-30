@@ -2,6 +2,7 @@ package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AISteeringBehavior;
@@ -132,5 +133,15 @@ public abstract class Personaje extends Entidad {
 
     public AISteeringBehavior getSteeringBehavior() {
         return steeringBehavior;
+    }
+
+    public void renderPersonaje (SpriteBatch batch, float delta){
+        this.setStateTime(this.getStateTime() + delta);
+
+        this.setCurrentFrame();
+
+        batch.draw(this.getCurrentFrame(this.getAnimation(), this.getStateTime()),
+                this.getBody().getPosition().x * PPM - (32/2),
+                this.getBody().getPosition().y * PPM - (32/2));
     }
 }
