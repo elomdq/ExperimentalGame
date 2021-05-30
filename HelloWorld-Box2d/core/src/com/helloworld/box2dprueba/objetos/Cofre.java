@@ -9,7 +9,6 @@ import com.helloworld.box2dprueba.utils.ICollision;
 
 //ToDO: - Agregar la animacion de apertura de cofre
 //      - Mostrar el elemento contenido por el cofre
-//      - Hacer funcion que agregue un item random
 
 public class Cofre extends Entidad implements ICollision {
 
@@ -20,7 +19,7 @@ public class Cofre extends Entidad implements ICollision {
     //Constructor
     public Cofre(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation){
         super(world, batch, x, y, width, height, isStatic, fixRotation);
-        this.item = addItemRandom();
+        this.item = addItemRandom(world, batch, x, y, width, height, isStatic, fixRotation); //Borrar!
         this.isClosed = true;
     }
 
@@ -36,14 +35,20 @@ public class Cofre extends Entidad implements ICollision {
 
 
     //Demás Métodos
-    public ItemEquipable addItemRandom(){
+
+    //Borrar!
+    public ItemEquipable addItemRandom(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation){
         //Posible solucion:
-        //if(Math.random() % 2 == 0)
-            //return new Bateria();
 
-        //return new Llave();
+        int num = (int) ((Math.random()*100) % 3);
 
-        return null;
+        if(num == 0)
+            return new Llave(world, batch,x,y,10,10,isStatic,fixRotation);
+//        if(num == 1)
+            return new Bateria(world, batch, x,y,10,10,isStatic,fixRotation);
+
+//        return new Farol(world,batch,x,y,10,10,isStatic,fixRotation,,10);
+
     }
 
     private void openAnimation(){

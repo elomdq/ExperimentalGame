@@ -5,7 +5,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+//<<<<<<< HEAD:HelloWorld-Box2d/core/src/com/helloworld/box2dprueba/JuegoApp.java
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+//=======
+import com.helloworld.box2dprueba.scenes.Hud;
+//>>>>>>> hud:HelloWorld-Box2d/core/src/com/helloworld/box2dprueba/JuegoPrueba.java
 import com.helloworld.box2dprueba.states.GameStateManager;
 
 public class JuegoApp extends ApplicationAdapter {

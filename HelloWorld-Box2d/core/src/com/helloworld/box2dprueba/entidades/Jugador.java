@@ -132,9 +132,40 @@ public class Jugador extends Personaje {
         return cantidadDeLlaves;
     }
 
-    //Se reinicia el inventario cada vez que finaliza un nivel?
-    public void emptyInventory(){
-        inventario.clear();
+    /**
+     * Método que retorna la cantidad de baterias
+     * que hay en el inventario del jugador
+     *
+     * @return
+     */
+    public int getCantidadDeBaterias(){
+
+        int cantidadDeBaterias = 0;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Bateria)
+                cantidadDeBaterias++;
+        }
+
+        return cantidadDeBaterias;
+    }
+
+    /**
+     * Método que retorna la cantidad de faroles
+     * que hay en el inventario del jugador
+     *
+     * @return
+     */
+    public int getCantidadDeFaroles(){
+
+        int cantidadDeFaroles = 0;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Farol)
+                cantidadDeFaroles++;
+        }
+
+        return cantidadDeFaroles;
     }
 
     /**
