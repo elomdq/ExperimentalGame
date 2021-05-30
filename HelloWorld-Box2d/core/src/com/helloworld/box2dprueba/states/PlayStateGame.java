@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.objetos.Cofre;
+import com.helloworld.box2dprueba.scenes.Hud;
 import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
@@ -31,6 +34,20 @@ public class PlayStateGame extends State {
 
     private Jugador jugador;
     private Enemigo skeleton;
+
+    //El siguiente código es de prueba, hay que borrarlo después
+    /***************HUD****************/
+    Hud hud;
+    /***************HUD****************/
+
+    /*******Cofres*******/
+    private Cofre cofre;
+    private Cofre cofre2;
+    private Cofre cofre3;
+    private Cofre cofre4;
+    private Texture cofreTexture;
+    /*******Cofres*******/
+
 
     private RayHandler rayHandler;
     //private PointLight light;
@@ -74,6 +91,47 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
+        //El siguiente código es de prueba, hay que borrarlo después
+        /***************HUD****************/
+        hud = new Hud(batch);
+        /***************HUD****************/
+
+        /*******Cofres*******/
+        cofreTexture = new Texture("images/cofre.png");
+
+        cofre = new Cofre(world,
+                100,
+                60,
+                30,
+                30,
+                true,
+                false);
+
+        cofre2 = new Cofre(world,
+                100,
+                150,
+                30,
+                30,
+                true,
+                false);
+
+        cofre3 = new Cofre(world,
+                250,
+                150,
+                30,
+                30,
+                true,
+                false);
+
+        cofre4 = new Cofre(world,
+                250,
+                200,
+                30,
+                30,
+                true,
+                false);
+        /*******Cofres*******/
+
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f);
 
@@ -105,6 +163,11 @@ public class PlayStateGame extends State {
 
            /*distance *= 0.999f;
       light.setDistance(distance);*/
+
+        //El siguiente código es de prueba, hay que borrarlo después
+        /***************HUD****************/
+        hud.update(jugador);
+        /***************HUD****************/
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -139,7 +202,21 @@ public class PlayStateGame extends State {
                 skeleton.getBody().getPosition().x * PPM - (32 / 2),
                 skeleton.getBody().getPosition().y * PPM - (32/2));
 
+        //El siguiente código es de prueba, hay que borrarlo después
+        /*******Cofre*******/
+        batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
+        batch.draw(cofreTexture,cofre2.getBody().getPosition().x * PPM - (30/2), cofre2.getBody().getPosition().y * PPM - (30/2));
+        batch.draw(cofreTexture,cofre3.getBody().getPosition().x * PPM - (30/2), cofre3.getBody().getPosition().y * PPM - (30/2));
+        batch.draw(cofreTexture,cofre4.getBody().getPosition().x * PPM - (30/2), cofre4.getBody().getPosition().y * PPM - (30/2));
+        /*******Cofre*******/
+
         batch.end();
+
+        //El siguiente código es de prueba, hay que borrarlo después
+        /***************HUD****************/
+        batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
+        /***************HUD****************/
     }
 
     @Override
