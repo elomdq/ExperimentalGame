@@ -10,7 +10,7 @@ import com.helloworld.box2dprueba.utils.SteeringUtils;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class B2DSteeringEntity implements Steerable<Vector2> {
+public class AISteeringBehavior implements Steerable<Vector2> {
 
     Body body;
     boolean tagged;
@@ -21,7 +21,7 @@ public class B2DSteeringEntity implements Steerable<Vector2> {
     SteeringBehavior<Vector2> behavior; //El tipo de comportamiento que queremos que esta entidad de IA tenga
     SteeringAcceleration<Vector2> steerOutput; //Todos los calculos de la IA de como moverse, que tan rapido, que haci que direccion se volcaran en este objeto
 
-    public B2DSteeringEntity(Body body, float boundingRadius)
+    public AISteeringBehavior(Body body, float boundingRadius)
     {
         this.body = body;
         this.boundingRadius = boundingRadius;

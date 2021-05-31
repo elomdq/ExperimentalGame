@@ -2,13 +2,12 @@ package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Fixture;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
+import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class Enemigo extends Personaje {
+public abstract class Enemigo extends Personaje {
 
     private float distanciaAlTarget;
     private Jugador target;
@@ -43,7 +42,7 @@ public class Enemigo extends Personaje {
     @Override
     public  void render()
     {
-        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
+        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), 1);
     }
 
     public float distanciaAlTarget(Vector2 target)
@@ -125,6 +124,13 @@ public class Enemigo extends Personaje {
     public void collision(Fixture fixture) {
         //Falta definir qué comportamiento tendra el enemigo cuando colisiona con el jugador.
         //Deberia llamar un metodo que muestre un screamer y finalice el nivel.
+    }
+
+    public void configSteeringBehavior(float maxLinearSpeed, float maxLinearAcceleration, float maxAngularSpeed, float maxAngularAcceleration){
+        this.getSteeringBehavior().setMaxLinearSpeed(maxLinearSpeed/PPM);
+        this.getSteeringBehavior().setMaxLinearAcceleration(maxLinearAcceleration/PPM);
+        this.getSteeringBehavior().setMaxAngularSpeed(maxAngularSpeed/PPM);
+        this.getSteeringBehavior().setMaxAngularAcceleration(maxAngularAcceleration/PPM);
     }
 
 }

@@ -19,7 +19,10 @@ import com.helloworld.box2dprueba.objetos.Linterna;
 import com.helloworld.box2dprueba.objetos.Cofre;
 import com.helloworld.box2dprueba.scenes.Hud;
 import com.helloworld.box2dprueba.utils.MyContactListener;
-import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
+import com.helloworld.box2dprueba.entities.AISteeringBehavior;
+import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
+import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
+import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
@@ -33,10 +36,10 @@ public class PlayStateGame extends State {
     private Box2DDebugRenderer b2dr;
     private World world;
 
-    private B2DSteeringEntity entity, target;
-
     private Jugador jugador;
-    private Enemigo skeleton;
+    private Skeleton skeleton;
+    private Banshee banshee;
+    private Smeller smeller1;
 
     //El siguiente código es de prueba, hay que borrarlo después
     /***************HUD****************/
@@ -78,8 +81,8 @@ public class PlayStateGame extends State {
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
-                40,
-                40,
+                100,
+                100,
                 30,
                 30,
                 false,
@@ -89,32 +92,20 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
-        skeleton = new Enemigo(world,
-                batch,
-                120,
-                400,
-                15,
-                15,
-                false,
-                false,
-                "images/sprites.txt",
-                32,
-                32,
-                3,
-                jugador);
-        //IA
-        target = new B2DSteeringEntity(jugador.getBody(), 10/PPM);
-        entity = new B2DSteeringEntity(skeleton.getBody(), 10/PPM);
-
-        Wander<Vector2> wanderSB = new Wander<>(entity)
-                .setOwner(target)
-                .setWanderRadius(10/PPM)
-                .setWanderOffset(10/PPM)
-                .setWanderRate(0.1f)
-                .setFaceEnabled(false);
-
-        Arrive<Vector2> arriveSB = new Arrive<>(entity, target).setTimeToTarget(0.2f).setArrivalTolerance(1f).setDecelerationRadius(10/PPM);
-        entity.setBehavior(arriveSB);
+//<<<<<<< HEAD
+//        skeleton = new Enemigo(world,
+//                batch,
+//                120,
+//                400,
+//                15,
+//                15,
+//                false,
+//                false,
+//                "images/sprites.txt",
+//                32,
+//                32,
+//                3,
+//                jugador);
 
         //El siguiente código es de prueba, hay que borrarlo después
         /***************HUD****************/
@@ -163,8 +154,26 @@ public class PlayStateGame extends State {
 
 
         //Seteo Luz Ambiental
+        skeleton = new Skeleton(world,
+                batch,
+                jugador,
+                600,
+                120);
+
+        banshee = new Banshee(world,
+                batch,
+                jugador,
+                100,
+                420);
+
+        smeller1 = new Smeller(world,
+                batch,
+                jugador,
+                200,
+                120);
+
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0f);
+        rayHandler.setAmbientLight(0.05f);
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
@@ -199,8 +208,9 @@ public class PlayStateGame extends State {
 
         cameraUpdate();
 
-        entity.update(delta);
         skeleton.update(delta);
+        banshee.update(delta);
+        smeller1.update(delta);
         jugador.update(delta);
 
         rotatePlayerToMouse(camera);
@@ -215,6 +225,10 @@ public class PlayStateGame extends State {
         /***************HUD****************/
         hud.update(jugador);
         /***************HUD****************/
+
+        skeleton.update(Gdx.graphics.getDeltaTime());
+        banshee.update(Gdx.graphics.getDeltaTime());
+        smeller1.update(Gdx.graphics.getDeltaTime());
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -235,6 +249,8 @@ public class PlayStateGame extends State {
 
         skeleton.render();
         jugador.render();
+        banshee.render();
+        smeller1.render();
 
         //El siguiente código es de prueba, hay que borrarlo después
         /*******Cofre*******/
@@ -273,8 +289,10 @@ public class PlayStateGame extends State {
         rayHandler.dispose();
         coneLight.dispose();
         jugador.dispose();
-        skeleton.dispose();
         linterna.dispose();
+        banshee.dispose();
+        skeleton.dispose();
+        smeller1.dispose();
     }
 
     public void cameraUpdate() {
