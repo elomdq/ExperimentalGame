@@ -28,8 +28,8 @@ public class JuegoApp extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		//float w = Gdx.graphics.getWidth();
+		//float h = Gdx.graphics.getHeight();
 
 		camera = new OrthographicCamera();
 

@@ -72,10 +72,10 @@ public class PlayStateGame extends State {
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
-                40,
-                40,
-                30,
-                30,
+                32,
+                32,
+                32,
+                32,
                 false,
                 false,
                 "images/sprites2.txt",
@@ -91,11 +91,13 @@ public class PlayStateGame extends State {
                 15,
                 false,
                 false,
-                "images/sprites.txt",
+                "images/banshee.txt",
                 32,
                 32,
                 3,
                 jugador);
+
+        //skeleton.getBody().setActive(false);
 
         //IA
         target = new B2DSteeringEntity(jugador.getBody(), 10/PPM);
@@ -125,8 +127,8 @@ public class PlayStateGame extends State {
                 batch,
                 jugador.getBody().getPosition().x,
                 jugador.getBody().getPosition().y,
-                32,
-                32,
+                4,
+                10,
                 false,
                 false,
                 rayHandler,
@@ -160,6 +162,13 @@ public class PlayStateGame extends State {
 
          /*distance *= 0.999f;
          light.setDistance(distance);*/
+
+        System.out.println("Origen x: " + jugador.getBody().getPosition().x);
+        System.out.println("Origen y: " + jugador.getBody().getPosition().y);
+        System.out.println("Local mass x: " + jugador.getBody().getLocalCenter().x);
+        System.out.println("Local mass y: " + jugador.getBody().getLocalCenter().y);
+        System.out.println("World mass x: " + jugador.getBody().getWorldCenter().x);
+        System.out.println("World mass y: " + jugador.getBody().getWorldCenter().y);
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);

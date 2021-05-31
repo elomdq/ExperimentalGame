@@ -2,6 +2,7 @@ package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
@@ -46,7 +47,7 @@ public abstract class Entidad {
 
     public Body createBox(World world, float x, float y, int width, int height, boolean isStatic, boolean fixRotation)
     {
-        Body pBody;
+        Body body;
         BodyDef def = new BodyDef();
 
         if(isStatic)
@@ -61,7 +62,7 @@ public abstract class Entidad {
         else
             def.fixedRotation = false;
 
-        pBody = world.createBody(def);
+        body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width/2/PPM, height/2/PPM);
@@ -69,15 +70,18 @@ public abstract class Entidad {
         //////////////Colisiones "NO MODIFICAR"////////////// JAJAJA
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
-        fixDef.density = 1.0f;
+        fixDef.density = 1f;
 
-        pBody.createFixture(shape, 1.0f);
-        pBody.createFixture(fixDef).setUserData(this);
+        body.createFixture(fixDef);
+        body.setUserData(this);
+        //body.createFixture(fixDef).setUserData(this); /// CORRECCION DE CREACION DE FIXTURE SE ESTABAN HACIENDO 2 IGUALES
         ////////////////////////////////////////////////////
 
         shape.dispose();
 
-        return pBody;
+        //body.setTransform(body.getPosition(), 90 * MathUtils.degreesToRadians);
+
+        return body;
     }
 
     public void dispose()

@@ -67,6 +67,7 @@ public class Jugador extends Personaje {
     public void update(float delta)
     {
         inputUpdate(delta);
+        //updateLuminariaPosition();
         super.update(delta);
     }
 
@@ -111,6 +112,12 @@ public class Jugador extends Personaje {
 
         this.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
 
+    }
+
+    public void updateLuminariaPosition()
+    {
+        luminaria.getBody().setTransform(this.getBody().getPosition().x, this.getBody().getPosition().y, this.getBody().getAngle() );
+        System.out.println("Luz x: " + luminaria.getBody().getPosition().x);
     }
 
 

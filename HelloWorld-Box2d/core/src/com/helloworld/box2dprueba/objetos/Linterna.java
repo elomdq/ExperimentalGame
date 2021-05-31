@@ -17,7 +17,7 @@ public class Linterna extends Iluminacion {
     // HAY QUE REVISAR EL TEMA DEL ANGULO DE DIRECCION DE LA LUZ QUE AL PRINCIPIO VA A SER LA DEL CUERPO QUE VA A CARGAR ESTA LUZ PERO DSP ES LA DEL PERSONAJE
     public Linterna(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, distancia);
-        linterna = new ConeLight(rayHandler, 100, Color.WHITE, distancia, 0 , 0, 0, 25);
+        linterna = new ConeLight(rayHandler, 100, Color.WHITE, distancia, x , y, 0, 25);
         linterna.setSoftnessLength(0f);
     }
 
@@ -34,6 +34,11 @@ public class Linterna extends Iluminacion {
     public void dispose()
     {
         linterna.dispose();
+    }
+
+    public void update()
+    {
+
     }
 
 
