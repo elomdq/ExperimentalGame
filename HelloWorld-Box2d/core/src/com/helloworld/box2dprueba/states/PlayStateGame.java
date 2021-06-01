@@ -67,12 +67,12 @@ public class PlayStateGame extends State {
         tmr = new OrthogonalTiledMapRenderer(map);
 
         //generacion de los cuerpos solidos del mapa
-        TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("colision").getObjects());
+        TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collisions").getObjects());
 
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
-                32,
+                160,
                 32,
                 32,
                 32,
