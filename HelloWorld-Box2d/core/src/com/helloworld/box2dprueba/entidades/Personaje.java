@@ -1,27 +1,17 @@
 package com.helloworld.box2dprueba.entidades;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
-
-import com.helloworld.box2dprueba.utils.ICollision;
-
-import com.helloworld.box2dprueba.animaciones.Animacion;
-import com.helloworld.box2dprueba.entities.B2DSteeringEntity;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
-import static com.helloworld.box2dprueba.utils.CositasLindas.*;
-
+import com.helloworld.box2dprueba.utils.ICollision;
+import com.helloworld.box2dprueba.animaciones.Animacion;
+import com.helloworld.box2dprueba.entities.AISteeringBehavior;
 
 public abstract class Personaje extends Entidad implements ICollision {
 
     private Animacion animacion;
     private float alpha;
-
-    private B2DSteeringEntity entity;
+    private AISteeringBehavior steeringBehavior;
 
 
     //constructor
@@ -29,7 +19,7 @@ public abstract class Personaje extends Entidad implements ICollision {
     {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
         this.animacion = new Animacion(texturePath, frameWidth, frameHeight, frames);
-        entity = new B2DSteeringEntity(this.getBody(), 1);
+        steeringBehavior = new AISteeringBehavior(this.getBody(), 1);
         alpha = 1f;
     }
 
@@ -82,4 +72,7 @@ public abstract class Personaje extends Entidad implements ICollision {
         super.dispose();
     }
 
+    public AISteeringBehavior getSteeringBehavior() {
+        return steeringBehavior;
+    }
 }

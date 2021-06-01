@@ -1,6 +1,5 @@
 package com.helloworld.box2dprueba.entidades;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
@@ -67,15 +66,11 @@ public abstract class Entidad {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width/2/PPM, height/2/PPM);
 
-        //////////////Colisiones "NO MODIFICAR"////////////// JAJAJA
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
         fixDef.density = 1f;
 
-        body.createFixture(fixDef);
-        body.setUserData(this);
-        //body.createFixture(fixDef).setUserData(this); /// CORRECCION DE CREACION DE FIXTURE SE ESTABAN HACIENDO 2 IGUALES
-        ////////////////////////////////////////////////////
+        body.createFixture(fixDef).setUserData(this);
 
         shape.dispose();
 
