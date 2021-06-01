@@ -21,7 +21,7 @@ public class Smeller extends Enemigo {
     private Music scream;
 
     public Smeller(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Skeleton.txt", 32, 32, 3, target);
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/zombie.txt", 32, 32, 3, target);
 
         this.target = target;
         this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3"));

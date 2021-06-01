@@ -38,7 +38,7 @@ public class PlayStateGame extends State {
 
     private Jugador jugador;
     private Skeleton skeleton;
-    private Banshee banshee;
+    //private Banshee banshee;
     private Smeller smeller1;
 
     //El siguiente código es de prueba, hay que borrarlo después
@@ -87,25 +87,12 @@ public class PlayStateGame extends State {
                 32,
                 false,
                 false,
-                "images/sprites2.txt",
+                "images/jugador.txt",
                 32,
                 32,
                 3);
 
-//<<<<<<< HEAD
-//        skeleton = new Enemigo(world,
-//                batch,
-//                120,
-//                400,
-//                15,
-//                15,
-//                false,
-//                false,
-//                "images/sprites.txt",
-//                32,
-//                32,
-//                3,
-//                jugador);
+
 
         //El siguiente código es de prueba, hay que borrarlo después
         /***************HUD****************/
@@ -117,8 +104,8 @@ public class PlayStateGame extends State {
 
         cofre = new Cofre(world,
                 batch,
-                100,
-                60,
+                128,
+                480,
                 30,
                 30,
                 true,
@@ -126,8 +113,8 @@ public class PlayStateGame extends State {
 
         cofre2 = new Cofre(world,
                 batch,
-                100,
-                150,
+                1952,
+                480,
                 30,
                 30,
                 true,
@@ -135,8 +122,8 @@ public class PlayStateGame extends State {
 
         cofre3 = new Cofre(world,
                 batch,
-                250,
-                150,
+                288,
+                704,
                 30,
                 30,
                 true,
@@ -144,8 +131,8 @@ public class PlayStateGame extends State {
 
         cofre4 = new Cofre(world,
                 batch,
-                250,
-                200,
+                1344,
+                288,
                 30,
                 30,
                 true,
@@ -156,23 +143,23 @@ public class PlayStateGame extends State {
         skeleton = new Skeleton(world,
                 batch,
                 jugador,
-                600,
-                120);
+                1248,
+                736);
 
-        banshee = new Banshee(world,
+        /*banshee = new Banshee(world,
                 batch,
                 jugador,
                 100,
-                420);
+                420);*/
 
         smeller1 = new Smeller(world,
                 batch,
                 jugador,
-                200,
-                120);
+                1024,
+                448);
 
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0.05f);
+        rayHandler.setAmbientLight(0f);
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
@@ -208,7 +195,7 @@ public class PlayStateGame extends State {
         cameraUpdate();
 
         skeleton.update(delta);
-        banshee.update(delta);
+        //banshee.update(delta);
         smeller1.update(delta);
         jugador.update(delta);
 
@@ -226,7 +213,7 @@ public class PlayStateGame extends State {
         /***************HUD****************/
 
         skeleton.update(Gdx.graphics.getDeltaTime());
-        banshee.update(Gdx.graphics.getDeltaTime());
+        //banshee.update(Gdx.graphics.getDeltaTime());
         smeller1.update(Gdx.graphics.getDeltaTime());
 
         rayHandler.update();
@@ -240,15 +227,18 @@ public class PlayStateGame extends State {
 
         tmr.render();
 
+        /*batch.begin();
+        batch.end();*/
+
         rayHandler.render();
 
-        batch.enableBlending();
+        //batch.enableBlending();
 
         batch.begin();
 
         skeleton.render();
         jugador.render();
-        banshee.render();
+        //banshee.render();
         smeller1.render();
 
         //El siguiente código es de prueba, hay que borrarlo después
@@ -261,8 +251,10 @@ public class PlayStateGame extends State {
 
         batch.end();
 
+        //batch.disableBlending();
 
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
+
 
         //El siguiente código es de prueba, hay que borrarlo después
         /***************HUD****************/
@@ -270,7 +262,7 @@ public class PlayStateGame extends State {
         hud.stage.draw();
         /***************HUD****************/
 
-        batch.disableBlending();
+
     }
 
     @Override
@@ -289,7 +281,7 @@ public class PlayStateGame extends State {
         coneLight.dispose();
         jugador.dispose();
         linterna.dispose();
-        banshee.dispose();
+        //banshee.dispose();
         skeleton.dispose();
         smeller1.dispose();
     }

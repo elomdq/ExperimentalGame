@@ -1,4 +1,4 @@
-sprites2.png
+jugador.png
 size: 96, 128
 format: RGBA8888
 filter: Linear,Linear
