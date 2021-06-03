@@ -1,9 +1,12 @@
 package com.helloworld.box2dprueba.entidades;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
+
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
@@ -11,10 +14,13 @@ public abstract class Enemigo extends Personaje {
 
     private float distanciaAlTarget;
     private Jugador target;
+    private double health;
+    private Music scream;
 
-    public Enemigo(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target) {
+    public Enemigo(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target, double health, Music scream) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         this.target = target;
+        this.scream = scream;
     }
 
     //setter & getters
@@ -133,4 +139,18 @@ public abstract class Enemigo extends Personaje {
         this.getSteeringBehavior().setMaxAngularAcceleration(maxAngularAcceleration/PPM);
     }
 
+    /** INICIO NUEVAS ADICIONES**/
+    protected void healthRegen(){
+        this.health+=0.031;
+        System.out.println(health);
+    }
+    protected void alterScreamVolume(){
+        this.scream.setVolume(0.5f/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
+    }
+
+    protected Music getScream() {
+        return scream;
+    }
+
+    /** FIN NUEVAS ADICIONES**/
 }

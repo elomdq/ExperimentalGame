@@ -20,13 +20,12 @@ public class Banshee extends Enemigo {
     private Wander<Vector2> wanderBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
-    private Music scream;
+
 
     public Banshee(World world, SpriteBatch batch, Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Skeleton.txt", 32, 32, 3, target);
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Banshee.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
 
         this.target = target;
-        this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3"));
 
         this.wanderBehavior = new Wander<Vector2>(this.getSteeringBehavior())
                 .setWanderOffset(2.5f / PPM)
@@ -54,11 +53,30 @@ public class Banshee extends Enemigo {
 
     public void update(float delta) {
 
+        changeBehavior();
+//        this.scream.setPan(-1f, 1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
+
+        alterScreamVolume();
+
+        this.getSteeringBehavior().update(delta);
+        super.update(delta);
+
+        /**
+         *
+         * validar colisionh con jugador
+         *
+         * agregar animaciones
+         */
+
+
+    }
+
+    private void changeBehavior(){
         if (this.targetisInRange(target)) {
             //en rango
 
-            if (!this.scream.isPlaying()) {
-                this.scream.play();
+            if (!getScream().isPlaying()) {
+                getScream().play();
             }
 
             this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
@@ -72,21 +90,6 @@ public class Banshee extends Enemigo {
             this.configSteeringBehavior(130,10000,50,10);
 
         }
-//        this.scream.setPan(-1f, 1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
-
-        this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
-
-        this.getSteeringBehavior().update(delta);
-        super.update(delta);
-
-        /**
-         *
-         * validar colisionh con jugador
-         *
-         * agregar animaciones
-         */
-
-
     }
 
 //    public void render(float delta) {

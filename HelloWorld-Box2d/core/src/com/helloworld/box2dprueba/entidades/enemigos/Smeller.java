@@ -18,13 +18,13 @@ public class Smeller extends Enemigo {
     private Pursue<Vector2> pursueBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
-    private Music scream;
+
+
 
     public Smeller(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Skeleton.txt", 32, 32, 3, target);
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Zombie.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3")));
 
         this.target = target;
-        this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3"));
 
         this.configSteeringBehavior(47, 4000, 1, 2.3f);
 
@@ -51,16 +51,30 @@ public class Smeller extends Enemigo {
 
     public void update(float delta) {
 
+        trigerZombieScream(20); // dispara el scream del Zombie
 
-        if (targetisInRange(target, 20)){
-            if (!this.scream.isPlaying() ){
-                this.scream.play();
-            }
-        } else {
-            this.scream.stop();
-        }
+        changeBehavior(3.67f);// Cambia el comportamiento del Zombie
 
-        if(this.targetisInRange(target, 3.67f)){
+        alterScreamVolume(); // cambia el volumen del scream del Zombie
+
+        healthRegen();
+
+        this.getSteeringBehavior().update(delta);
+        super.update(delta);
+
+        /**
+         *
+         * validar colisionh con jugador
+         *
+         * agregar animaciones
+         */
+    }
+
+
+
+    private void changeBehavior(float range){
+
+        if(this.targetisInRange(target, range)){
             //en rango
 
             this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
@@ -72,19 +86,16 @@ public class Smeller extends Enemigo {
 
             this.getSteeringBehavior().setBehavior(this.pursueBehavior);
         }
+    }
 
-
-        this.scream.setVolume(0.5f/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
-
-        this.getSteeringBehavior().update(delta);
-        super.update(delta);
-
-        /**
-         *
-         * validar colisionh con jugador
-         *
-         * agregar animaciones
-         */
+    private void trigerZombieScream(float range){
+        if (targetisInRange(target, range)){
+            if (!getScream().isPlaying()){
+                getScream().play();
+            }
+        } else {
+            getScream().stop();
+        }
     }
 
 //    public void render(float delta) {

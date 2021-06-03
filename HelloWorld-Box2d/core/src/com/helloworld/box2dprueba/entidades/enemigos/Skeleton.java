@@ -20,13 +20,11 @@ public class Skeleton extends Enemigo {
     private Wander<Vector2> wanderBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
-    private Music scream;
 
     public Skeleton(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 32, 32, false, false, "images/Skeleton.txt", 32, 32, 3, target);
+        super(world, batch, spawnX, spawnY, 32, 32, false, false, "images/Skeleton.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
 
         this.target=target;
-        this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3"));
 
         this.getSteeringBehavior().setMaxLinearSpeed(120/PPM);
 
@@ -56,23 +54,9 @@ public class Skeleton extends Enemigo {
 
     public void update(float delta){
 
-        if(this.targetisInRange(target)){
-            //en rango
+        changeBehavior();
 
-            if (!this.scream.isPlaying()){
-                this.scream.play();
-            }
-
-
-            this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
-        }else {
-            //fuera de rango
-
-
-            this.getSteeringBehavior().setBehavior(this.wanderBehavior);
-        }
-
-        this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
+        alterScreamVolume();
 
         this.getSteeringBehavior().update(delta);
         super.update(delta);
@@ -87,9 +71,23 @@ public class Skeleton extends Enemigo {
 
     }
 
-//    public void render(float delta){
-//
-//    }
+    private void changeBehavior(){
+        if(this.targetisInRange(target)){
+            //en rango
+
+            if (!getScream().isPlaying()){
+                getScream().play();
+            }
+
+
+            this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
+        }else {
+            //fuera de rango
+
+
+            this.getSteeringBehavior().setBehavior(this.wanderBehavior);
+        }
+    }
 
     public boolean targetisInRange(Jugador target){
         if (MathUtils.getDistance(target.getBody(), this.getBody()) < 4.25 ){
