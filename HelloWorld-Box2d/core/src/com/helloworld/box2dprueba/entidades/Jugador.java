@@ -228,7 +228,6 @@ public class Jugador extends Personaje {
             if(this.vidas > 0){
                 this.vidas--;
             }
-            System.out.println("Cantidad de vidas: "+this.vidas);
         }
     }
 
