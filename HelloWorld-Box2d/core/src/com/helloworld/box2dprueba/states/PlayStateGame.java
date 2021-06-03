@@ -173,7 +173,7 @@ public class PlayStateGame extends State {
                 120);
 
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0.05f);
+        rayHandler.setAmbientLight(0.0001f);
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
