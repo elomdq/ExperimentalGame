@@ -15,8 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
-import com.helloworld.box2dprueba.objetos.Linterna;
-import com.helloworld.box2dprueba.objetos.Cofre;
+import com.helloworld.box2dprueba.objetos.*;
 import com.helloworld.box2dprueba.scenes.Hud;
 import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.entities.AISteeringBehavior;
@@ -25,6 +24,10 @@ import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
 import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 
@@ -40,6 +43,11 @@ public class PlayStateGame extends State {
     private Skeleton skeleton;
     private Banshee banshee;
     private Smeller smeller1;
+
+    /*********Cofres e Items**********/
+    private List<ItemEquipable> items;
+    private List<Cofre> chests;
+    /*********Cofres e Items**********/
 
     //El siguiente código es de prueba, hay que borrarlo después
     /***************HUD****************/
@@ -319,5 +327,108 @@ public class PlayStateGame extends State {
     }
 
 
+    /*********Cofres e Items**********/
+    private List<ItemEquipable> createItems(){
+
+        List<ItemEquipable> list = new ArrayList<>(9);
+
+        list.add(new Llave(world,batch,0,0,10,10,true,false));
+        list.add(new Llave(world,batch,0,0,10,10,true,false));
+        list.add(new Llave(world,batch,0,0,10,10,true,false));
+        list.add(new Bateria(world,batch,0,0,10,10,true,false));
+        list.add(new Bateria(world,batch,0,0,10,10,true,false));
+        list.add(new Bateria(world,batch,0,0,10,10,true,false));
+        list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
+        list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
+        list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
+
+        return list;
+    }
+
+    private boolean isKey(){
+
+        boolean isKey = false;
+
+        for(ItemEquipable item : items){
+            if(item instanceof Llave){
+                isKey = true;
+                break;
+            }
+        }
+
+        return isKey;
+
+    }
+
+    private boolean isBattery(){
+
+        boolean isBattery = false;
+
+        for(ItemEquipable item : items){
+            if(item instanceof Bateria){
+                isBattery = true;
+                break;
+            }
+        }
+
+        return isBattery;
+
+    }
+
+    private boolean isLantern(){
+
+        boolean isLantern = false;
+
+        for(ItemEquipable item : items){
+            if(item instanceof Farol){
+                isLantern = true;
+                break;
+            }
+        }
+
+        return isLantern;
+
+    }
+
+    private List<Cofre> createChests(){
+
+        List<Cofre> list = new ArrayList<>(9);
+
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+
+        return list;
+    }
+
+    private void assignItems(){
+
+        for(Cofre chest : chests){
+
+            int randomNum = (int)Math.random()*10;
+
+            if(randomNum % 3 == 0){
+
+//                chest.setItem();
+
+            }else if(randomNum % 3 == 1){
+
+
+
+            }else{
+
+
+
+            }
+
+        }
+
+    }
 }
 
