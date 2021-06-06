@@ -328,81 +328,32 @@ public class PlayStateGame extends State {
 
 
     /*********Cofres e Items**********/
-    private List<ItemEquipable> createItems(){
+    private List<ItemEquipable> createItems(int keysAmount, int BatteriesAmount, int lanternsAmount){
 
-        List<ItemEquipable> list = new ArrayList<>(9);
+        List<ItemEquipable> list = new ArrayList<>();
 
-        list.add(new Llave(world,batch,0,0,10,10,true,false));
-        list.add(new Llave(world,batch,0,0,10,10,true,false));
-        list.add(new Llave(world,batch,0,0,10,10,true,false));
-        list.add(new Bateria(world,batch,0,0,10,10,true,false));
-        list.add(new Bateria(world,batch,0,0,10,10,true,false));
-        list.add(new Bateria(world,batch,0,0,10,10,true,false));
-        list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
-        list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
-        list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
+        for(int i = 0 ; i < keysAmount ; i++){
+            list.add(new Llave(world,batch,0,0,10,10,true,false));
+        }
+
+        for(int i = 0 ; i < BatteriesAmount ; i++){
+            list.add(new Bateria(world,batch,0,0,10,10,true,false));
+        }
+
+        for(int i = 0 ; i < lanternsAmount ; i++){
+            list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
+        }
 
         return list;
     }
 
-    private boolean isKey(){
+    private List<Cofre> createChests(int chestsAmount){
 
-        boolean isKey = false;
+        List<Cofre> list = new ArrayList<>();
 
-        for(ItemEquipable item : items){
-            if(item instanceof Llave){
-                isKey = true;
-                break;
-            }
+        for(int i = 0 ; i < chestsAmount ; i++){
+            list.add( new Cofre(world,batch,0,0,32,32,true,false));
         }
-
-        return isKey;
-
-    }
-
-    private boolean isBattery(){
-
-        boolean isBattery = false;
-
-        for(ItemEquipable item : items){
-            if(item instanceof Bateria){
-                isBattery = true;
-                break;
-            }
-        }
-
-        return isBattery;
-
-    }
-
-    private boolean isLantern(){
-
-        boolean isLantern = false;
-
-        for(ItemEquipable item : items){
-            if(item instanceof Farol){
-                isLantern = true;
-                break;
-            }
-        }
-
-        return isLantern;
-
-    }
-
-    private List<Cofre> createChests(){
-
-        List<Cofre> list = new ArrayList<>(9);
-
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        list.add( new Cofre(world,batch,0,0,32,32,true,false));
 
         return list;
     }
@@ -411,21 +362,7 @@ public class PlayStateGame extends State {
 
         for(Cofre chest : chests){
 
-            int randomNum = (int)Math.random()*10;
-
-            if(randomNum % 3 == 0){
-
-//                chest.setItem();
-
-            }else if(randomNum % 3 == 1){
-
-
-
-            }else{
-
-
-
-            }
+            chest.setItem( items.remove((int)Math.random() * items.size()) );
 
         }
 
