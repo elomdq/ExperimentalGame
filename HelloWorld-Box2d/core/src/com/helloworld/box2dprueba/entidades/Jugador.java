@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_VIDAS;
-import static com.helloworld.box2dprueba.utils.Constants.LLAVES_NECESARIAS;
+import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_LLAVES;
 
 
 
@@ -220,7 +220,7 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con una puerta
         if(fixture.getUserData() instanceof Puerta){
-            if(this.getCantidadDeLlaves() == LLAVES_NECESARIAS){
+            if(this.getCantidadDeLlaves() == CANTIDAD_LLAVES){
                 useKeys();
             }
         }

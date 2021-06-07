@@ -3,7 +3,6 @@ package com.helloworld.box2dprueba.states;
 import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,19 +12,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
-import com.helloworld.box2dprueba.objetos.Linterna;
-import com.helloworld.box2dprueba.objetos.Cofre;
+import com.helloworld.box2dprueba.objetos.*;
 import com.helloworld.box2dprueba.scenes.Hud;
 import com.helloworld.box2dprueba.utils.MyContactListener;
-import com.helloworld.box2dprueba.entities.AISteeringBehavior;
 import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
 import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
 import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
-import static com.helloworld.box2dprueba.utils.Constants.PPM;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.helloworld.box2dprueba.utils.Constants.*;
 
 
 public class PlayStateGame extends State {
@@ -41,19 +40,10 @@ public class PlayStateGame extends State {
     private Banshee banshee;
     private Smeller smeller1;
 
-    //El siguiente código es de prueba, hay que borrarlo después
-    /***************HUD****************/
-    Hud hud;
-    /***************HUD****************/
+    private Hud hud;
 
-    /*******Cofres*******/
-    private Cofre cofre;
-    private Cofre cofre2;
-    private Cofre cofre3;
-    private Cofre cofre4;
+    private List<Cofre> chests;
     private Texture cofreTexture;
-    /*******Cofres*******/
-
 
     private RayHandler rayHandler;
     //private PointLight light;
@@ -78,6 +68,7 @@ public class PlayStateGame extends State {
         //generacion de los cuerpos solidos del mapa
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collisions").getObjects());
 
+
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
@@ -91,54 +82,6 @@ public class PlayStateGame extends State {
                 32,
                 32,
                 3);
-
-
-
-        //El siguiente código es de prueba, hay que borrarlo después
-        /***************HUD****************/
-        hud = new Hud(batch);
-        /***************HUD****************/
-
-        /*******Cofres*******/
-        cofreTexture = new Texture("images/cofre.png");
-
-        cofre = new Cofre(world,
-                batch,
-                128,
-                480,
-                30,
-                30,
-                true,
-                false);
-
-        cofre2 = new Cofre(world,
-                batch,
-                1952,
-                480,
-                30,
-                30,
-                true,
-                false);
-
-        cofre3 = new Cofre(world,
-                batch,
-                288,
-                704,
-                30,
-                30,
-                true,
-                false);
-
-        cofre4 = new Cofre(world,
-                batch,
-                1344,
-                288,
-                30,
-                30,
-                true,
-                false);
-        /*******Cofres*******/
-
 
         skeleton = new Skeleton(world,
                 batch,
@@ -158,16 +101,18 @@ public class PlayStateGame extends State {
                 1024,
                 448);
 
-        rayHandler = new RayHandler(world);
-
-        rayHandler.setAmbientLight(0.8f);
 
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
         //light.attachToBody(player);
 
-        //seteo luz linterna
+
+        //seteo luz
+        rayHandler = new RayHandler(world);
+
+        rayHandler.setAmbientLight(0.8f);
+
         linterna = new Linterna (world,
                 batch,
                 jugador.getBody().getPosition().x,
@@ -178,7 +123,9 @@ public class PlayStateGame extends State {
                 false,
                 rayHandler,
                 distance);
+
         linterna.getLinterna().setConeDegree(25);
+
         linterna.equipar(jugador);
 
         jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
@@ -187,6 +134,12 @@ public class PlayStateGame extends State {
         //b2dr.setDrawVelocities(true);
         //b2dr.setDrawAABBs(true);
         //b2dr.setDrawContacts(true);
+
+        hud = new Hud(batch);
+
+        //seteo de cofres e items equipables
+        cofreTexture = new Texture("images/cofre.png");
+        chests = assignItems(createItems(),createChests());
     }
 
 
@@ -196,9 +149,6 @@ public class PlayStateGame extends State {
 
         cameraUpdate();
 
-        skeleton.update(delta);
-        banshee.update(delta);
-        smeller1.update(delta);
         jugador.update(delta);
 
         rotatePlayerToMouse(camera);
@@ -209,14 +159,11 @@ public class PlayStateGame extends State {
          /*distance *= 0.999f;
          light.setDistance(distance);*/
 
-        //El siguiente código es de prueba, hay que borrarlo después
-        /***************HUD****************/
         hud.update(jugador);
-        /***************HUD****************/
 
-        /*skeleton.update(Gdx.graphics.getDeltaTime());
+        skeleton.update(Gdx.graphics.getDeltaTime());
         banshee.update(Gdx.graphics.getDeltaTime());
-        smeller1.update(Gdx.graphics.getDeltaTime());*/
+        smeller1.update(Gdx.graphics.getDeltaTime());
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -229,27 +176,20 @@ public class PlayStateGame extends State {
 
         tmr.render();
 
-        /*batch.begin();
-        batch.end();*/
-
         rayHandler.render();
 
         //batch.enableBlending();
 
         batch.begin();
 
+        for(Cofre cofre : chests){
+            batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
+        }
+
         skeleton.render();
         jugador.render();
         banshee.render();
         smeller1.render();
-
-        //El siguiente código es de prueba, hay que borrarlo después
-        /*******Cofre*******/
-        batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre2.getBody().getPosition().x * PPM - (30/2), cofre2.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre3.getBody().getPosition().x * PPM - (30/2), cofre3.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre4.getBody().getPosition().x * PPM - (30/2), cofre4.getBody().getPosition().y * PPM - (30/2));
-        /*******Cofre*******/
 
         batch.end();
 
@@ -258,12 +198,8 @@ public class PlayStateGame extends State {
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
 
 
-        //El siguiente código es de prueba, hay que borrarlo después
-        /***************HUD****************/
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        /***************HUD****************/
-
 
     }
 
@@ -283,9 +219,10 @@ public class PlayStateGame extends State {
         coneLight.dispose();
         jugador.dispose();
         linterna.dispose();
-        //banshee.dispose();
+        banshee.dispose();
         skeleton.dispose();
         smeller1.dispose();
+        cofreTexture.dispose();
     }
 
     public void cameraUpdate() {
@@ -312,5 +249,68 @@ public class PlayStateGame extends State {
     }
 
 
+    /*********Cofres e Items**********/
+    private List<ItemEquipable> createItems(){
+
+        List<ItemEquipable> list = new ArrayList<>();
+
+        for(int i = 0 ; i < CANTIDAD_LLAVES ; i++){
+            list.add(new Llave(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
+        }
+
+        for(int i = 0 ; i < CANTIDAD_BATERIAS+2 ; i++){//por ahora agrego 2 baterias mas que serán vendas en un futuro
+            list.add(new Bateria(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
+        }
+
+        for(int i = 0 ; i < CANTIDAD_FAROLES ; i++){
+            list.add(new Farol(world,batch,DEFAULT_POS,DEFAULT_POS,1,1,true,false,rayHandler,0));
+        }
+
+        return list;
+    }
+
+    private List<Cofre> createChests(){
+
+        List<Cofre> list = new ArrayList<>();
+
+        list.add( new Cofre(world,batch,POS_CHEST_1.x,POS_CHEST_1.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_2.x ,POS_CHEST_2.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_3.x,POS_CHEST_3.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_4.x,POS_CHEST_4.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_5.x,POS_CHEST_5.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_6.x,POS_CHEST_6.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_7.x,POS_CHEST_7.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_8.x,POS_CHEST_8.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_9.x,POS_CHEST_9.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_10.x,POS_CHEST_10.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_11.x,POS_CHEST_11.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_12.x,POS_CHEST_12.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_13.x,POS_CHEST_13.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_14.x,POS_CHEST_14.y,30,30,true,false));
+
+        return list;
+    }
+
+    private List<Cofre> assignItems(List<ItemEquipable> items , List<Cofre> chests){
+
+        int nullItem = 4;
+
+        for(Cofre chest : chests){
+
+            if(nullItem != 0){
+                if(((int)(Math.random()*101) % 4) == 0){
+                    nullItem--;
+                }else{
+                    chest.setItem( items.remove((int)(Math.random() * items.size())) );
+                }
+            }else{
+                chest.setItem( items.remove((int)(Math.random() * items.size())) );
+            }
+            System.out.println(items.size() +" - "+ nullItem);
+
+        }
+
+        return chests;
+    }
 }
 
