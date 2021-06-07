@@ -19,6 +19,7 @@ public class Linterna extends Iluminacion {
         super(world, batch, x, y, width, height, isStatic, fixRotation, distancia);
         linterna = new ConeLight(rayHandler, 100, Color.WHITE, distancia, x , y, 0, 25);
         linterna.setSoftnessLength(0f);
+
     }
 
     //Getter & Setter
@@ -47,6 +48,7 @@ public class Linterna extends Iluminacion {
     {
         linterna.attachToBody(target.getBody());
     }
+
 
     @Override
     public void desequipar()

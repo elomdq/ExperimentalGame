@@ -38,7 +38,7 @@ public class PlayStateGame extends State {
 
     private Jugador jugador;
     private Skeleton skeleton;
-    //private Banshee banshee;
+    private Banshee banshee;
     private Smeller smeller1;
 
     //El siguiente código es de prueba, hay que borrarlo después
@@ -146,11 +146,11 @@ public class PlayStateGame extends State {
                 1248,
                 736);
 
-        /*banshee = new Banshee(world,
+        banshee = new Banshee(world,
                 batch,
                 jugador,
-                100,
-                420);*/
+                416,
+                1200);
 
         smeller1 = new Smeller(world,
                 batch,
@@ -159,7 +159,7 @@ public class PlayStateGame extends State {
                 448);
 
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0f);
+        rayHandler.setAmbientLight(0.8f);
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
@@ -195,7 +195,7 @@ public class PlayStateGame extends State {
         cameraUpdate();
 
         skeleton.update(delta);
-        //banshee.update(delta);
+        banshee.update(delta);
         smeller1.update(delta);
         jugador.update(delta);
 
@@ -212,9 +212,9 @@ public class PlayStateGame extends State {
         hud.update(jugador);
         /***************HUD****************/
 
-        skeleton.update(Gdx.graphics.getDeltaTime());
-        //banshee.update(Gdx.graphics.getDeltaTime());
-        smeller1.update(Gdx.graphics.getDeltaTime());
+        /*skeleton.update(Gdx.graphics.getDeltaTime());
+        banshee.update(Gdx.graphics.getDeltaTime());
+        smeller1.update(Gdx.graphics.getDeltaTime());*/
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -238,7 +238,7 @@ public class PlayStateGame extends State {
 
         skeleton.render();
         jugador.render();
-        //banshee.render();
+        banshee.render();
         smeller1.render();
 
         //El siguiente código es de prueba, hay que borrarlo después
