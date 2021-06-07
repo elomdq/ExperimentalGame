@@ -76,11 +76,39 @@ public class Jugador extends Personaje {
         super.dispose();
     }
 
+    /*******Prueba con pointLight**********/
+
+    private int getFarolFromInventario(){
+
+        int index = -1;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Farol){
+                index = inventario.indexOf(item);
+                break;
+            }
+        }
+
+        return index;
+    }
+
+    /*******Prueba con pointLight**********/
+
     public void inputUpdate(float delta)
     {
 
         int horizontalForce = 0;
         int verticalForce = 0;
+
+        /*******Prueba con pointLight**********/
+
+        if(Gdx.input.isKeyPressed(Input.Keys.F)){
+            if(this.getCantidadDeFaroles()>0){
+                ((Farol)inventario.remove(getFarolFromInventario())).desequipar(this);
+            }
+        }
+
+        /*******Prueba con pointLight**********/
 
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             horizontalForce -= 1;
@@ -220,7 +248,9 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un farol
         if(fixture.getUserData() instanceof Farol){
-            inventario.add((Farol)fixture.getUserData());
+            if(!((Farol)fixture.getUserData()).isEstaEquipado()){
+                inventario.add((Farol)fixture.getUserData());
+            }
         }
 
         //Comportamiento que tendrá con un enemigo

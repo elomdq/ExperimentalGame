@@ -35,7 +35,7 @@ public abstract class Iluminacion extends ItemEquipable {
     }
 
     public abstract void equipar(Personaje target);
-    public abstract void desequipar();
+    public abstract void desequipar(Personaje target);
     public abstract float getDirection();
     public abstract float getConeDegree();
 

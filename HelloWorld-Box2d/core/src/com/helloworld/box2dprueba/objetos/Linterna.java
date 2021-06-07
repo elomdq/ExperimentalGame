@@ -44,7 +44,7 @@ public class Linterna extends Iluminacion {
     }
 
     @Override
-    public void desequipar()
+    public void desequipar(Personaje target)
     {
 
     }

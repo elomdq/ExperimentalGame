@@ -2,6 +2,7 @@ package com.helloworld.box2dprueba.entidades;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
+import com.helloworld.box2dprueba.objetos.Farol;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
@@ -68,6 +69,8 @@ public abstract class Entidad {
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
         fixDef.density = 1.0f;
+        if(this instanceof Farol)
+            fixDef.isSensor = true;
 
         pBody.createFixture(fixDef).setUserData(this);
 

@@ -56,8 +56,8 @@ public class MyContactListener implements ContactListener {
             //Colisión con un farol
             if(isLantern(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Farol)fixtureB.getUserData()).collision(fixtureA);
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    ((Farol)fixtureB.getUserData()).collision(fixtureA);
                 }else {
                     ((Jugador) fixtureB.getUserData()).collision(fixtureA);
                     ((Farol) fixtureA.getUserData()).collision(fixtureB);

@@ -1,6 +1,7 @@
 package com.helloworld.box2dprueba.states;
 
 import box2dLight.ConeLight;
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.helloworld.box2dprueba.entidades.Enemigo;
 import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.objetos.Farol;
 import com.helloworld.box2dprueba.objetos.Linterna;
 import com.helloworld.box2dprueba.objetos.Cofre;
 import com.helloworld.box2dprueba.scenes.Hud;
@@ -37,9 +39,9 @@ public class PlayStateGame extends State {
     private World world;
 
     private Jugador jugador;
-    private Skeleton skeleton;
-    private Banshee banshee;
-    private Smeller smeller1;
+//    private Skeleton skeleton;
+//    private Banshee banshee;
+//    private Smeller smeller1;
 
     //El siguiente código es de prueba, hay que borrarlo después
     /***************HUD****************/
@@ -47,20 +49,22 @@ public class PlayStateGame extends State {
     /***************HUD****************/
 
     /*******Cofres*******/
-    private Cofre cofre;
-    private Cofre cofre2;
-    private Cofre cofre3;
+//    private Cofre cofre;
+//    private Cofre cofre2;
+//    private Cofre cofre3;
     private Cofre cofre4;
     private Texture cofreTexture;
     /*******Cofres*******/
 
 
     private RayHandler rayHandler;
-    //private PointLight light;
     private float distance = 220/PPM;
 
     private ConeLight coneLight;
     private Linterna linterna;
+
+    private PointLight light;
+    private Farol farol;
 
     private float alpha =1;
 
@@ -115,32 +119,32 @@ public class PlayStateGame extends State {
         /*******Cofres*******/
         cofreTexture = new Texture("images/cofre.png");
 
-        cofre = new Cofre(world,
-                batch,
-                100,
-                60,
-                30,
-                30,
-                true,
-                false);
-
-        cofre2 = new Cofre(world,
-                batch,
-                100,
-                150,
-                30,
-                30,
-                true,
-                false);
-
-        cofre3 = new Cofre(world,
-                batch,
-                250,
-                150,
-                30,
-                30,
-                true,
-                false);
+//        cofre = new Cofre(world,
+//                batch,
+//                100,
+//                60,
+//                30,
+//                30,
+//                true,
+//                false);
+//
+//        cofre2 = new Cofre(world,
+//                batch,
+//                100,
+//                150,
+//                30,
+//                30,
+//                true,
+//                false);
+//
+//        cofre3 = new Cofre(world,
+//                batch,
+//                250,
+//                150,
+//                30,
+//                30,
+//                true,
+//                false);
 
         cofre4 = new Cofre(world,
                 batch,
@@ -154,23 +158,23 @@ public class PlayStateGame extends State {
 
 
         //Seteo Luz Ambiental
-        skeleton = new Skeleton(world,
-                batch,
-                jugador,
-                600,
-                120);
-
-        banshee = new Banshee(world,
-                batch,
-                jugador,
-                100,
-                420);
-
-        smeller1 = new Smeller(world,
-                batch,
-                jugador,
-                200,
-                120);
+//        skeleton = new Skeleton(world,
+//                batch,
+//                jugador,
+//                600,
+//                120);
+//
+//        banshee = new Banshee(world,
+//                batch,
+//                jugador,
+//                100,
+//                420);
+//
+//        smeller1 = new Smeller(world,
+//                batch,
+//                jugador,
+//                200,
+//                120);
 
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0.0001f);
@@ -195,6 +199,21 @@ public class PlayStateGame extends State {
 
         jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
 
+        /*******Prueba con pointLight**********/
+        farol = new Farol(world,
+                batch,
+                0,
+                0,
+                1,
+                1,
+                true,
+                false,
+                rayHandler,
+                0);
+        farol.equipar(null);
+        cofre4.setItem(farol);
+        /*******Prueba con pointLight**********/
+
         b2dr.setDrawBodies(false);
         //b2dr.setDrawVelocities(true);
         //b2dr.setDrawAABBs(true);
@@ -208,9 +227,9 @@ public class PlayStateGame extends State {
 
         cameraUpdate();
 
-        skeleton.update(delta);
-        banshee.update(delta);
-        smeller1.update(delta);
+//        skeleton.update(delta);
+//        banshee.update(delta);
+//        smeller1.update(delta);
         jugador.update(delta);
 
         rotatePlayerToMouse(camera);
@@ -226,9 +245,9 @@ public class PlayStateGame extends State {
         hud.update(jugador);
         /***************HUD****************/
 
-        skeleton.update(Gdx.graphics.getDeltaTime());
-        banshee.update(Gdx.graphics.getDeltaTime());
-        smeller1.update(Gdx.graphics.getDeltaTime());
+//        skeleton.update(Gdx.graphics.getDeltaTime());
+//        banshee.update(Gdx.graphics.getDeltaTime());
+//        smeller1.update(Gdx.graphics.getDeltaTime());
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -247,16 +266,16 @@ public class PlayStateGame extends State {
 
         batch.begin();
 
-        skeleton.render();
+//        skeleton.render();
         jugador.render();
-        banshee.render();
-        smeller1.render();
+//        banshee.render();
+//        smeller1.render();
 
         //El siguiente código es de prueba, hay que borrarlo después
         /*******Cofre*******/
-        batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre2.getBody().getPosition().x * PPM - (30/2), cofre2.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre3.getBody().getPosition().x * PPM - (30/2), cofre3.getBody().getPosition().y * PPM - (30/2));
+//        batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
+//        batch.draw(cofreTexture,cofre2.getBody().getPosition().x * PPM - (30/2), cofre2.getBody().getPosition().y * PPM - (30/2));
+//        batch.draw(cofreTexture,cofre3.getBody().getPosition().x * PPM - (30/2), cofre3.getBody().getPosition().y * PPM - (30/2));
         batch.draw(cofreTexture,cofre4.getBody().getPosition().x * PPM - (30/2), cofre4.getBody().getPosition().y * PPM - (30/2));
         /*******Cofre*******/
 
@@ -290,9 +309,9 @@ public class PlayStateGame extends State {
         coneLight.dispose();
         jugador.dispose();
         linterna.dispose();
-        banshee.dispose();
-        skeleton.dispose();
-        smeller1.dispose();
+//        banshee.dispose();
+//        skeleton.dispose();
+//        smeller1.dispose();
     }
 
     public void cameraUpdate() {
