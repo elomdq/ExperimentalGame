@@ -30,7 +30,10 @@ import java.util.List;
 import static com.helloworld.box2dprueba.utils.Constants.*;
 
 
+
 public class PlayStateGame extends State {
+
+
 
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap map;
@@ -59,6 +62,8 @@ public class PlayStateGame extends State {
     //Constructor
     public PlayStateGame(GameStateManager gsm) {
         super(gsm);
+
+        //Gdx.input.setInputProcessor(gsm.getApplication().getInputProcessor());
 
         world = new World(new Vector2(0, 0), false);
         world.setContactListener(new MyContactListener());

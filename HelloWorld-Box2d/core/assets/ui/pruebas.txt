@@ -1,0 +1,19 @@
+pruebas.png
+size: 748, 67
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+button-down
+  rotate: false
+  xy: 0, 0
+  size: 374, 67
+  orig: 374, 67
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 374, 0
+  size: 374, 67
+  orig: 374, 67
+  offset: 0, 0
+  index: -1

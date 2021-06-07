@@ -51,8 +51,7 @@ public class GameStateManager {
         switch(state)
         {
             case SPLASH: return new SplashState(this);
-            case MENU:
-                break;
+            case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
             default:
                 break;

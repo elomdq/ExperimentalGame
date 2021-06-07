@@ -2,6 +2,8 @@ package com.helloworld.box2dprueba;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -16,7 +18,9 @@ public class JuegoApp extends ApplicationAdapter {
 	public static final int V_WIDTH = 800;
 	public static final int H_HEIGHT = 600;
 
-	private final float SCALE = 1f;
+	private final float SCALE = 1.5f;
+
+	private InputProcessor inputProcessor;
 
 	private GameStateManager gsm;
 	private OrthographicCamera camera;
@@ -33,6 +37,8 @@ public class JuegoApp extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 
 		//viewport = new ExtendViewport(800, 400, camera);
+
+		inputProcessor = Gdx.input.getInputProcessor();
 
 		camera.setToOrtho(false, V_WIDTH/SCALE, H_HEIGHT/SCALE);
 
@@ -67,5 +73,9 @@ public class JuegoApp extends ApplicationAdapter {
 	{
 		return batch;
 	}
+
+	public GameStateManager getGameStateManager(){return gsm;}
+
+	public InputProcessor getInputProcessor(){return inputProcessor;}
 
 }
