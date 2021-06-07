@@ -20,13 +20,12 @@ public class Banshee extends Enemigo {
     private Wander<Vector2> wanderBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
-    private Music scream;
+
 
     public Banshee(World world, SpriteBatch batch, Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/banshee.txt", 32, 32, 3, target);
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Banshee.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
 
         this.target = target;
-        this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3"));
 
         this.wanderBehavior = new Wander<Vector2>(this.getSteeringBehavior())
                 .setWanderOffset(2.5f / PPM)
@@ -54,27 +53,10 @@ public class Banshee extends Enemigo {
 
     public void update(float delta) {
 
-        if (this.targetisInRange(target)) {
-            //en rango
-
-            if (!this.scream.isPlaying()) {
-                this.scream.play();
-            }
-
-            this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
-            this.configSteeringBehavior(1000, 4000, 22, 8.75f);
-
-        } else {
-            //fuera de rango
-
-
-            this.getSteeringBehavior().setBehavior(this.wanderBehavior);
-            this.configSteeringBehavior(130,10000,50,10);
-
-        }
+        changeBehavior();
 //        this.scream.setPan(-1f, 1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
 
-        this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
+        alterScreamVolume();
 
         this.getSteeringBehavior().update(delta);
         super.update(delta);
@@ -86,6 +68,37 @@ public class Banshee extends Enemigo {
          * agregar animaciones
          */
 
+
+    }
+
+    private void changeBehavior(){
+
+        if(getHealth()>=100){
+            if (this.targetisInRange(target)) {
+                //en rango
+
+                if (!getScream().isPlaying()) {
+                    getScream().play();
+                }
+
+                this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
+                this.configSteeringBehavior(1000, 4000, 12, 6.75f);
+
+            } else {
+                //fuera de rango
+
+
+                this.getSteeringBehavior().setBehavior(this.wanderBehavior);
+                this.configSteeringBehavior(130,10000,50,10);
+
+            }
+        } else {
+
+            healthRegen(0.1f);
+
+            this.getSteeringBehavior().setBehavior(getEvadeBehavior());
+            this.configSteeringBehavior(130, 4000, 12, 6.75f);
+        }
 
     }
 

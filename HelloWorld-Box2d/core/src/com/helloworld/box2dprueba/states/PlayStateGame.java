@@ -103,6 +103,7 @@ public class PlayStateGame extends State {
                 448);
 
 
+
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
         //light.setSoftnessLength(0f);
         //light.attachToBody(player);
@@ -264,7 +265,11 @@ public class PlayStateGame extends State {
             list.add(new Llave(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
         }
 
-        for(int i = 0 ; i < CANTIDAD_BATERIAS+2 ; i++){//por ahora agrego 2 baterias mas que serán vendas en un futuro
+        for(int i = 0 ; i < CANTIDAD_VENDAS ; i++){
+            list.add(new Bandage(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
+        }
+
+        for(int i = 0 ; i < CANTIDAD_BATERIAS ; i++){
             list.add(new Bateria(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
         }
 

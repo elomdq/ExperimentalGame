@@ -16,7 +16,7 @@ public class JuegoApp extends ApplicationAdapter {
 	public static final int V_WIDTH = 800;
 	public static final int H_HEIGHT = 600;
 
-	private final float SCALE = 1.5f;
+	private final float SCALE = 1f;
 
 	private GameStateManager gsm;
 	private OrthographicCamera camera;

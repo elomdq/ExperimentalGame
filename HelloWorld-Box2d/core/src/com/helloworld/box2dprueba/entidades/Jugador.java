@@ -28,6 +28,7 @@ public class Jugador extends Personaje {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventario = new ArrayList<>();
         this.vidas = CANTIDAD_VIDAS;
+
     }
 
 
@@ -161,6 +162,9 @@ public class Jugador extends Personaje {
         return cantidadDeBaterias;
     }
 
+
+
+
     /**
      * Método que retorna la cantidad de faroles
      * que hay en el inventario del jugador
@@ -177,6 +181,24 @@ public class Jugador extends Personaje {
         }
 
         return cantidadDeFaroles;
+    }
+
+    /**
+     * Método que retorna la cantidad de vendas
+     * que hay en el inventario del jugador
+     *
+     * @return
+     */
+    public int getCantidadDeBandages(){
+
+        int cantidadDeBandages = 0;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Bandage)
+                cantidadDeBandages++;
+        }
+
+        return cantidadDeBandages;
     }
 
     /**
@@ -259,6 +281,19 @@ public class Jugador extends Personaje {
         if(fixture.getUserData() instanceof Enemigo){
             if(this.vidas > 0){
                 this.vidas--;
+            }
+        }
+    }
+
+
+
+    public void useVenda(){
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Bandage) {
+                this.inventario.remove(item);
+                this.setVidas(getVidas()+1);
+                break;
             }
         }
     }
