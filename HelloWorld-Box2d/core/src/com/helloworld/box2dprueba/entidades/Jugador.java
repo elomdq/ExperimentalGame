@@ -22,11 +22,13 @@ public class Jugador extends Personaje {
     private boolean live;
     private Iluminacion luminaria;
     private List<ItemEquipable> inventario;
+    private Integer lives;
 
     public Jugador(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventario = new ArrayList<>();
         this.live = true;
+        this.lives = 3;
     }
 
 
@@ -150,6 +152,9 @@ public class Jugador extends Personaje {
         return cantidadDeBaterias;
     }
 
+
+
+
     /**
      * Método que retorna la cantidad de faroles
      * que hay en el inventario del jugador
@@ -224,9 +229,49 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un enemigo
         if(fixture.getUserData() instanceof Enemigo){
-            this.live = false;
+            //this.live = false;
         }
     }
+
+    /** INICIO NUEVAS ADICIONES**/
+    public Integer getLives() {
+        return lives;
+    }
+
+    public void setLives(Integer lives) {
+        this.lives = lives;
+    }
+
+    /**
+     * Método que retorna la cantidad de Vendas
+     * que hay en el inventario del jugador
+     *
+     * @return
+     */
+    public int getCantidadDeVendas(){
+
+        int cantidadDeVendas = 0;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Vendas)
+                cantidadDeVendas++;
+        }
+
+        return cantidadDeVendas;
+    }
+
+    public void useVenda(){
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Vendas)
+                this.inventario.remove(item);
+        }
+
+        this.setLives(getLives()+1);
+
+    }
+
+    /** FIN NUEVAS ADICIONES **/
 
 
 }

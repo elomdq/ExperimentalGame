@@ -72,24 +72,33 @@ public class Banshee extends Enemigo {
     }
 
     private void changeBehavior(){
-        if (this.targetisInRange(target)) {
-            //en rango
 
-            if (!getScream().isPlaying()) {
-                getScream().play();
+        if(getHealth()>=100){
+            if (this.targetisInRange(target)) {
+                //en rango
+
+                if (!getScream().isPlaying()) {
+                    getScream().play();
+                }
+
+                this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
+                this.configSteeringBehavior(1000, 4000, 12, 6.75f);
+
+            } else {
+                //fuera de rango
+
+
+                this.getSteeringBehavior().setBehavior(this.wanderBehavior);
+                this.configSteeringBehavior(130,10000,50,10);
+
             }
-
-            this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
-            this.configSteeringBehavior(1000, 4000, 22, 8.75f);
-
         } else {
-            //fuera de rango
 
-
-            this.getSteeringBehavior().setBehavior(this.wanderBehavior);
-            this.configSteeringBehavior(130,10000,50,10);
+            healthRegen(0.06f);
+            this.getSteeringBehavior().setBehavior(getEvadeBehavior());
 
         }
+
     }
 
 //    public void render(float delta) {

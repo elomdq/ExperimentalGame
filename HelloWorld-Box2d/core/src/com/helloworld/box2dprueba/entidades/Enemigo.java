@@ -1,26 +1,33 @@
 package com.helloworld.box2dprueba.entidades;
 
+import com.badlogic.gdx.ai.steer.behaviors.Evade;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
+import com.helloworld.box2dprueba.utils.ICollision;
 
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public abstract class Enemigo extends Personaje {
+public abstract class Enemigo extends Personaje implements ICollision { /** AGREGADA IMPLEMENTACION DE COLISIONES **/
 
     private float distanciaAlTarget;
     private Jugador target;
     private double health;
     private Music scream;
+    /** INICIO NUEVAS ADICIONES**/
+    private Evade<Vector2> evadeBehavior;
+    /** FIN NUEVAS ADICIONES**/
 
     public Enemigo(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target, double health, Music scream) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         this.target = target;
         this.scream = scream;
+        this.evadeBehavior = new Evade<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior(), 8)
+                .setEnabled(true);
     }
 
     //setter & getters
@@ -126,11 +133,7 @@ public abstract class Enemigo extends Personaje {
             super.setAlpha(0);
     }
 
-    @Override
-    public void collision(Fixture fixture) {
-        //Falta definir qué comportamiento tendra el enemigo cuando colisiona con el jugador.
-        //Deberia llamar un metodo que muestre un screamer y finalice el nivel.
-    }
+
 
     public void configSteeringBehavior(float maxLinearSpeed, float maxLinearAcceleration, float maxAngularSpeed, float maxAngularAcceleration){
         this.getSteeringBehavior().setMaxLinearSpeed(maxLinearSpeed/PPM);
@@ -139,11 +142,29 @@ public abstract class Enemigo extends Personaje {
         this.getSteeringBehavior().setMaxAngularAcceleration(maxAngularAcceleration/PPM);
     }
 
+
+
     /** INICIO NUEVAS ADICIONES**/
-    protected void healthRegen(){
-        this.health+=0.031;
-        System.out.println(health);
+
+    //private abstract void changeBehavior(); todo: preguntar si poner como abstacto
+
+    public double getHealth() {
+        return health;
     }
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    public Evade<Vector2> getEvadeBehavior() {
+        return evadeBehavior;
+    }
+
+    protected void healthRegen(float hpf){
+        this.health+=hpf;
+
+    }
+
     protected void alterScreamVolume(){
         this.scream.setVolume(0.5f/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
     }
@@ -152,5 +173,13 @@ public abstract class Enemigo extends Personaje {
         return scream;
     }
 
-    /** FIN NUEVAS ADICIONES**/
+    @Override
+    public void collision(Fixture fixture) {
+
+        //todo preguntar por responsabilidad de daño a jugador :)
+        this.health=0;
+
+    }
+
+    /** FIN NUEVAS ADICIONES **/
 }

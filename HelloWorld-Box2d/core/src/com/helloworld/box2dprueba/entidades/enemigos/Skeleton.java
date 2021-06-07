@@ -42,8 +42,7 @@ public class Skeleton extends Enemigo {
                 .setDecelerationRadius(1)
                 .setTimeToTarget(0.001f);
 
-        this.evadeBehavior = new Evade<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior(), 8)
-                .setEnabled(true);
+
 
         getSteeringBehavior().setBehavior(getWanderBehavior());
     }
@@ -72,21 +71,29 @@ public class Skeleton extends Enemigo {
     }
 
     private void changeBehavior(){
-        if(this.targetisInRange(target)){
-            //en rango
+        if(getHealth()>=100){
+            if(this.targetisInRange(target)){
+                //en rango
 
-            if (!getScream().isPlaying()){
-                getScream().play();
+                if (!getScream().isPlaying()){
+                    getScream().play();
+                }
+
+
+                this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
+            }else {
+                //fuera de rango
+
+
+                this.getSteeringBehavior().setBehavior(this.wanderBehavior);
             }
+        } else {
 
+            healthRegen(0.1f);
+            this.getSteeringBehavior().setBehavior(getEvadeBehavior());
 
-            this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
-        }else {
-            //fuera de rango
-
-
-            this.getSteeringBehavior().setBehavior(this.wanderBehavior);
         }
+
     }
 
     public boolean targetisInRange(Jugador target){

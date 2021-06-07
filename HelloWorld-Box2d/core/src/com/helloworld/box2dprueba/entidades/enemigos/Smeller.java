@@ -57,34 +57,34 @@ public class Smeller extends Enemigo {
 
         alterScreamVolume(); // cambia el volumen del scream del Zombie
 
-        healthRegen();
+
 
         this.getSteeringBehavior().update(delta);
         super.update(delta);
-
-        /**
-         *
-         * validar colisionh con jugador
-         *
-         * agregar animaciones
-         */
     }
 
 
 
     private void changeBehavior(float range){
 
-        if(this.targetisInRange(target, range)){
-            //en rango
+        if(getHealth()>=100){
+            if(this.targetisInRange(target, range)){
+                //en rango
 
-            this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
+                this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
 
+            }else {
+
+                //fuera de rango
+
+                this.getSteeringBehavior().setBehavior(this.pursueBehavior);
+            }
         }else {
 
-            //fuera de rango
+            healthRegen(0.2f);
+            System.out.println(getHealth());
+            this.getSteeringBehavior().setBehavior(getEvadeBehavior());
 
-
-            this.getSteeringBehavior().setBehavior(this.pursueBehavior);
         }
     }
 
@@ -97,11 +97,6 @@ public class Smeller extends Enemigo {
             getScream().stop();
         }
     }
-
-//    public void render(float delta) {
-//        this.setStateTime(this.getStateTime() + delta);
-//        this.setCurrentFrame();
-//    }
 
     public boolean targetisInRange(Jugador target, float range) {
         if (MathUtils.getDistance(target.getBody(), this.getBody()) < range) {
