@@ -65,6 +65,7 @@ public class PlayStateGame extends State {
 
     private PointLight light;
     private Farol farol;
+    private Texture farolTexture;
 
     private float alpha =1;
 
@@ -212,6 +213,7 @@ public class PlayStateGame extends State {
                 0);
         farol.equipar(null);
         cofre4.setItem(farol);
+        farolTexture = new Texture("images/farol.png");
         /*******Prueba con pointLight**********/
 
         b2dr.setDrawBodies(false);
@@ -277,6 +279,10 @@ public class PlayStateGame extends State {
 //        batch.draw(cofreTexture,cofre2.getBody().getPosition().x * PPM - (30/2), cofre2.getBody().getPosition().y * PPM - (30/2));
 //        batch.draw(cofreTexture,cofre3.getBody().getPosition().x * PPM - (30/2), cofre3.getBody().getPosition().y * PPM - (30/2));
         batch.draw(cofreTexture,cofre4.getBody().getPosition().x * PPM - (30/2), cofre4.getBody().getPosition().y * PPM - (30/2));
+
+        if(!farol.isEstaEquipado()){
+            batch.draw(farolTexture,farol.getBody().getPosition().x * PPM - 5,farol.getBody().getPosition().y * PPM - 5);
+        }
         /*******Cofre*******/
 
         batch.end();
