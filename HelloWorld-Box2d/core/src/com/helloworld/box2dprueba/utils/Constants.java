@@ -4,5 +4,6 @@ public final class Constants {
 
     public static final float PPM = 32;
     public static final int LLAVES_NECESARIAS = 1;
+    public static final int CANTIDAD_VIDAS = 3;
 
 }

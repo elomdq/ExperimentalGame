@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.helloworld.box2dprueba.entidades.Jugador;
 
+import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_VIDAS;
+
 public class Hud {
 
     private static final int V_WIDTH = 720;
@@ -20,13 +22,17 @@ public class Hud {
     public Stage stage;
     private Viewport viewport;
 
+
+    private Integer lives;
     private Integer keys;
     private Integer lamps;
     private Integer batteries;
 
+    private Label liveLabel;
+    private Label livesLabel;
 
     private Label lampLabel;
-    private Label lampsLavel;
+    private Label lampsLabel;
 
     private  Label keysLabel;
     private Label keyLabel;
@@ -36,6 +42,7 @@ public class Hud {
 
     public Hud(SpriteBatch sb){
 
+        lives = CANTIDAD_VIDAS;
         keys = 0;
         batteries = 0;
         lamps = 0;
@@ -54,8 +61,11 @@ public class Hud {
         table.setFillParent(true);
 
         //Se define la información que tendrá cada Label
+        liveLabel = new Label("VIDAS", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        livesLabel = new Label(String.format("%02d", lives), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+
         lampLabel = new Label("FAROLES", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
-        lampsLavel = new Label(String.format("%02d", keys), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        lampsLabel = new Label(String.format("%02d", lamps), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
 
         keyLabel = new Label("LLAVES", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
         keysLabel = new Label(String.format("%02d", keys), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
@@ -75,9 +85,13 @@ public class Hud {
 //        table.add(batteriesLabel).expandX();
 
 
+        table.add(liveLabel).padTop(10);
+        table.add(livesLabel).padLeft(20);
+        table.getCell(livesLabel).padTop(10);
+        table.row();
         table.add(lampLabel).padTop(10);
-        table.add(lampsLavel).padLeft(20);
-        table.getCell(lampsLavel).padTop(10);
+        table.add(lampsLabel).padLeft(20);
+        table.getCell(lampsLabel).padTop(10);
         table.row();
         table.add(keyLabel).padTop(10);
         table.add(keysLabel).padLeft(20);
@@ -93,6 +107,10 @@ public class Hud {
     }
 
     public void update(Jugador player){
+        if(player.getVidas() < this.lives)
+            this.lives = player.getVidas();
+        livesLabel.setText(String.format("%02d", lives));
+
         if(player.getCantidadDeLlaves() > this.keys)
             this.keys = player.getCantidadDeLlaves();
         keysLabel.setText(String.format("%02d", keys));
@@ -103,6 +121,6 @@ public class Hud {
 
         if(player.getCantidadDeFaroles() > this.lamps)
             this.lamps = player.getCantidadDeFaroles();
-        lampsLavel.setText(String.format("%02d", lamps));
+        lampsLabel.setText(String.format("%02d", lamps));
     }
 }

@@ -13,30 +13,31 @@ import com.helloworld.box2dprueba.objetos.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_VIDAS;
 import static com.helloworld.box2dprueba.utils.Constants.LLAVES_NECESARIAS;
 
 
 
 public class Jugador extends Personaje {
 
-    private boolean live;
+    private Integer vidas;
     private Iluminacion luminaria;
     private List<ItemEquipable> inventario;
 
     public Jugador(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventario = new ArrayList<>();
-        this.live = true;
+        this.vidas = CANTIDAD_VIDAS;
     }
 
 
     //Setters & getters
-    public boolean isVive() {
-        return live;
+    public Integer getVidas() {
+        return vidas;
     }
 
-    public void setVive(boolean live) {
-        this.live = live;
+    public void setVidas(Integer vidas) {
+        this.vidas = vidas;
     }
 
     public List<ItemEquipable> getInventario() {
@@ -231,7 +232,9 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un enemigo
         if(fixture.getUserData() instanceof Enemigo){
-            this.live = false;
+            if(this.vidas > 0){
+                this.vidas--;
+            }
         }
     }
 
