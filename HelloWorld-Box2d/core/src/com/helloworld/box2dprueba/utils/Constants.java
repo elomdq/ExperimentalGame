@@ -26,7 +26,7 @@ public final class Constants {
     public static final Vector2 POS_CHEST_13 = new Vector2(1952,480);
     public static final Vector2 POS_CHEST_14 = new Vector2(2016,1280);
 
-    public static final int DEFAULT_POS = -100;
+    public static final int DEFAULT_POS = -1000;
 
 
 

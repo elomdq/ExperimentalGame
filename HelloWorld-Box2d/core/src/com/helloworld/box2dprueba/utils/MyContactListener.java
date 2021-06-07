@@ -34,8 +34,8 @@ public class MyContactListener implements ContactListener {
             //Colisión con un cofre
             if(isChest(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Cofre)fixtureB.getUserData()).collision(fixtureA);
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    ((Cofre)fixtureB.getUserData()).collision(fixtureA);
                 }else{
                     ((Jugador)fixtureB.getUserData()).collision(fixtureA);
                     ((Cofre)fixtureA.getUserData()).collision(fixtureB);
@@ -45,8 +45,8 @@ public class MyContactListener implements ContactListener {
             //Colisión con una puerta
             if(isDoor(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Puerta)fixtureB.getUserData()).collision(fixtureA);
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    ((Puerta)fixtureB.getUserData()).collision(fixtureA);
                 }else {
                     ((Jugador) fixtureB.getUserData()).collision(fixtureA);
                     ((Puerta) fixtureA.getUserData()).collision(fixtureB);
@@ -56,8 +56,8 @@ public class MyContactListener implements ContactListener {
             //Colisión con un farol
             if(isLantern(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Farol)fixtureB.getUserData()).collision(fixtureA);
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    ((Farol)fixtureB.getUserData()).collision(fixtureA);
                 }else {
                     ((Jugador) fixtureB.getUserData()).collision(fixtureA);
                     ((Farol) fixtureA.getUserData()).collision(fixtureB);
@@ -67,8 +67,8 @@ public class MyContactListener implements ContactListener {
             //Colisión con un enemigo
             if(isEnemy(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Enemigo)fixtureB.getUserData()).collision(fixtureA);
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    ((Enemigo)fixtureB.getUserData()).collision(fixtureA);
                 }else {
                     ((Jugador) fixtureB.getUserData()).collision(fixtureA);
                     ((Enemigo) fixtureA.getUserData()).collision(fixtureB);

@@ -14,6 +14,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
+import com.helloworld.box2dprueba.objetos.Farol;
+import com.helloworld.box2dprueba.objetos.Linterna;
+import com.helloworld.box2dprueba.objetos.Cofre;
 import com.helloworld.box2dprueba.scenes.Hud;
 import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
@@ -46,13 +49,12 @@ public class PlayStateGame extends State {
     private Texture cofreTexture;
 
     private RayHandler rayHandler;
-    //private PointLight light;
     private float distance = 220/PPM;
 
     private ConeLight coneLight;
     private Linterna linterna;
 
-    private float alpha =1;
+    private float alpha = 1;
 
     //Constructor
     public PlayStateGame(GameStateManager gsm) {
@@ -67,7 +69,6 @@ public class PlayStateGame extends State {
 
         //generacion de los cuerpos solidos del mapa
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collisions").getObjects());
-
 
         //Creacion de personajes
         jugador = new Jugador(world,
@@ -100,7 +101,6 @@ public class PlayStateGame extends State {
                 jugador,
                 1024,
                 448);
-
 
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
@@ -140,6 +140,10 @@ public class PlayStateGame extends State {
         //seteo de cofres e items equipables
         cofreTexture = new Texture("images/cofre.png");
         chests = assignItems(createItems(),createChests());
+
+
+        /**Le agreggo un farol al inventario del jugador para testear comportamientos**/
+        jugador.getInventario().add(new Farol(world,batch,DEFAULT_POS,DEFAULT_POS,1,1,true,false,rayHandler,0));
     }
 
 
@@ -148,7 +152,9 @@ public class PlayStateGame extends State {
         world.step(1/60f, 6, 2);
 
         cameraUpdate();
-
+        skeleton.update(delta);
+        banshee.update(delta);
+        smeller1.update(delta);
         jugador.update(delta);
 
         rotatePlayerToMouse(camera);
@@ -156,17 +162,13 @@ public class PlayStateGame extends State {
         tmr.setView(camera);
         batch.setProjectionMatrix(camera.combined);
 
-         /*distance *= 0.999f;
-         light.setDistance(distance);*/
-
         hud.update(jugador);
-
-        skeleton.update(Gdx.graphics.getDeltaTime());
-        banshee.update(Gdx.graphics.getDeltaTime());
-        smeller1.update(Gdx.graphics.getDeltaTime());
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
+
+        /*distance *= 0.999f;
+         light.setDistance(distance);*/
     }
 
     @Override
@@ -182,21 +184,22 @@ public class PlayStateGame extends State {
 
         batch.begin();
 
-        for(Cofre cofre : chests){
-            batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
-        }
-
         skeleton.render();
         jugador.render();
         banshee.render();
         smeller1.render();
+
+        for(Cofre chest : chests){
+
+            batch.draw(cofreTexture,chest.getBody().getPosition().x * PPM - (30/2), chest.getBody().getPosition().y * PPM - (30/2));
+
+        }
 
         batch.end();
 
         //batch.disableBlending();
 
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
-
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
@@ -223,6 +226,9 @@ public class PlayStateGame extends State {
         skeleton.dispose();
         smeller1.dispose();
         cofreTexture.dispose();
+        banshee.dispose();
+        skeleton.dispose();
+        smeller1.dispose();
     }
 
     public void cameraUpdate() {
@@ -298,7 +304,7 @@ public class PlayStateGame extends State {
         for(Cofre chest : chests){
 
             if(nullItem != 0){
-                if(((int)(Math.random()*101) % 4) == 0){
+                if(((int)(Math.random()*11) % 2) == 0){
                     nullItem--;
                 }else{
                     chest.setItem( items.remove((int)(Math.random() * items.size())) );
@@ -306,7 +312,6 @@ public class PlayStateGame extends State {
             }else{
                 chest.setItem( items.remove((int)(Math.random() * items.size())) );
             }
-            System.out.println(items.size() +" - "+ nullItem);
 
         }
 

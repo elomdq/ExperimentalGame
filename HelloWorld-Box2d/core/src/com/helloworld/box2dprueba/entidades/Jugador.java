@@ -83,6 +83,7 @@ public class Jugador extends Personaje {
         int horizontalForce = 0;
         int verticalForce = 0;
 
+
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             horizontalForce -= 1;
             this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationLeft());
@@ -111,14 +112,16 @@ public class Jugador extends Personaje {
                 && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A))
             this.getAnimacion().getAnimacionActual().setFrameDuration(0);
 
+
         this.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
 
-    }
 
-    public void updateLuminariaPosition()
-    {
-        luminaria.getBody().setTransform(this.getBody().getPosition().x, this.getBody().getPosition().y, this.getBody().getAngle() );
-        System.out.println("Luz x: " + luminaria.getBody().getPosition().x);
+        if(Gdx.input.isKeyPressed(Input.Keys.F)){
+            if(this.getCantidadDeFaroles()>0){
+                ((Farol)inventario.remove(getFarolFromInventario())).desequipar(this);
+            }
+        }
+
     }
 
 
@@ -177,6 +180,26 @@ public class Jugador extends Personaje {
     }
 
     /**
+     * Método que busca un farol en
+     * el inventario y lo retorna
+     *
+     * @return
+     */
+    private int getFarolFromInventario(){
+
+        int index = -1;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Farol){
+                index = inventario.indexOf(item);
+                break;
+            }
+        }
+
+        return index;
+    }
+
+    /**
      * Método utilizado para eliminar las llaves una vez que
      * son utilizadas para abrir la puerta de salida.
      *
@@ -227,7 +250,9 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un farol
         if(fixture.getUserData() instanceof Farol){
-            inventario.add((Farol)fixture.getUserData());
+            if(!((Farol)fixture.getUserData()).getEstaEquipado()){
+                inventario.add((Farol)fixture.getUserData());
+            }
         }
 
         //Comportamiento que tendrá con un enemigo
