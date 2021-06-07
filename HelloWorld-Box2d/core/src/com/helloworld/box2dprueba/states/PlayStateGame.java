@@ -28,7 +28,10 @@ import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 
+
 public class PlayStateGame extends State {
+
+
 
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap map;
@@ -62,11 +65,13 @@ public class PlayStateGame extends State {
     private ConeLight coneLight;
     private Linterna linterna;
 
-    private float alpha =1;
+    //private float alpha =1;
 
     //Constructor
     public PlayStateGame(GameStateManager gsm) {
         super(gsm);
+
+        //Gdx.input.setInputProcessor(gsm.getApplication().getInputProcessor());
 
         world = new World(new Vector2(0, 0), false);
         world.setContactListener(new MyContactListener());
@@ -160,7 +165,7 @@ public class PlayStateGame extends State {
 
         rayHandler = new RayHandler(world);
 
-        rayHandler.setAmbientLight(0.8f);
+        rayHandler.setAmbientLight(0f);
 
 
         //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);

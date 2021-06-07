@@ -19,7 +19,7 @@ public class SplashState extends State{
 
         if(timer>=1)
         {
-            gsm.setState(GameStateManager.GameState.PLAY);
+            gsm.setState(GameStateManager.GameState.MENU);
         }
     }
 

@@ -42,7 +42,7 @@ public abstract class Enemigo extends Personaje {
     @Override
     public  void render()
     {
-        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), /*this.getAlpha()*/1);
+        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
     }
 
     public float distanciaAlTarget(Vector2 target)
