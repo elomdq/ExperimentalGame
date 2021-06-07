@@ -28,7 +28,7 @@ import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.helloworld.box2dprueba.utils.Constants.PPM;
+import static com.helloworld.box2dprueba.utils.Constants.*;
 
 
 public class PlayStateGame extends State {
@@ -44,15 +44,15 @@ public class PlayStateGame extends State {
     private Banshee banshee;
     private Smeller smeller1;
 
-    /*********Cofres e Items**********/
-    private List<ItemEquipable> items;
-    private List<Cofre> chests;
-    /*********Cofres e Items**********/
-
     //El siguiente código es de prueba, hay que borrarlo después
     /***************HUD****************/
     Hud hud;
     /***************HUD****************/
+
+    /*********Cofres e Items**********/
+    private List<ItemEquipable> items;
+    private List<Cofre> chests;
+    /*********Cofres e Items**********/
 
     /*******Cofres*******/
     private Cofre cofre;
@@ -115,70 +115,25 @@ public class PlayStateGame extends State {
 //                3,
 //                jugador);
 
-        //El siguiente código es de prueba, hay que borrarlo después
-        /***************HUD****************/
-        hud = new Hud(batch);
-        /***************HUD****************/
-
-        /*******Cofres*******/
-        cofreTexture = new Texture("images/cofre.png");
-
-        cofre = new Cofre(world,
-                batch,
-                100,
-                60,
-                30,
-                30,
-                true,
-                false);
-
-        cofre2 = new Cofre(world,
-                batch,
-                100,
-                150,
-                30,
-                30,
-                true,
-                false);
-
-        cofre3 = new Cofre(world,
-                batch,
-                250,
-                150,
-                30,
-                30,
-                true,
-                false);
-
-        cofre4 = new Cofre(world,
-                batch,
-                250,
-                200,
-                30,
-                30,
-                true,
-                false);
-        /*******Cofres*******/
-
 
         //Seteo Luz Ambiental
-        skeleton = new Skeleton(world,
-                batch,
-                jugador,
-                600,
-                120);
-
-        banshee = new Banshee(world,
-                batch,
-                jugador,
-                100,
-                420);
-
-        smeller1 = new Smeller(world,
-                batch,
-                jugador,
-                200,
-                120);
+//        skeleton = new Skeleton(world,
+//                batch,
+//                jugador,
+//                600,
+//                120);
+//
+//        banshee = new Banshee(world,
+//                batch,
+//                jugador,
+//                100,
+//                420);
+//
+//        smeller1 = new Smeller(world,
+//                batch,
+//                jugador,
+//                200,
+//                120);
 
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0.0001f);
@@ -207,6 +162,16 @@ public class PlayStateGame extends State {
         //b2dr.setDrawVelocities(true);
         //b2dr.setDrawAABBs(true);
         //b2dr.setDrawContacts(true);
+        //El siguiente código es de prueba, hay que borrarlo después
+        /***************HUD****************/
+        hud = new Hud(batch);
+        /***************HUD****************/
+
+        /*******Cofres*******/
+        cofreTexture = new Texture("images/cofre.png");
+
+        chests = assignItems(createItems(1,2,1),createChests(4));
+        /*******Cofres*******/
     }
 
 
@@ -216,9 +181,9 @@ public class PlayStateGame extends State {
 
         cameraUpdate();
 
-        skeleton.update(delta);
-        banshee.update(delta);
-        smeller1.update(delta);
+//        skeleton.update(delta);
+//        banshee.update(delta);
+//        smeller1.update(delta);
         jugador.update(delta);
 
         rotatePlayerToMouse(camera);
@@ -234,9 +199,9 @@ public class PlayStateGame extends State {
         hud.update(jugador);
         /***************HUD****************/
 
-        skeleton.update(Gdx.graphics.getDeltaTime());
-        banshee.update(Gdx.graphics.getDeltaTime());
-        smeller1.update(Gdx.graphics.getDeltaTime());
+//        skeleton.update(Gdx.graphics.getDeltaTime());
+//        banshee.update(Gdx.graphics.getDeltaTime());
+//        smeller1.update(Gdx.graphics.getDeltaTime());
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
@@ -255,17 +220,16 @@ public class PlayStateGame extends State {
 
         batch.begin();
 
-        skeleton.render();
+//        skeleton.render();
         jugador.render();
-        banshee.render();
-        smeller1.render();
+//        banshee.render();
+//        smeller1.render();
 
         //El siguiente código es de prueba, hay que borrarlo después
         /*******Cofre*******/
-        batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre2.getBody().getPosition().x * PPM - (30/2), cofre2.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre3.getBody().getPosition().x * PPM - (30/2), cofre3.getBody().getPosition().y * PPM - (30/2));
-        batch.draw(cofreTexture,cofre4.getBody().getPosition().x * PPM - (30/2), cofre4.getBody().getPosition().y * PPM - (30/2));
+        for(Cofre cofre : chests){
+            batch.draw(cofreTexture,cofre.getBody().getPosition().x * PPM - (30/2), cofre.getBody().getPosition().y * PPM - (30/2));
+        }
         /*******Cofre*******/
 
         batch.end();
@@ -333,15 +297,15 @@ public class PlayStateGame extends State {
         List<ItemEquipable> list = new ArrayList<>();
 
         for(int i = 0 ; i < keysAmount ; i++){
-            list.add(new Llave(world,batch,0,0,10,10,true,false));
+            list.add(new Llave(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
         }
 
         for(int i = 0 ; i < BatteriesAmount ; i++){
-            list.add(new Bateria(world,batch,0,0,10,10,true,false));
+            list.add(new Bateria(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
         }
 
         for(int i = 0 ; i < lanternsAmount ; i++){
-            list.add(new Farol(world,batch,0,0,10,10,true,false,rayHandler,10));
+            list.add(new Farol(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false,rayHandler,0));
         }
 
         return list;
@@ -351,21 +315,31 @@ public class PlayStateGame extends State {
 
         List<Cofre> list = new ArrayList<>();
 
-        for(int i = 0 ; i < chestsAmount ; i++){
-            list.add( new Cofre(world,batch,0,0,32,32,true,false));
-        }
+//        for(int i = 0 ; i < chestsAmount ; i++){
+//            list.add( new Cofre(world,batch,0,0,32,32,true,false));
+//        }
+
+        list.add( new Cofre(world,batch,X_POS_CHEST_1,Y_POS_CHEST_1,32,32,true,false));
+        list.add( new Cofre(world,batch,X_POS_CHEST_2 ,Y_POS_CHEST_2,32,32,true,false));
+        list.add( new Cofre(world,batch,X_POS_CHEST_3,Y_POS_CHEST_3,32,32,true,false));
+        list.add( new Cofre(world,batch,X_POS_CHEST_4,Y_POS_CHEST_4,32,32,true,false));
+//        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+//        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+//        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+//        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+//        list.add( new Cofre(world,batch,0,0,32,32,true,false));
+//        list.add( new Cofre(world,batch,0,0,32,32,true,false));
 
         return list;
     }
 
-    private void assignItems(){
+    private List<Cofre> assignItems(List<ItemEquipable> items , List<Cofre> chests){
 
         for(Cofre chest : chests){
-
-            chest.setItem( items.remove((int)Math.random() * items.size()) );
-
+            chest.setItem( items.remove((int)(Math.random() * items.size())) );
         }
 
+        return chests;
     }
 }
 
