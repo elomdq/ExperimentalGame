@@ -9,7 +9,7 @@ import com.helloworld.box2dprueba.entidades.Entidad;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.utils.ICollision;
 
-import static com.helloworld.box2dprueba.utils.Constants.LLAVES_NECESARIAS;
+import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_LLAVES;
 
 public class Puerta extends Entidad implements ICollision {
 
@@ -70,7 +70,7 @@ public class Puerta extends Entidad implements ICollision {
      * @return
      */
     private boolean enoughKeys(int keysAmount){
-        if(keysAmount >= LLAVES_NECESARIAS)
+        if(keysAmount >= CANTIDAD_LLAVES)
             return true;
         return false;
     }

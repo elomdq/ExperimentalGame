@@ -19,7 +19,7 @@ public class Cofre extends Entidad implements ICollision {
     //Constructor
     public Cofre(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation){
         super(world, batch, x, y, width, height, isStatic, fixRotation);
-        this.item = addItemRandom(world, batch, x, y, width, height, isStatic, fixRotation); //Borrar!
+        this.item = null;
         this.isClosed = true;
     }
 
@@ -35,21 +35,6 @@ public class Cofre extends Entidad implements ICollision {
 
 
     //Demás Métodos
-
-    //Borrar!
-    public ItemEquipable addItemRandom(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation){
-        //Posible solucion:
-
-        int num = (int) ((Math.random()*100) % 3);
-
-        if(num == 0)
-            return new Llave(world, batch,x,y,10,10,isStatic,fixRotation);
-//        if(num == 1)
-            return new Bateria(world, batch, x,y,10,10,isStatic,fixRotation);
-
-//        return new Farol(world,batch,x,y,10,10,isStatic,fixRotation,,10);
-
-    }
 
     private void openAnimation(){
         if(!this.isClosed){

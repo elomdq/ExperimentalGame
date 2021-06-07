@@ -107,20 +107,17 @@ public class Hud {
     }
 
     public void update(Jugador player){
-        if(player.getVidas() < this.lives)
-            this.lives = player.getVidas();
+
+        this.lives = player.getVidas();
         livesLabel.setText(String.format("%02d", lives));
 
-        if(player.getCantidadDeLlaves() > this.keys)
-            this.keys = player.getCantidadDeLlaves();
+        this.keys = player.getCantidadDeLlaves();
         keysLabel.setText(String.format("%02d", keys));
 
-        if(player.getCantidadDeBaterias() > this.batteries)
-            this.batteries = player.getCantidadDeBaterias();
+        this.batteries = player.getCantidadDeBaterias();
         batteriesLabel.setText(String.format("%02d", batteries));
 
-        if(player.getCantidadDeFaroles() > this.lamps)
-            this.lamps = player.getCantidadDeFaroles();
+        this.lamps = player.getCantidadDeFaroles();
         lampsLabel.setText(String.format("%02d", lamps));
     }
 }

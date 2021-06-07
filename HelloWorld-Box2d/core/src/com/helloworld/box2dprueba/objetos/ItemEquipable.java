@@ -16,7 +16,7 @@ public abstract class ItemEquipable extends Entidad {
 
 
     //Getter & Setter
-    public boolean isEstaEquipado() {
+    public boolean getEstaEquipado() {
         return estaEquipado;
     }
 
