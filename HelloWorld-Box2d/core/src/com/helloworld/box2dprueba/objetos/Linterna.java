@@ -39,7 +39,7 @@ public class Linterna extends Iluminacion {
 
     public void update()
     {
-
+        linterna.setDistance(linterna.getDistance()*0.999f);
     }
 
 

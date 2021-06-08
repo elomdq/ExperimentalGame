@@ -27,6 +27,14 @@ public abstract class Iluminacion extends ItemEquipable {
         this.energiaRestante = energiaRestante;
     }
 
+    public float getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(float distancia) {
+        this.distancia = distancia;
+    }
+
     //otros metodos
 
     public float getDistance()

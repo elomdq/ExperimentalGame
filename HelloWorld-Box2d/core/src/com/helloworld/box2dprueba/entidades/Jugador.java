@@ -1,6 +1,7 @@
 package com.helloworld.box2dprueba.entidades;
 
 
+import box2dLight.ConeLight;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
@@ -13,9 +14,7 @@ import com.helloworld.box2dprueba.objetos.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_VIDAS;
-import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_LLAVES;
-
+import static com.helloworld.box2dprueba.utils.Constants.*;
 
 
 public class Jugador extends Personaje {
@@ -123,6 +122,21 @@ public class Jugador extends Personaje {
             }
         }
 
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+
+            if(this.getCantidadDeBaterias()>0){
+
+                ConeLight linterna = ((Linterna)luminaria).getLinterna();
+
+                linterna.setDistance( linterna.getDistance() + (ENERGIA_BATERIAS*DISTANCIA_LUMINARIA)/PPM );
+
+                ((Bateria)inventario.get(getBateriaFromInventario())).setDisponibleParaUsar(false);
+
+            }
+
+        }
+
     }
 
 
@@ -155,15 +169,12 @@ public class Jugador extends Personaje {
         int cantidadDeBaterias = 0;
 
         for(ItemEquipable item : inventario){
-            if(item instanceof Bateria)
+            if(item instanceof Bateria && ((Bateria)item).isDisponibleParaUsar())
                 cantidadDeBaterias++;
         }
 
         return cantidadDeBaterias;
     }
-
-
-
 
     /**
      * Método que retorna la cantidad de faroles
@@ -222,6 +233,26 @@ public class Jugador extends Personaje {
     }
 
     /**
+     * Método que busca una batería en
+     * el inventario y lo retorna
+     *
+     * @return
+     */
+    private int getBateriaFromInventario(){
+
+        int index = -1;
+
+        for(ItemEquipable item : inventario){
+            if(item instanceof Bateria && ((Bateria)item).isDisponibleParaUsar()){
+                index = inventario.indexOf(item);
+                break;
+            }
+        }
+
+        return index;
+    }
+
+    /**
      * Método utilizado para eliminar las llaves una vez que
      * son utilizadas para abrir la puerta de salida.
      *
@@ -257,16 +288,18 @@ public class Jugador extends Personaje {
             //Este comportamiento quizas haya que definirlo al finalizar la colision
             //y luego de que el jugador haya "clickeado" en el objeto que contiene.
             inventario.add(((Cofre) fixture.getUserData()).getItem());
-            ((Cofre) fixture.getUserData()).setItem(null);
 
-            //Actualizar HUD
+            ((Cofre) fixture.getUserData()).setItem(null);
 
         }
 
         //Comportamiento que tendrá con una puerta
         if(fixture.getUserData() instanceof Puerta){
+
             if(this.getCantidadDeLlaves() == CANTIDAD_LLAVES){
+
                 useKeys();
+
             }
         }
 
@@ -283,10 +316,15 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un enemigo
         if(fixture.getUserData() instanceof Enemigo){
+
             if(this.vidas > 0){
+
                 this.vidas--;
+
             }
+
         }
+
     }
 
 

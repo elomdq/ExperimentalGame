@@ -51,7 +51,7 @@ public class PlayStateGame extends State {
     private Texture cofreTexture;
 
     private RayHandler rayHandler;
-    private float distance = 220/PPM;
+    private float distance;
 
 //    private ConeLight coneLight;
     private Linterna linterna;
@@ -112,6 +112,8 @@ public class PlayStateGame extends State {
 
         rayHandler.setAmbientLight(0.0000001f);
 
+        distance = DISTANCIA_LUMINARIA/PPM;
+
         linterna = new Linterna (world,
                 batch,
                 jugador.getBody().getPosition().x,
@@ -123,9 +125,10 @@ public class PlayStateGame extends State {
                 rayHandler,
                 distance);
 
+        //Las siguientes dos líneas de código quizas haya que mandarlas a la clase Linterna
         linterna.getLinterna().setConeDegree(25);
-
         linterna.equipar(jugador);
+
 
         jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
 
@@ -170,6 +173,7 @@ public class PlayStateGame extends State {
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
 
+        linterna.update();
         /*distance *= 0.999f;
          light.setDistance(distance);*/
     }

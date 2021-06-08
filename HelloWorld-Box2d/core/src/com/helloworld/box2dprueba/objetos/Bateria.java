@@ -5,20 +5,23 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Bateria extends ItemEquipable {
 
-    int energy;
+    private boolean disponibleParaUsar;
 
     public Bateria(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
+        this.disponibleParaUsar = true;
     }
 
-    //setter & getter
+    //Getter & Setter
 
-    public int getEnergy() {
-        return energy;
+    public boolean isDisponibleParaUsar() {
+        return disponibleParaUsar;
     }
 
-    public void setEnergy(int energy) {
-        this.energy = energy;
+    public void setDisponibleParaUsar(boolean disponibleParaUsar) {
+        this.disponibleParaUsar = disponibleParaUsar;
     }
+
+
 }
 
