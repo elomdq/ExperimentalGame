@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
 import com.helloworld.box2dprueba.objetos.Farol;
@@ -33,8 +34,6 @@ import static com.helloworld.box2dprueba.utils.Constants.*;
 
 public class PlayStateGame extends State {
 
-
-
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap map;
 
@@ -54,7 +53,7 @@ public class PlayStateGame extends State {
     private RayHandler rayHandler;
     private float distance = 220/PPM;
 
-    private ConeLight coneLight;
+//    private ConeLight coneLight;
     private Linterna linterna;
 
     private float alpha = 1;
@@ -108,16 +107,10 @@ public class PlayStateGame extends State {
                 448);
 
 
-
-        //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
-        //light.setSoftnessLength(0f);
-        //light.attachToBody(player);
-
-
         //seteo luz
         rayHandler = new RayHandler(world);
 
-        rayHandler.setAmbientLight(0.8f);
+        rayHandler.setAmbientLight(0.0000001f);
 
         linterna = new Linterna (world,
                 batch,
@@ -147,9 +140,6 @@ public class PlayStateGame extends State {
         cofreTexture = new Texture("images/cofre.png");
         chests = assignItems(createItems(),createChests());
 
-
-        /**Le agreggo un farol al inventario del jugador para testear comportamientos**/
-        jugador.getInventario().add(new Farol(world,batch,DEFAULT_POS,DEFAULT_POS,1,1,true,false,rayHandler,0));
     }
 
 
@@ -162,6 +152,13 @@ public class PlayStateGame extends State {
         banshee.update(delta);
         smeller1.update(delta);
         jugador.update(delta);
+
+//      ciclo utilizado para el comportamiento de los faroles
+        for(ItemEquipable item : jugador.getInventario()){
+            if(item instanceof Farol){
+                ((Farol)item).update(jugador);
+            }
+        }
 
         rotatePlayerToMouse(camera);
 
@@ -225,7 +222,6 @@ public class PlayStateGame extends State {
         tmr.dispose();
         batch.dispose();
         rayHandler.dispose();
-        coneLight.dispose();
         jugador.dispose();
         linterna.dispose();
         banshee.dispose();

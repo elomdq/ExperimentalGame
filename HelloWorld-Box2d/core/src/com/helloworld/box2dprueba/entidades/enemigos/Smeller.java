@@ -83,7 +83,6 @@ public class Smeller extends Enemigo {
         }else {
 
             healthRegen(0.2f);
-            System.out.println(getHealth());
             this.getSteeringBehavior().setBehavior(getEvadeBehavior());
 
         }

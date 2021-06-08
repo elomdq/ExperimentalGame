@@ -10,12 +10,12 @@ import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
 import com.helloworld.box2dprueba.entidades.Personaje;
 import com.helloworld.box2dprueba.utils.ICollision;
 
-//ToDO: Pensar una forma para que el farol se renderize una vez que es colocado (quizas implementando una interfaz
-//      que sea "Static", que tambien podria usar cofre y puerta, ya que siempre tendrán comportamiento estático).
+import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 public class Farol extends Iluminacion implements ICollision {
 
     private PointLight pointLight;
+
 
     //Constructor
     public Farol(World world, SpriteBatch batch, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
@@ -29,13 +29,14 @@ public class Farol extends Iluminacion implements ICollision {
         return pointLight;
     }
 
+
     public void setLuz(PointLight luz) {
         this.pointLight = luz;
     }
 
     @Override
     public void collision(Fixture fixture) {
-        if(!this.getEstaEquipado() && MathUtils.getDistance(this.getBody(),((Personaje)fixture.getUserData()).getBody()) > 0.1){
+        if(!this.getEstaEquipado() && MathUtils.getDistance(this.getBody(),((Personaje)fixture.getUserData()).getBody()) > 0.5){
             this.equipar((Personaje) fixture.getUserData());
         }
     }
@@ -43,15 +44,24 @@ public class Farol extends Iluminacion implements ICollision {
     @Override
     public void equipar(Personaje target){
         pointLight.setDistance(0);
-        this.setEstaEquipado(true);
     }
 
     @Override
-    public void desequipar(Personaje target) {
-        this.getBody().setTransform(target.getBody().getPosition().x,target.getBody().getPosition().y,0);
+    public void desequipar(Personaje target){
+
+        if(target.getAnimacion().getAnimacionActual() == target.getAnimacion().getAnimationUp() ||
+           target.getAnimacion().getAnimacionActual() == target.getAnimacion().getAnimationRight()){
+
+            this.getBody().setTransform(target.getBody().getPosition().x-(17/PPM),target.getBody().getPosition().y-(17/PPM),0);
+
+        }else{
+
+            this.getBody().setTransform(target.getBody().getPosition().x+(17/PPM),target.getBody().getPosition().y+(17/PPM),0);
+
+        }
+
         pointLight.attachToBody(this.getBody());
-        pointLight.setDistance(3);
-        this.setEstaEquipado(false);
+        pointLight.setDistance(6);
     }
 
     @Override
@@ -66,4 +76,16 @@ public class Farol extends Iluminacion implements ICollision {
         return 0f;
     }
 
+    public void update(Personaje target){
+
+        if(MathUtils.getDistance(this.getBody(),target.getBody()) > 0.0000001){
+
+            this.setEstaEquipado(false);
+
+        }else{
+
+            this.setEstaEquipado(true);
+
+        }
+    }
 }

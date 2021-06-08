@@ -34,44 +34,60 @@ public class MyContactListener implements ContactListener {
             //Colisión con un cofre
             if(isChest(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
+
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
                     ((Cofre)fixtureB.getUserData()).collision(fixtureA);
+
                 }else{
+
                     ((Jugador)fixtureB.getUserData()).collision(fixtureA);
                     ((Cofre)fixtureA.getUserData()).collision(fixtureB);
+
                 }
             }
 
             //Colisión con una puerta
             if(isDoor(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
+
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
                     ((Puerta)fixtureB.getUserData()).collision(fixtureA);
+
                 }else {
+
                     ((Jugador) fixtureB.getUserData()).collision(fixtureA);
                     ((Puerta) fixtureA.getUserData()).collision(fixtureB);
+
                 }
             }
 
             //Colisión con un farol
             if(isLantern(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
-                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+
                     ((Farol)fixtureB.getUserData()).collision(fixtureA);
+                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+
                 }else {
-                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+
                     ((Farol) fixtureA.getUserData()).collision(fixtureB);
+                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+
                 }
             }
 
             //Colisión con un enemigo
             if(isEnemy(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
+
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
                     ((Enemigo)fixtureB.getUserData()).collision(fixtureA);
+
                 }else {
+
                     ((Jugador) fixtureB.getUserData()).collision(fixtureA);
                     ((Enemigo) fixtureA.getUserData()).collision(fixtureB);
+
                 }
             }
         }
@@ -98,6 +114,7 @@ public class MyContactListener implements ContactListener {
         //Este método excede las necesidades de este proyecto.
     }
 
+
     /**
      * Solo existirán colisiones entre el jugador y cualquier
      * otro objeto que implemente IColisiones. No se contempla
@@ -111,6 +128,7 @@ public class MyContactListener implements ContactListener {
         return false;
     }
 
+
     /**
      * Método que determina si el objeto en cuestión
      * es el Jugador.
@@ -123,6 +141,7 @@ public class MyContactListener implements ContactListener {
             return true;
         return false;
     }
+
 
     /**
      * Método que chequea que uno de los objetos que están colisionando
@@ -138,6 +157,7 @@ public class MyContactListener implements ContactListener {
         return false;
     }
 
+
     /**
      * Método que chequea que uno de los objeto que están colisionando
      * sea una puerta.
@@ -152,6 +172,7 @@ public class MyContactListener implements ContactListener {
         return false;
     }
 
+
     /**
      * Método que chequea que uno de los objeto que están colisionando
      * sea un farol.
@@ -165,6 +186,7 @@ public class MyContactListener implements ContactListener {
             return true;
         return false;
     }
+
 
     /**
      * Método que chequea que uno de los objeto que están colisionando
