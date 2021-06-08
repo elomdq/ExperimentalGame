@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -29,6 +30,8 @@ public class JuegoApp extends ApplicationAdapter {
 
 	private SpriteBatch batch;
 
+	private Music backgroundMusic; /** NUEVO **/
+
 	@Override
 	public void create () {
 		//float w = Gdx.graphics.getWidth();
@@ -45,6 +48,15 @@ public class JuegoApp extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		gsm = new GameStateManager(this);
+
+		/** INICIO NUEVO TO++ **/
+
+		this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/BackgroundMusic.mp3"));
+		backgroundMusic.play();
+		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(0.02f);
+
+		/** FIN NUEVO TO++ **/
 	}
 
 	@Override

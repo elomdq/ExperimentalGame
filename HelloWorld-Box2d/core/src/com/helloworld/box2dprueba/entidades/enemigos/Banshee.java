@@ -23,7 +23,7 @@ public class Banshee extends Enemigo {
 
 
     public Banshee(World world, SpriteBatch batch, Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Banshee.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Banshee.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
 
         this.target = target;
 
@@ -61,18 +61,10 @@ public class Banshee extends Enemigo {
         this.getSteeringBehavior().update(delta);
         super.update(delta);
 
-        /**
-         *
-         * validar colisionh con jugador
-         *
-         * agregar animaciones
-         */
-
-
     }
 
     private void changeBehavior(){
-
+        System.out.println(getHealth());
         if(getHealth()>=100){
             if (this.targetisInRange(target)) {
                 //en rango
@@ -82,14 +74,14 @@ public class Banshee extends Enemigo {
                 }
 
                 this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
-                this.configSteeringBehavior(1000, 4000, 12, 6.75f);
+                this.configSteeringBehavior(1000, 5000, 12, 6.75f);
 
             } else {
                 //fuera de rango
 
 
                 this.getSteeringBehavior().setBehavior(this.wanderBehavior);
-                this.configSteeringBehavior(130,10000,50,10);
+                this.configSteeringBehavior(90,10000,50,10);
 
             }
         } else {
@@ -108,7 +100,7 @@ public class Banshee extends Enemigo {
 //    }
 
     public boolean targetisInRange(Jugador target) {
-        if (MathUtils.getDistance(target.getBody(), this.getBody()) < 3.33) {
+        if (MathUtils.getDistance(target.getBody(), this.getBody()) < 6.6) {
             return true;
         } else {
             return false;

@@ -42,9 +42,11 @@ public class PlayStateGame extends State {
     private World world;
 
     private Jugador jugador;
-    private Skeleton skeleton;
+    private Skeleton skeleton1;
+    private Skeleton skeleton2;
     private Banshee banshee;
     private Smeller smeller1;
+    private Smeller smeller2;
 
     private Hud hud;
 
@@ -58,6 +60,8 @@ public class PlayStateGame extends State {
     private Linterna linterna;
 
     private float alpha = 1;
+
+
 
     //Constructor
     public PlayStateGame(GameStateManager gsm) {
@@ -78,8 +82,8 @@ public class PlayStateGame extends State {
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
-                160,
-                32,
+                1600,//160
+                1400,//32
                 32,
                 32,
                 false,
@@ -89,23 +93,25 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
-        skeleton = new Skeleton(world,
+        skeleton1 = new Skeleton(world,
                 batch,
                 jugador,
                 1248,
                 736);
 
+
         banshee = new Banshee(world,
                 batch,
                 jugador,
-                416,
-                1200);
+                1600,//416
+                1200); //1200
 
         smeller1 = new Smeller(world,
                 batch,
                 jugador,
                 1024,
                 448);
+
 
 
 
@@ -150,6 +156,20 @@ public class PlayStateGame extends State {
 
         /**Le agreggo un farol al inventario del jugador para testear comportamientos**/
         jugador.getInventario().add(new Farol(world,batch,DEFAULT_POS,DEFAULT_POS,1,1,true,false,rayHandler,0));
+
+        /** INICIO NUEVO TO++ **/
+        skeleton2 = new Skeleton(world,
+                batch,
+                jugador,
+                1248,
+                736);
+
+        smeller2 = new Smeller(world,
+                batch,
+                jugador,
+                1024,
+                448);
+        /** FIN NUEVO TO++ **/
     }
 
 
@@ -158,7 +178,7 @@ public class PlayStateGame extends State {
         world.step(1/60f, 6, 2);
 
         cameraUpdate();
-        skeleton.update(delta);
+        skeleton1.update(delta);
         banshee.update(delta);
         smeller1.update(delta);
         jugador.update(delta);
@@ -190,7 +210,7 @@ public class PlayStateGame extends State {
 
         batch.begin();
 
-        skeleton.render();
+        skeleton1.render();
         jugador.render();
         banshee.render();
         smeller1.render();
@@ -229,11 +249,11 @@ public class PlayStateGame extends State {
         jugador.dispose();
         linterna.dispose();
         banshee.dispose();
-        skeleton.dispose();
+        skeleton1.dispose();
         smeller1.dispose();
         cofreTexture.dispose();
         banshee.dispose();
-        skeleton.dispose();
+        skeleton1.dispose();
         smeller1.dispose();
     }
 

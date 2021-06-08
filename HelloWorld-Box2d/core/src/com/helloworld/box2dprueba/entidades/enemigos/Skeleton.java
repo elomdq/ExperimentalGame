@@ -22,11 +22,12 @@ public class Skeleton extends Enemigo {
     private Evade<Vector2> evadeBehavior;
 
     public Skeleton(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 32, 32, false, false, "images/Skeleton.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
+        super(world, batch, spawnX, spawnY, 32, 32, false, false, "images/Skeleton.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/Esqueleto_1.mp3")));
 
         this.target=target;
 
-        this.getSteeringBehavior().setMaxLinearSpeed(120/PPM);
+        this.getSteeringBehavior().setMaxLinearSpeed(169/PPM);
+        this.getSteeringBehavior().setMaxAngularSpeed(10/PPM);
 
         this.wanderBehavior = new Wander<Vector2>(this.getSteeringBehavior())
                 .setWanderOffset(0.183f/PPM)
@@ -60,14 +61,6 @@ public class Skeleton extends Enemigo {
         this.getSteeringBehavior().update(delta);
         super.update(delta);
 
-        /**
-         *
-         * validar colisionh con jugador
-         *
-         * agregar animaciones
-         */
-
-
     }
 
     private void changeBehavior(){
@@ -78,13 +71,17 @@ public class Skeleton extends Enemigo {
                 if (!getScream().isPlaying()){
                     getScream().play();
                 }
-
-
+                this.getSteeringBehavior().setMaxAngularSpeed(100000000/PPM);
+                this.getSteeringBehavior().setMaxAngularAcceleration(100000000/PPM);
+                this.getSteeringBehavior().setMaxLinearAcceleration(15000/PPM);
                 this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
+
+
             }else {
                 //fuera de rango
-
-
+                this.getSteeringBehavior().setMaxAngularSpeed(10/PPM);
+                this.getSteeringBehavior().setMaxAngularAcceleration(15/PPM);
+                this.getSteeringBehavior().setMaxLinearAcceleration(10000/PPM);
                 this.getSteeringBehavior().setBehavior(this.wanderBehavior);
             }
         } else {

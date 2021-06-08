@@ -23,7 +23,7 @@ public class Smeller extends Enemigo {
 
     public Smeller(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY) {
 
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Zombie.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3")));
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Zombie.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3")));
 
         this.target = target;
 
@@ -83,7 +83,6 @@ public class Smeller extends Enemigo {
         }else {
 
             healthRegen(0.2f);
-            System.out.println(getHealth());
             this.getSteeringBehavior().setBehavior(getEvadeBehavior());
 
         }
