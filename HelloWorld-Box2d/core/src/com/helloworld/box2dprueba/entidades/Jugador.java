@@ -254,12 +254,11 @@ public class Jugador extends Personaje {
         //Comportamiento que tendrá con un cofre
         if(fixture.getUserData() instanceof Cofre){
 
-            //Este comportamiento quizas haya que definirlo al finalizar la colision
-            //y luego de que el jugador haya "clickeado" en el objeto que contiene.
-            inventario.add(((Cofre) fixture.getUserData()).getItem());
-            ((Cofre) fixture.getUserData()).setItem(null);
+            if(((Cofre) fixture.getUserData()).getItem() != null){
 
-            //Actualizar HUD
+                inventario.add(((Cofre) fixture.getUserData()).getItem());
+
+            }
 
         }
 

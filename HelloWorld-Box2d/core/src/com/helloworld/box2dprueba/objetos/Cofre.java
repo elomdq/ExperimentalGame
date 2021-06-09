@@ -50,14 +50,21 @@ public class Cofre extends Entidad implements ICollision {
 
     @Override
     public void collision(Fixture fixture) {
-        if(canBeOpened(hasItem())){
-            this.isClosed = false;
+
+        System.out.println(isClosed);
+
+        if(isClosed){
+
             openAnimation();
+
             playSound();
-            //Se muestra el elemento que contiene
-        }else{
+
             this.item = null;
+
+            this.isClosed = false;
+
         }
+
     }
 
     /**
