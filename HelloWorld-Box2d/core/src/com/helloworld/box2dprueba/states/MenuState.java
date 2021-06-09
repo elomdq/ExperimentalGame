@@ -2,6 +2,7 @@ package com.helloworld.box2dprueba.states;
 
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,7 +32,7 @@ public class MenuState extends State{
     TextButton buttonExit;
     TextButton buttonScores;
 
-
+    private Music backgroundMusic; /** NUEVO **/
 
     public class Evento extends ClickListener
     {
@@ -92,6 +93,15 @@ public class MenuState extends State{
         table.add(buttonPlay).pad(10).height(40).width(224);
         table.row();
         table.add(buttonExit).pad(10).height(40).width(224);
+
+        /** INICIO NUEVO TO++ **/
+
+        this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/IntroMusic.mp3"));
+        backgroundMusic.play();
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.2f);
+
+        /** FIN NUEVO TO++ **/
     }
 
     public void update(float delta)
@@ -114,6 +124,7 @@ public class MenuState extends State{
         //atlas.dispose();
         stage.dispose();
         skin.dispose();
+        backgroundMusic.dispose();
     }
 
     public void menuUpdate(float delta)

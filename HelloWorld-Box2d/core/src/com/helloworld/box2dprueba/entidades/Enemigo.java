@@ -54,7 +54,7 @@ public abstract class Enemigo extends Personaje implements ICollision {
     @Override
     public  void render()
     {
-        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), /*this.getAlpha()*/ 1);
+        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), /*this.getAlpha()*/1);
     }
 
     public float distanciaAlTarget(Vector2 target)
@@ -172,8 +172,8 @@ public abstract class Enemigo extends Personaje implements ICollision {
     @Override
     public void collision(Fixture fixture) {
 
-        //todo preguntar por responsabilidad de daño a jugador :)
-        this.health=0;
+            this.health=0;
 
     }
+
 }

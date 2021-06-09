@@ -64,7 +64,7 @@ public class Banshee extends Enemigo {
     }
 
     private void changeBehavior(){
-        System.out.println(getHealth());
+
         if(getHealth()>=100){
             if (this.targetisInRange(target)) {
                 //en rango

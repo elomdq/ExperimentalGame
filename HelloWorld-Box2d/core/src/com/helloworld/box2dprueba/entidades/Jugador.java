@@ -17,12 +17,14 @@ import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_VIDAS;
 import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_LLAVES;
 
 
-
 public class Jugador extends Personaje {
 
     private Integer vidas;
     private Iluminacion luminaria;
     private List<ItemEquipable> inventario;
+    private boolean tagged;
+
+    private float sec;
 
     public Jugador(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
@@ -49,67 +51,64 @@ public class Jugador extends Personaje {
         this.inventario = inventario;
     }
 
-    public void setIluminacion(Iluminacion luminaria)
-    {
+    public void setIluminacion(Iluminacion luminaria) {
         this.luminaria = luminaria;
     }
 
-    public Iluminacion getIluminacion()
-    {
+    public Iluminacion getIluminacion() {
         return this.luminaria;
     }
 
 
     //Otros metodos
-    public void render()
-    {
+    public void render() {
         this.getAnimacion().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
     }
 
-    public void update(float delta)
-    {
+    public void update(float delta) {
         inputUpdate(delta);
         //updateLuminariaPosition();
         super.update(delta);
+
+        setTagged();
     }
 
-    public void dispose(){
+    public void dispose() {
         luminaria.dispose();
         super.dispose();
     }
 
-    public void inputUpdate(float delta)
-    {
+    public void inputUpdate(float delta) {
 
         int horizontalForce = 0;
         int verticalForce = 0;
 
 
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             horizontalForce -= 1;
             this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationLeft());
             this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
 
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             horizontalForce += 1;
             this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationRight());
             this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             verticalForce += 1;
             this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationUp());
             this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             verticalForce -= 1;
             this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationDown());
             this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
         }
 
-        if(!Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.W)
+        if (!Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.W)
                 && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A))
             this.getAnimacion().getAnimacionActual().setFrameDuration(0);
 
@@ -117,9 +116,15 @@ public class Jugador extends Personaje {
         this.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
 
 
-        if(Gdx.input.isKeyPressed(Input.Keys.F)){
-            if(this.getCantidadDeFaroles()>0){
-                ((Farol)inventario.remove(getFarolFromInventario())).desequipar(this);
+        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            if (this.getCantidadDeFaroles() > 0) {
+                ((Farol) inventario.remove(getFarolFromInventario())).desequipar(this);
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+            if (this.getCantidadDeBandages() > 0 && this.getVidas() < 3) {
+                this.setVidas(getVidas() + ((Bandage) inventario.remove(getBandageFromInventario())).getHealAmmount());
             }
         }
 
@@ -132,12 +137,12 @@ public class Jugador extends Personaje {
      *
      * @return
      */
-    public int getCantidadDeLlaves(){
+    public int getCantidadDeLlaves() {
 
         int cantidadDeLlaves = 0;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Llave)
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Llave)
                 cantidadDeLlaves++;
         }
 
@@ -150,19 +155,17 @@ public class Jugador extends Personaje {
      *
      * @return
      */
-    public int getCantidadDeBaterias(){
+    public int getCantidadDeBaterias() {
 
         int cantidadDeBaterias = 0;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Bateria)
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Bateria)
                 cantidadDeBaterias++;
         }
 
         return cantidadDeBaterias;
     }
-
-
 
 
     /**
@@ -171,12 +174,12 @@ public class Jugador extends Personaje {
      *
      * @return
      */
-    public int getCantidadDeFaroles(){
+    public int getCantidadDeFaroles() {
 
         int cantidadDeFaroles = 0;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Farol)
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Farol)
                 cantidadDeFaroles++;
         }
 
@@ -189,12 +192,12 @@ public class Jugador extends Personaje {
      *
      * @return
      */
-    public int getCantidadDeBandages(){
+    public int getCantidadDeBandages() {
 
         int cantidadDeBandages = 0;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Bandage)
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Bandage)
                 cantidadDeBandages++;
         }
 
@@ -207,12 +210,12 @@ public class Jugador extends Personaje {
      *
      * @return
      */
-    private int getFarolFromInventario(){
+    private int getFarolFromInventario() {
 
         int index = -1;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Farol){
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Farol) {
                 index = inventario.indexOf(item);
                 break;
             }
@@ -224,24 +227,22 @@ public class Jugador extends Personaje {
     /**
      * Método utilizado para eliminar las llaves una vez que
      * son utilizadas para abrir la puerta de salida.
-     *
      */
-    private void useKeys(){
-        while(getCantidadDeLlaves() > 0){
+    private void useKeys() {
+        while (getCantidadDeLlaves() > 0) {
             inventario.remove(keyToDelete());
         }
     }
 
     /**
      * Método busca una llave en el inventario y la retorna.
-     *
      */
-    private Llave keyToDelete(){
+    private Llave keyToDelete() {
 
         Llave key = null;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Llave)
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Llave)
                 key = (Llave) item;
         }
 
@@ -252,7 +253,7 @@ public class Jugador extends Personaje {
     public void collision(Fixture fixture) {
 
         //Comportamiento que tendrá con un cofre
-        if(fixture.getUserData() instanceof Cofre){
+        if (fixture.getUserData() instanceof Cofre) {
 
             //Este comportamiento quizas haya que definirlo al finalizar la colision
             //y luego de que el jugador haya "clickeado" en el objeto que contiene.
@@ -264,39 +265,75 @@ public class Jugador extends Personaje {
         }
 
         //Comportamiento que tendrá con una puerta
-        if(fixture.getUserData() instanceof Puerta){
-            if(this.getCantidadDeLlaves() == CANTIDAD_LLAVES){
+        if (fixture.getUserData() instanceof Puerta) {
+            if (this.getCantidadDeLlaves() == CANTIDAD_LLAVES) {
                 useKeys();
             }
         }
 
         //Comportamiento que tendrá con un farol
-        if(fixture.getUserData() instanceof Farol){
-            if(!((Farol)fixture.getUserData()).getEstaEquipado()){
-                inventario.add((Farol)fixture.getUserData());
+        if (fixture.getUserData() instanceof Farol) {
+            if (!((Farol) fixture.getUserData()).getEstaEquipado()) {
+                inventario.add((Farol) fixture.getUserData());
             }
         }
 
         //Comportamiento que tendrá con un enemigo
-        if(fixture.getUserData() instanceof Enemigo){
-            if(this.vidas > 0){
+        if (fixture.getUserData() instanceof Enemigo) {
+            if (this.vidas > 0 && tagged == false) {
                 this.vidas--;
+                tagged = true;
+
             }
         }
     }
 
 
+    public void useVenda() {
 
-    public void useVenda(){
-
-        for(ItemEquipable item : inventario){
-            if(item instanceof Bandage) {
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Bandage) {
                 this.inventario.remove(item);
-                this.setVidas(getVidas()+1);
+                this.setVidas(getVidas() + 1);
                 break;
             }
         }
     }
 
 
+    /**
+     * Método que busca una venda en
+     * el inventario y lo retorna
+     *
+     * @return
+     */
+    private int getBandageFromInventario() {
+
+        int index = -1;
+
+        for (ItemEquipable item : inventario) {
+            if (item instanceof Bandage) {
+                index = inventario.indexOf(item);
+                break;
+            }
+        }
+
+        return index;
+    }
+
+
+/**
+ * Evalua si el jugador recibio daño
+ *
+ * vuelve a hacerlo vulnerable luego de 4s
+ *
+ */
+    public void setTagged() {
+        if (sec >= 4) {
+            tagged = false;
+            sec = 0;
+        } else if (tagged == true) {
+            sec += Gdx.graphics.getDeltaTime();
+        }
+    }
 }
