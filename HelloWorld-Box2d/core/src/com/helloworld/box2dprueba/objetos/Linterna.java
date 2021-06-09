@@ -2,6 +2,7 @@ package com.helloworld.box2dprueba.objetos;
 
 import box2dLight.ConeLight;
 import box2dLight.RayHandler;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.utils.Ray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +12,7 @@ import com.helloworld.box2dprueba.entidades.Personaje;
 public class Linterna extends Iluminacion {
 
     private ConeLight linterna;
+    private float sec = 0;
 
 
     //Constructor
@@ -19,7 +21,6 @@ public class Linterna extends Iluminacion {
         super(world, batch, x, y, width, height, isStatic, fixRotation, distancia);
         linterna = new ConeLight(rayHandler, 100, Color.WHITE, distancia, x , y, 0, 25);
         linterna.setSoftnessLength(0f);
-
     }
 
     //Getter & Setter
@@ -39,7 +40,12 @@ public class Linterna extends Iluminacion {
 
     public void update()
     {
-        linterna.setDistance(linterna.getDistance()*0.999f);
+        sec += Gdx.graphics.getDeltaTime();
+
+        if(sec >= 1) {
+            linterna.setDistance(linterna.getDistance() * 0.99f);
+            sec = 0;
+        }
     }
 
 

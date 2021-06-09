@@ -77,8 +77,10 @@ public class PlayStateGame extends State {
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
-                160,
-                32,
+                1020,
+                180,
+//                160,
+//                32,
                 32,
                 32,
                 false,
