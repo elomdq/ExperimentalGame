@@ -49,7 +49,7 @@ public class PlayStateGame extends State {
     private Hud hud;
 
     private List<Cofre> chests;
-    private Texture cofreTexture;
+    //private Texture cofreTexture;
 
     private RayHandler rayHandler;
     private float distance = 220/PPM;
@@ -108,15 +108,10 @@ public class PlayStateGame extends State {
                 448);
 
 
-        //light = new PointLight(rayHandler,100,   Color.WHITE,distance, 0 , 0);
-        //light.setSoftnessLength(0f);
-        //light.attachToBody(player);
-
-
         //seteo luz
         rayHandler = new RayHandler(world);
 
-        rayHandler.setAmbientLight(0.8f);
+        rayHandler.setAmbientLight(0f);
 
         linterna = new Linterna (world,
                 batch,
@@ -143,7 +138,7 @@ public class PlayStateGame extends State {
         hud = new Hud(batch);
 
         //seteo de cofres e items equipables
-        cofreTexture = new Texture("images/cofre.png");
+        //cofreTexture = new Texture("images/cofre.png");
         chests = assignItems(createItems(),createChests());
 
 
@@ -196,7 +191,8 @@ public class PlayStateGame extends State {
 
         for(Cofre chest : chests){
 
-            batch.draw(cofreTexture,chest.getBody().getPosition().x * PPM - (30/2), chest.getBody().getPosition().y * PPM - (30/2));
+            //batch.draw(cofreTexture,chest.getBody().getPosition().x * PPM - (30/2), chest.getBody().getPosition().y * PPM - (30/2));
+            chest.render();
 
         }
 
@@ -230,10 +226,14 @@ public class PlayStateGame extends State {
         banshee.dispose();
         skeleton.dispose();
         smeller1.dispose();
-        cofreTexture.dispose();
+        //cofreTexture.dispose();
         banshee.dispose();
         skeleton.dispose();
         smeller1.dispose();
+        for (Cofre cofre:
+             chests) {
+            cofre.dispose();
+        }
     }
 
     public void cameraUpdate() {
