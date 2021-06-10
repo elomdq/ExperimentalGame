@@ -21,9 +21,9 @@ public class Smeller extends Enemigo {
 
 
 
-    public Smeller(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY) {
+    public Smeller(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY, float predictionTime) {
 
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Zombie.txt", 32, 32, 3, target, 0, Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3")));
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Zombie.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3")));
 
         this.target = target;
 
@@ -37,7 +37,7 @@ public class Smeller extends Enemigo {
 
         this.pursueBehavior = new Pursue<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior())
                 .setEnabled(true)
-                .setMaxPredictionTime(7.5f);
+                .setMaxPredictionTime(predictionTime);
 
         this.evadeBehavior = new Evade<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior(), 8)
         .setEnabled(true);

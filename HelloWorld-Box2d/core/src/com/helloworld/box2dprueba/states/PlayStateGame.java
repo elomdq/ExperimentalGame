@@ -3,6 +3,7 @@ package com.helloworld.box2dprueba.states;
 import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,9 +42,11 @@ public class PlayStateGame extends State {
     private World world;
 
     private Jugador jugador;
-    private Skeleton skeleton;
+    private Skeleton skeleton1;
+    private Skeleton skeleton2;
     private Banshee banshee;
     private Smeller smeller1;
+    private Smeller smeller2;
 
     private Hud hud;
 
@@ -53,10 +56,12 @@ public class PlayStateGame extends State {
     private RayHandler rayHandler;
     private float distance;
 
-//    private ConeLight coneLight;
     private Linterna linterna;
 
     private float alpha = 1;
+
+    private Music backgroundMusic; /** NUEVO **/
+
 
     //Constructor
     public PlayStateGame(GameStateManager gsm) {
@@ -77,8 +82,8 @@ public class PlayStateGame extends State {
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
-                160,
-                32,
+                1560,//160
+                1032,//32
                 32,
                 32,
                 false,
@@ -88,33 +93,49 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
-        skeleton = new Skeleton(world,
+        skeleton1 = new Skeleton(world,
                 batch,
                 jugador,
-                1248,
-                736);
+                1310,
+                646);
+
 
         banshee = new Banshee(world,
                 batch,
                 jugador,
-                416,
-                1200);
+                416,//416
+                1200); //1200
 
         smeller1 = new Smeller(world,
                 batch,
                 jugador,
-                1024,
-                448);
-
+                1324,
+                448,
+                7.5f);
 
         //seteo luz
         rayHandler = new RayHandler(world);
 
         rayHandler.setAmbientLight(0.0000001f);
 
-        distance = DISTANCIA_LUMINARIA/PPM;
+        distance = DISTANCIA_LUMINARIA / PPM;
 
-        linterna = new Linterna (world,
+/** INICIO NUEVO TO++ **/
+//        skeleton2 = new Skeleton(world,
+//                batch,
+//                jugador,
+//                1000,
+//                736);
+
+        smeller2 = new Smeller(world,
+                batch,
+                jugador,
+                1970,
+                1510,
+                3.2f);
+        /** FIN NUEVO TO++ **/
+
+        linterna = new Linterna(world,
                 batch,
                 jugador.getBody().getPosition().x,
                 jugador.getBody().getPosition().y,
@@ -141,20 +162,37 @@ public class PlayStateGame extends State {
 
         //seteo de cofres e items equipables
         cofreTexture = new Texture("images/cofre.png");
-        chests = assignItems(createItems(),createChests());
+        chests = assignItems(createItems(), createChests());
 
+
+        /**Le agrego un farol al inventario del jugador para testear comportamientos**/
+        jugador.getInventario().add(new Farol(world, batch, DEFAULT_POS, DEFAULT_POS, 1, 1, true, false, rayHandler, 0));
+
+        /** INICIO NUEVO TO++ **/
+
+        this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/BackgroundMusic.mp3"));
+        backgroundMusic.play();
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.02f);
+
+        /** FIN NUEVO TO++ **/
     }
-
 
     @Override
     public void update(float delta) {
         world.step(1/60f, 6, 2);
 
         cameraUpdate();
-        skeleton.update(delta);
+        skeleton1.update(delta);
         banshee.update(delta);
         smeller1.update(delta);
         jugador.update(delta);
+        /** INICIO NUEVO TO++ **/
+
+//        skeleton2.update(delta);
+        smeller2.update(delta);
+
+        /** FIN NUEVO TO++ **/
 
 //      ciclo utilizado para el comportamiento de los faroles
         for(ItemEquipable item : jugador.getInventario()){
@@ -191,10 +229,18 @@ public class PlayStateGame extends State {
 
         batch.begin();
 
-        skeleton.render();
+        skeleton1.render();
         jugador.render();
         banshee.render();
         smeller1.render();
+
+        /** INICIO NUEVO TO++ **/
+
+        smeller2.render();
+//        skeleton2.render();
+
+
+        /** FIN NUEVO TO++ **/
 
         for(Cofre chest : chests){
 
@@ -229,12 +275,13 @@ public class PlayStateGame extends State {
         jugador.dispose();
         linterna.dispose();
         banshee.dispose();
-        skeleton.dispose();
+        skeleton1.dispose();
         smeller1.dispose();
         cofreTexture.dispose();
         banshee.dispose();
-        skeleton.dispose();
-        smeller1.dispose();
+        skeleton2.dispose();
+        smeller2.dispose();
+        backgroundMusic.dispose();
     }
 
     public void cameraUpdate() {
