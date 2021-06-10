@@ -25,6 +25,7 @@ public final class CositasLindas {
     }
 
     //Esto es solo para fines practicos del uso de la linterna
+    //evalua si el angulo de la entidad esta dentro del arco dado por angle1 y angle2
     public static boolean enfrentados(float angleTarget, float angle1, float angle2)
     {
         if(anguloOpuesto(angleTarget) >= angle1 && anguloOpuesto(angleTarget) <= angle2)
@@ -50,7 +51,7 @@ public final class CositasLindas {
         double deltaX = target.x - referencia.x;
         double deltaY = target.y - referencia.y;
 
-        double Hypo = Math.hypot(deltaX * PPM, deltaY * PPM);
+        double Hypo = Math.hypot(deltaX, deltaY);
 
         return (float) Math.abs(Hypo);
     }

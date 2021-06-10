@@ -11,15 +11,19 @@ public abstract class Entidad {
 
     private Body body;
     private SpriteBatch batch;
+    private float alpha;
     //private Texture texture;
-
+    //World world;
 
     //Contructor
     //Se le pasa una referencia del mundo donde se va a crear (porque el mundo crea la referencia del body a asignar)
     //Se le pasa posicion con X e Y, ancho y alto, Si es cuerpo estatico o dinamico, y si no va a rotar
     public Entidad(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
         body = createBox(world, x, y, width, height, isStatic, fixRotation);
+
         this.batch = batch;
+        this.alpha = 1;
+        //this.world = world;
     }
 
 
@@ -40,6 +44,21 @@ public abstract class Entidad {
     public void setBatch(SpriteBatch batch) {
         this.batch = batch;
     }
+
+    public float getAlpha() {
+        return alpha;
+    }
+    public void setAlpha(float alpha) {
+        this.alpha = alpha;
+    }
+
+    /*public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }*/
 
     //Otros metodos
 
@@ -67,14 +86,13 @@ public abstract class Entidad {
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = shape;
         fixDef.density = 1f;
+
         if(this instanceof Farol)
             fixDef.isSensor = true;
 
         body.createFixture(fixDef).setUserData(this);
 
         shape.dispose();
-
-        //body.setTransform(body.getPosition(), 90 * MathUtils.degreesToRadians);
 
         return body;
     }

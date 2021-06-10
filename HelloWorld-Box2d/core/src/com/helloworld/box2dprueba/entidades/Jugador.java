@@ -284,36 +284,27 @@ public class Jugador extends Personaje {
     public void collision(Fixture fixture) {
 
         //Comportamiento que tendrá con un cofre
-        if (fixture.getUserData() instanceof Cofre) {
+        if(fixture.getUserData() instanceof Cofre){
 
             //Este comportamiento quizas haya que definirlo al finalizar la colision
             //y luego de que el jugador haya "clickeado" en el objeto que contiene.
             inventario.add(((Cofre) fixture.getUserData()).getItem());
 
             ((Cofre) fixture.getUserData()).setItem(null);
-
         }
 
         //Comportamiento que tendrá con una puerta
         if(fixture.getUserData() instanceof Puerta){
-
             if(this.getCantidadDeLlaves() == CANTIDAD_LLAVES){
-
                 useKeys();
-
             }
         }
 
         //Comportamiento que tendrá con un farol
-
         if(fixture.getUserData() instanceof Farol){
-
             if(!((Farol)fixture.getUserData()).getEstaEquipado() && !this.getInventario().contains(((Farol)fixture.getUserData()))){
-
                 inventario.add((Farol)fixture.getUserData());
-
             }
-
         }
 
         //Comportamiento que tendrá con un enemigo
@@ -322,11 +313,9 @@ public class Jugador extends Personaje {
                 this.vidas--;
             }
         }
-
     }
 
     public void useVenda() {
-
         for (ItemEquipable item : inventario) {
             if (item instanceof Bandage) {
                 this.inventario.remove(item);

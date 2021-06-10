@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 import com.helloworld.box2dprueba.utils.ICollision;
-import com.helloworld.box2dprueba.animaciones.Animacion;
+import com.helloworld.box2dprueba.animaciones.AnimacionPersonaje;
 import com.helloworld.box2dprueba.entities.AISteeringBehavior;
 
 public abstract class Personaje extends Entidad implements ICollision {
 
-    private Animacion animacion;
-    private float alpha;
+    private AnimacionPersonaje animacion;
+    //private float alpha;
     private AISteeringBehavior steeringBehavior;
 
 
@@ -18,27 +18,24 @@ public abstract class Personaje extends Entidad implements ICollision {
     public Personaje(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames)
     {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
-        this.animacion = new Animacion(texturePath, frameWidth, frameHeight, frames);
+        this.animacion = new AnimacionPersonaje(texturePath, frameWidth, frameHeight, frames);
+        animacion.crearAnimacion();
+
         steeringBehavior = new AISteeringBehavior(this.getBody(), 1);
-        alpha = 1f;
+
     }
 
     //setters & getters
 
-    public Animacion getAnimacion() {
+    public AnimacionPersonaje getAnimacion() {
         return animacion;
     }
 
-    public void setAnimacion(Animacion animacion) {
+    public void setAnimacion(AnimacionPersonaje animacion) {
         this.animacion = animacion;
     }
 
-    public void setAlpha(float alpha)
-    {
-        this.alpha = alpha;
-    }
 
-    public float getAlpha(){return this.alpha;}
 
 
     //otros metodos
@@ -48,6 +45,7 @@ public abstract class Personaje extends Entidad implements ICollision {
     {
         this.animacion.updateStateTime(delta);
         this.animacion.setCurrentFrame();
+
     }
 
     //Tomo la posicion del Body del Personaje y actualizo la posicion de renderizado del Sprite

@@ -25,8 +25,7 @@ public abstract class Enemigo extends Personaje implements ICollision {
         this.target = target;
         this.scream = scream;
         this.health=health;
-        this.evadeBehavior = new Evade<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior(), 8)
-                .setEnabled(true);
+        this.evadeBehavior = new Evade<Vector2>(this.getSteeringBehavior(), target.getSteeringBehavior(), 8).setEnabled(true);
     }
 
     //setter & getters
@@ -120,16 +119,17 @@ public abstract class Enemigo extends Personaje implements ICollision {
         ratio = this.distanciaAlTarget(this.getTarget().getBody().getPosition()) / target.getIluminacion().getDistance();
 
         if(ratio<min)
-            super.setAlpha(1);
+            this.setAlpha(1);
         else if(ratio>max)
-            super.setAlpha(0);
+            this.setAlpha(0);
         else
-            super.setAlpha(coefA * ratio + coefB);
+            this.setAlpha(coefA * ratio + coefB);
 
         if(!enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), this.getBody().getPosition()))
                 , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
                 target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
-            super.setAlpha(0);
+
+            this.setAlpha(0);
     }
 
 

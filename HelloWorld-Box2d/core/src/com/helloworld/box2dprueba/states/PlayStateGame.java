@@ -13,7 +13,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
+
+import com.helloworld.box2dprueba.entidades.Entidad;
+
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
 import com.helloworld.box2dprueba.objetos.Farol;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.helloworld.box2dprueba.utils.Constants.*;
-
+import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 
 
 public class PlayStateGame extends State {
@@ -51,7 +53,7 @@ public class PlayStateGame extends State {
     private Hud hud;
 
     private List<Cofre> chests;
-    private Texture cofreTexture;
+    //private Texture cofreTexture;
 
     private RayHandler rayHandler;
     private float distance;
@@ -115,7 +117,6 @@ public class PlayStateGame extends State {
 
         //seteo luz
         rayHandler = new RayHandler(world);
-
         rayHandler.setAmbientLight(0.0000001f);
 
         distance = DISTANCIA_LUMINARIA / PPM;
@@ -134,6 +135,7 @@ public class PlayStateGame extends State {
                 1510,
                 3.2f);
         /** FIN NUEVO TO++ **/
+
 
         linterna = new Linterna(world,
                 batch,
@@ -161,8 +163,8 @@ public class PlayStateGame extends State {
         hud = new Hud(batch);
 
         //seteo de cofres e items equipables
-        cofreTexture = new Texture("images/cofre.png");
-        chests = assignItems(createItems(), createChests());
+        chests = assignItems(createItems(),createChests());
+
 
 
         /**Le agrego un farol al inventario del jugador para testear comportamientos**/
@@ -183,10 +185,12 @@ public class PlayStateGame extends State {
         world.step(1/60f, 6, 2);
 
         cameraUpdate();
+
         skeleton1.update(delta);
         banshee.update(delta);
         smeller1.update(delta);
         jugador.update(delta);
+
         /** INICIO NUEVO TO++ **/
 
 //        skeleton2.update(delta);
@@ -208,12 +212,14 @@ public class PlayStateGame extends State {
 
         hud.update(jugador);
 
-        rayHandler.update();
-        rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
+        for(Cofre chest : chests){
+            updateAlpha( chest, jugador);
+        }
 
         linterna.update();
-        /*distance *= 0.999f;
-         light.setDistance(distance);*/
+
+        rayHandler.update();
+        rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
     }
 
     @Override
@@ -243,9 +249,7 @@ public class PlayStateGame extends State {
         /** FIN NUEVO TO++ **/
 
         for(Cofre chest : chests){
-
-            batch.draw(cofreTexture,chest.getBody().getPosition().x * PPM - (30/2), chest.getBody().getPosition().y * PPM - (30/2));
-
+            chest.render();
         }
 
         batch.end();
@@ -277,11 +281,16 @@ public class PlayStateGame extends State {
         banshee.dispose();
         skeleton1.dispose();
         smeller1.dispose();
-        cofreTexture.dispose();
+        //cofreTexture.dispose();
         banshee.dispose();
         skeleton2.dispose();
         smeller2.dispose();
         backgroundMusic.dispose();
+        smeller1.dispose();
+        for (Cofre cofre:
+             chests) {
+            cofre.dispose();
+        }
     }
 
     public void cameraUpdate() {
@@ -336,20 +345,20 @@ public class PlayStateGame extends State {
 
         List<Cofre> list = new ArrayList<>();
 
-        list.add( new Cofre(world,batch,POS_CHEST_1.x,POS_CHEST_1.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_2.x ,POS_CHEST_2.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_3.x,POS_CHEST_3.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_4.x,POS_CHEST_4.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_5.x,POS_CHEST_5.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_6.x,POS_CHEST_6.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_7.x,POS_CHEST_7.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_8.x,POS_CHEST_8.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_9.x,POS_CHEST_9.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_10.x,POS_CHEST_10.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_11.x,POS_CHEST_11.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_12.x,POS_CHEST_12.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_13.x,POS_CHEST_13.y,30,30,true,false));
-        list.add( new Cofre(world,batch,POS_CHEST_14.x,POS_CHEST_14.y,30,30,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_1.x,POS_CHEST_1.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_2.x ,POS_CHEST_2.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_3.x,POS_CHEST_3.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_4.x,POS_CHEST_4.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_5.x,POS_CHEST_5.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_6.x,POS_CHEST_6.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_7.x,POS_CHEST_7.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_8.x,POS_CHEST_8.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_9.x,POS_CHEST_9.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_10.x,POS_CHEST_10.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_11.x,POS_CHEST_11.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_12.x,POS_CHEST_12.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_13.x,POS_CHEST_13.y,25,26,true,false));
+        list.add( new Cofre(world,batch,POS_CHEST_14.x,POS_CHEST_14.y,25,26,true,false));
 
         return list;
     }
@@ -369,10 +378,33 @@ public class PlayStateGame extends State {
             }else{
                 chest.setItem( items.remove((int)(Math.random() * items.size())) );
             }
-
         }
 
         return chests;
+    }
+
+    //metodo para actualizar alpha de los Sprites
+    public void updateAlpha(Entidad objeto, Jugador target)
+    {
+        float ratio, coefA, coefB;
+        float min=0.65f, max=1f;
+
+        coefA = 1 / (min - max);
+        coefB =  -1 * max * coefA;
+        ratio = distanciaEntreVectores(objeto.getBody().getPosition(), target.getBody().getPosition()) /  target.getIluminacion().getDistance();
+
+        if(ratio<min)
+            objeto.setAlpha(1f);
+        else if(ratio>max)
+            objeto.setAlpha(0f);
+        else
+            objeto.setAlpha(coefA * ratio + coefB);
+
+        if( !enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), objeto.getBody().getPosition()))
+                , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
+                target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
+
+            objeto.setAlpha(0f);
     }
 }
 
