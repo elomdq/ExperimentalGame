@@ -20,10 +20,11 @@ public class Cofre extends Entidad implements ICollision {
 
     private ItemEquipable item;
     private boolean isClosed;
-    private Animacion animacion;
-    private float alpha;
+    //private Animacion animacion;
+
     private Sprite imagen;
     private TextureAtlas atlas;
+
 
     //Constructor
     public Cofre(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation){
@@ -31,10 +32,8 @@ public class Cofre extends Entidad implements ICollision {
         this.item = null;
         this.isClosed = true;
 
-        animacion = new Animacion("images/cofre.txt", 26, 27, 4);
+        //animacion = new Animacion("images/cofre.txt", 26, 27, 4);
 
-
-        alpha = 1;
 
         atlas = new TextureAtlas("images/cofre.txt");
         imagen = atlas.createSprite("chest-1");
@@ -55,31 +54,16 @@ public class Cofre extends Entidad implements ICollision {
 
     public void render()
     {
-
-        this.update(Gdx.graphics.getDeltaTime());
-        spriteRenderizado().draw(this.getBatch(), 1);
-
-        //animacion.updateStateTime(Gdx.graphics.getDeltaTime());
-        //animacion.getCurrentFrame().draw(this.getBatch(),1);
-
+        imagen.setPosition(this.getBody().getPosition().x * PPM - (26/2), this.getBody().getPosition().y* PPM - (27/2));
+        imagen.draw(this.getBatch(), this.getAlpha());
     }
 
     public void update(float delta)
     {
-        if(isClosed != true)
-            System.out.println(isClosed);
-
-        imagen.setPosition(this.getBody().getPosition().x * PPM - (26/2), this.getBody().getPosition().y* PPM - (27/2));
-
-        if(!isClosed /*&& animacion.getStateTime()<=0.4f*/)
-        {
-            animacion.updateStateTime(delta);
-            System.out.println("delta = " + delta);
-            animacion.getCurrentFrame().setPosition(this.getBody().getPosition().x * PPM - (26/2), this.getBody().getPosition().y* PPM - (27/2));
-        }
+        //imagen.setPosition(this.getBody().getPosition().x * PPM - (26/2), this.getBody().getPosition().y* PPM - (27/2));
     }
 
-    private Sprite spriteRenderizado()
+    /*private Sprite spriteRenderizado()
     {
         if(isClosed)
         {
@@ -87,21 +71,19 @@ public class Cofre extends Entidad implements ICollision {
         }
         else
         {
-            if(animacion.getStateTime() <= 0.4f)
+           *//* if(animacion.getStateTime() <= 0.5f)
             {
                 return animacion.getCurrentFrame();
             }
             else
-            {
+            {*//*
                 return imagen;
-            }
+            *//*}*//*
         }
-    }
+    }*/
 
     private void openAnimation(){
        if(!this.isClosed){
-            //animacion.getAnimacionActual().setFrameDuration(0.1f);
-            animacion.crearAnimacion();
             imagen.setRegion(atlas.findRegion("chest-4"));
        }
     }
@@ -114,13 +96,12 @@ public class Cofre extends Entidad implements ICollision {
 
     @Override
     public void collision(Fixture fixture) {
-        if(canBeOpened(hasItem())){
+        if(isClosed){
             this.isClosed = false;
             openAnimation();
+            this.item = null;
             //playSound();
             //Se muestra el elemento que contiene
-        }else{
-            this.item = null;
         }
     }
 
@@ -146,4 +127,5 @@ public class Cofre extends Entidad implements ICollision {
     private boolean canBeOpened(boolean tieneItem){
         return (tieneItem && isClosed);
     }
+
 }

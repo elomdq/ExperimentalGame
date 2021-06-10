@@ -15,6 +15,7 @@ public abstract class Enemigo extends Personaje {
     public Enemigo(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         this.target = target;
+
     }
 
     //setter & getters
@@ -108,16 +109,17 @@ public abstract class Enemigo extends Personaje {
         ratio = this.distanciaAlTarget(this.getTarget().getBody().getPosition()) / target.getIluminacion().getDistance();
 
         if(ratio<min)
-            super.setAlpha(1);
+            this.setAlpha(1);
         else if(ratio>max)
-            super.setAlpha(0);
+            this.setAlpha(0);
         else
-            super.setAlpha(coefA * ratio + coefB);
+            this.setAlpha(coefA * ratio + coefB);
 
         if(!enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), this.getBody().getPosition()))
                 , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
                 target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
-            super.setAlpha(0);
+
+            this.setAlpha(0);
     }
 
     @Override

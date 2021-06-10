@@ -10,7 +10,7 @@ import com.helloworld.box2dprueba.entities.AISteeringBehavior;
 public abstract class Personaje extends Entidad implements ICollision {
 
     private AnimacionPersonaje animacion;
-    private float alpha;
+    //private float alpha;
     private AISteeringBehavior steeringBehavior;
 
 
@@ -22,7 +22,7 @@ public abstract class Personaje extends Entidad implements ICollision {
         animacion.crearAnimacion();
 
         steeringBehavior = new AISteeringBehavior(this.getBody(), 1);
-        alpha = 1f;
+
     }
 
     //setters & getters
@@ -35,12 +35,7 @@ public abstract class Personaje extends Entidad implements ICollision {
         this.animacion = animacion;
     }
 
-    public void setAlpha(float alpha)
-    {
-        this.alpha = alpha;
-    }
 
-    public float getAlpha(){return this.alpha;}
 
 
     //otros metodos
@@ -50,6 +45,7 @@ public abstract class Personaje extends Entidad implements ICollision {
     {
         this.animacion.updateStateTime(delta);
         this.animacion.setCurrentFrame();
+
     }
 
     //Tomo la posicion del Body del Personaje y actualizo la posicion de renderizado del Sprite

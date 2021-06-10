@@ -11,7 +11,6 @@ public class Animacion {
 
     TextureAtlas textureAtlas;
     private List<Sprite> frames;
-    private Sprite[] framesAnimacion;
     private Sprite currentFrame; //Frame actualmente en pantalla
     private int frameWidth, frameHeight, animationFrames;
     private float stateTime;
@@ -102,17 +101,13 @@ public class Animacion {
     public void crearAnimacion()
     {
         this.frames = new ArrayList<>();
-        this.framesAnimacion = new Sprite[animationFrames];
 
         for (TextureAtlas.AtlasRegion region:
                 textureAtlas.getRegions()) {
             frames.add(new Sprite(region));
         }
 
-        //framesAnimacion = (Sprite[]) frames.toArray();
-
-
-        animacionActual = new Animation(0.1f, frames);
+        animacionActual = new Animation(0.0f, frames);
         //setCurrentFrame();
     }
 
