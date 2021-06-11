@@ -12,11 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-<<<<<<< HEAD
-
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-=======
->>>>>>> b061f49850bfa60aa75fa194fd5c9087c6b57694
 import com.helloworld.box2dprueba.entidades.Entidad;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
@@ -83,6 +79,7 @@ public class PlayStateGame extends State {
         map = new TmxMapLoader().load("maps/mapita.tmx"); // Devuelve un TiledMap
         tmr = new OrthogonalTiledMapRenderer(map);
 
+        //Seteo un viewport y la camara se adapta
         viewport = new ExtendViewport(1080, 720, camera);
 
         //generacion de los cuerpos solidos del mapa
@@ -155,7 +152,7 @@ public class PlayStateGame extends State {
 
         b2dr.setDrawBodies(false);
 
-        hud = new Hud(batch);
+        hud = new Hud(batch, camera);
 
         //seteo de cofres e items equipables
         chests = assignItems(createItems(),createChests());
@@ -237,15 +234,17 @@ public class PlayStateGame extends State {
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
+
+       hud.render();
 
     }
 
     @Override
     public void resize(int w, int h, float scale) {
 
-        //super.resize(w, h, scale);
-        viewport.update(w, h);
+        super.resize(w, h, scale);
+        hud.stage.getViewport().update(w,h);
+        //viewport.update(w, h);
     }
 
     @Override
@@ -267,6 +266,7 @@ public class PlayStateGame extends State {
         backgroundMusic.dispose();
         smeller1.dispose();
         backgroundMusic.dispose();
+        hud.dispose();
         for (Cofre cofre : chests) {
             cofre.dispose();
         }

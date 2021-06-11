@@ -1,12 +1,19 @@
 package com.helloworld.box2dprueba.scenes;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.helloworld.box2dprueba.entidades.Jugador;
@@ -21,7 +28,10 @@ public class Hud {
     private static final int V_HEIGHT = 480;
 
     public Stage stage;
+    private Skin skin;
     private Viewport viewport;
+    private TextureAtlas atlas;
+    private BitmapFont font;
 
 
     private Integer lives;
@@ -31,25 +41,25 @@ public class Hud {
     private Integer bandages;
     private Stopwatch time;
 
-    private Label lifeLabel;
+    private Image life;
     private Label livesLabel;
 
-    private Label lampLabel;
+    private Image lamp;
     private Label lampsLabel;
 
+    private Image key;
     private Label keysLabel;
-    private Label keyLabel;
 
+    private Image mana;
     private Label batteriesLabel;
-    private Label batteryLabel;
 
+    private Image bandage;
     private Label bandegesLabel;
-    private Label bandageLabel;
 
-    private Label timeLabel;
     private Label timesLabel;
 
-    public Hud(SpriteBatch sb){
+
+    public Hud(SpriteBatch batch, Camera camera){
 
         lives = CANTIDAD_VIDAS;
         keys = 0;
@@ -58,37 +68,51 @@ public class Hud {
         bandages = 0;
         this.time=new Stopwatch();
 
-        viewport = new FitViewport(V_WIDTH, V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, sb);
+        atlas = new TextureAtlas("ui/hud.txt");
 
-        //Se utiliza una "mesa" para organizar en pantalla la informacion de los Labels
+        this.viewport = new ExtendViewport(camera.viewportWidth, camera.viewportHeight);
+        stage = new Stage(viewport, batch);
+
+        skin = new Skin();
+        skin.addRegions(atlas);
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/8-bit Arcade In.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 30;
+        params.color = Color.WHITE;
+        font = generator.generateFont(params);
+        skin.add("default-font", font);
+
+        skin.load(Gdx.files.internal("ui/hudSkin.json"));
+
+
+        //Se utiliza una tabla para organizar en pantalla la informacion de los Labels
         Table table = new Table();
 
-        //Se alinea arriba de la pantalla
-        table.left();
-        table.top();
 
-        //Se establece que la "mesa" ocupa toda la pantalla
-        table.setFillParent(true);
+        stage.addActor(table);
+        //Se alinea arriba de la pantalla
+       /* table.left();
+        table.top();*/
 
         //Se define la información que tendrá cada Label
-        lifeLabel = new Label("VIDAS", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
-        livesLabel = new Label(String.format("%02d", lives), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        livesLabel = new Label(String.format("%02d", lives), skin);
+        life = new Image(skin, "vida");
 
-        keyLabel = new Label("LLAVES", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
-        keysLabel = new Label(String.format("%02d", keys), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        keysLabel = new Label(String.format("%02d", keys), skin);
+        key = new Image(skin, "llave-zero");
 
-        bandageLabel = new Label("VENDAS", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
-        bandegesLabel = new Label(String.format("%02d", bandages), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        bandegesLabel = new Label(String.format("%02d", bandages), skin);
+        bandage = new Image(skin, "venda-zero");
 
-        batteryLabel = new Label("BATERIAS", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
-        batteriesLabel =new Label(String.format("%02d", batteries), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        batteriesLabel =new Label(String.format("%02d", batteries), skin);
+        mana = new Image(skin, "mana-zero");
 
-        lampLabel = new Label("FAROLES", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
-        lampsLabel = new Label(String.format("%02d", lamps), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        lampsLabel = new Label(String.format("%02d", lamps), skin);
+        lamp = new Image(skin, "farol-zero");
 
-        timeLabel = new Label("TIEMPO", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
-        timesLabel = new Label(String.format("%02d", (int)time.elapsedTime()), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        timesLabel = new Label(String.format("%02d", (int)time.elapsedTime()), skin);
+
 
 //        //Adrega los labels a la "mesa" en una primera fila
 //        table.add(lampLabel).expandX().padTop(10);
@@ -101,37 +125,30 @@ public class Hud {
 //        table.add(keysLabel).expandX();
 //        table.add(batteriesLabel).expandX();
 
+        table.setFillParent(true); //Se establece que la "mesa" ocupa toda la pantalla
+        table.setDebug(true);
 
-        table.add(lifeLabel).padTop(10);
-        table.add(livesLabel).padLeft(20);
-        table.getCell(livesLabel).padTop(10);
-        table.row();
-        table.add(keyLabel).padTop(10);
-        table.add(keysLabel).padLeft(20);
-        table.getCell(keysLabel).padTop(10);
-        table.row();
-        table.add(bandageLabel).padTop(10);
-        table.add(bandegesLabel).padLeft(20);
-        table.getCell(bandegesLabel).padTop(10);
-        table.row();
-        table.add(batteryLabel).padTop(10);
-        table.add(batteriesLabel).padLeft(20);
-        table.getCell(batteriesLabel).padTop(10);
-        table.row();
-        table.add(lampLabel).padTop(10);
-        table.add(lampsLabel).padLeft(20);
-        table.getCell(lampsLabel).padTop(10);
-        table.row();
-        table.add(timeLabel).padTop(10);
-        table.add(timesLabel).padLeft(20).padTop(10);
-//        table.getCell(timesLabel).padTop(10);
 
-        //Agrega la "mesa" a nuestro a la pantalla
-        stage.addActor(table);
 
+        table.add(timesLabel);
+        table.row().expandX();
+        table.add(livesLabel).padTop(10);
+        table.add(lampsLabel).padTop(10);
+        table.add(bandegesLabel).padTop(10);
+        table.add(batteriesLabel).padTop(10);
+        table.add(keysLabel).padTop(10);
+        table.row();
+        table.add(life).width(60);
+        table.add(lamp);
+        table.add(bandage);
+        table.add(mana);
+        table.add(key);
     }
 
+
     public void update(Jugador player){
+
+        stage.act();
 
         this.lives = player.getVidas();
         livesLabel.setText(String.format("%02d", lives));
@@ -149,5 +166,17 @@ public class Hud {
         bandegesLabel.setText(String.format("%02d", bandages));
 
         timesLabel.setText(String.format("%02d", (int)time.elapsedTime()));
+    }
+
+    public void render()
+    {
+        stage.draw();
+    }
+
+    public void dispose()
+    {
+        //atlas.dispose();
+        stage.dispose();
+        skin.dispose();
     }
 }

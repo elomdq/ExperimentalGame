@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.helloworld.box2dprueba.states.GameStateManager;
 
 public class JuegoApp extends ApplicationAdapter {
@@ -45,11 +46,11 @@ public class JuegoApp extends ApplicationAdapter {
 
 
 
-		//viewport = new ExtendViewport(800, 400, camera);
+		viewport = new ExtendViewport(1080, 720, camera);
 
 		inputProcessor = Gdx.input.getInputProcessor();
 
-		camera.setToOrtho(false, V_WIDTH/SCALE, H_HEIGHT/SCALE);
+		//camera.setToOrtho(false, V_WIDTH/SCALE, H_HEIGHT/SCALE);
 
 		batch = new SpriteBatch();
 
@@ -92,6 +93,8 @@ public class JuegoApp extends ApplicationAdapter {
 	{
 		return batch;
 	}
+
+	public Viewport getViewPort(){return viewport;}
 
 	public GameStateManager getGameStateManager(){return gsm;}
 

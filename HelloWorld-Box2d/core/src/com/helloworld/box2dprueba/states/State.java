@@ -30,7 +30,8 @@ public abstract class State {
 
     public void resize(int w, int h, float scale)
     {
-        camera.setToOrtho(false, w/scale, h/scale);
+        app.getViewPort().update(w,h,true);
+        //camera.setToOrtho(false, w/scale, h/scale);
     }
 
     //para manejar cualquier input ingresado por el usuario
