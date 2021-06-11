@@ -1,20 +1,21 @@
 package com.helloworld.box2dprueba.objetos;
 
+import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.helloworld.box2dprueba.entidades.Personaje;
+import javafx.scene.PointLight;
 
 public abstract class Iluminacion extends ItemEquipable {
 
+    private float distance;
     private float energiaRestante;
-    private float distancia;
 
 
     //constructor
-    public Iluminacion(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, float distancia) {
+    public Iluminacion(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
-        this.distancia = distancia;
     }
 
 
@@ -27,20 +28,17 @@ public abstract class Iluminacion extends ItemEquipable {
         this.energiaRestante = energiaRestante;
     }
 
-    public float getDistancia() {
-        return distancia;
+    public float getDistance() {
+        return this.distance;
     }
 
-    public void setDistancia(float distancia) {
-        this.distancia = distancia;
+    public void setDistance(float distancia) {
+        this.distance = distancia;
     }
+
 
     //otros metodos
 
-    public float getDistance()
-    {
-        return this.distancia;
-    }
 
     public abstract void equipar(Personaje target);
     public abstract void desequipar(Personaje target);

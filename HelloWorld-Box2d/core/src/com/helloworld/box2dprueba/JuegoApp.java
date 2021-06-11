@@ -16,19 +16,20 @@ public class JuegoApp extends ApplicationAdapter {
 	private boolean DEBUG = false;
 
 	public static final String TITLE = "Dungeon Crawler";
-	public static final int V_WIDTH = 800;
-	public static final int H_HEIGHT = 600;
+	public static final int V_WIDTH = 1080;
+	public static final int H_HEIGHT = 720;
 
-	private final float SCALE = 0.5f;
+	private final float SCALE = 1.5f;
 
 	private InputProcessor inputProcessor;
 
 	private GameStateManager gsm;
 	private OrthographicCamera camera;
+	private SpriteBatch batch;
 
 	private ExtendViewport viewport;
 
-	private SpriteBatch batch;
+
 
 	private Music backgroundMusic; /** NUEVO **/
 

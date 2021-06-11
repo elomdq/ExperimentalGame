@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuState extends State{
 
@@ -50,7 +53,7 @@ public class MenuState extends State{
     public MenuState(GameStateManager gsm){
         super(gsm);
 
-        stage = new Stage(new ExtendViewport(camera.viewportWidth*1.5f, camera.viewportHeight*1.5f));
+        stage = new Stage(new ExtendViewport(800, 600, camera));
 
         System.out.println("Width: " + camera.viewportWidth);
         System.out.println("Height: " + camera.viewportHeight);
@@ -125,6 +128,11 @@ public class MenuState extends State{
         stage.dispose();
         skin.dispose();
         backgroundMusic.dispose();
+    }
+
+    public void resize(int width, int height, float scale)
+    {
+        stage.getViewport().update(width, height, true);
     }
 
     public void menuUpdate(float delta)

@@ -1,12 +1,11 @@
 package com.helloworld.box2dprueba.states;
 
-import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -14,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.helloworld.box2dprueba.entidades.Entidad;
 
 import com.helloworld.box2dprueba.entidades.Jugador;
@@ -42,6 +42,8 @@ public class PlayStateGame extends State {
 
     private Box2DDebugRenderer b2dr;
     private World world;
+
+    private ExtendViewport viewport;
 
     private Jugador jugador;
     private Skeleton skeleton1;
@@ -78,14 +80,16 @@ public class PlayStateGame extends State {
         map = new TmxMapLoader().load("maps/mapita.tmx"); // Devuelve un TiledMap
         tmr = new OrthogonalTiledMapRenderer(map);
 
+        viewport = new ExtendViewport(1080, 720, camera);
+
         //generacion de los cuerpos solidos del mapa
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collisions").getObjects());
 
         //Creacion de personajes
         jugador = new Jugador(world,
                 batch,
-                1560,//160
-                1032,//32
+                160,//160
+                32,//32
                 32,
                 32,
                 false,
@@ -149,8 +153,9 @@ public class PlayStateGame extends State {
                 distance);
 
         //Las siguientes dos líneas de código quizas haya que mandarlas a la clase Linterna
-        linterna.getLinterna().setConeDegree(25);
+        linterna.getLight().setConeDegree(25);
         linterna.equipar(jugador);
+        jugador.setIluminacion(linterna);
 
 
         jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
@@ -265,7 +270,9 @@ public class PlayStateGame extends State {
 
     @Override
     public void resize(int w, int h, float scale) {
-        super.resize(w, h, scale);
+
+        //super.resize(w, h, scale);
+        viewport.update(w, h);
     }
 
     @Override
@@ -406,5 +413,14 @@ public class PlayStateGame extends State {
 
             objeto.setAlpha(0f);
     }
+
+
+    public void bounderies(Camera camera, float startX, float startY, float endX, float endY)
+    {
+        Vector3 position = camera.position;
+    }
+
 }
+
+
 

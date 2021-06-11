@@ -12,7 +12,7 @@ public final class Constants {
     public static final int CANTIDAD_VIDAS = 3;
 
     public static final float ENERGIA_BATERIAS = 0.25f;
-    public static final float DISTANCIA_LUMINARIA = 220F;
+    public static final float DISTANCIA_LUMINARIA = 384f;
 
     public static final Vector2 POS_CHEST_1 = new Vector2(106,1605);
     public static final Vector2 POS_CHEST_2 = new Vector2(128,480);

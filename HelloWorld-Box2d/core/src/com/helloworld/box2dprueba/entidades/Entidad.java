@@ -1,5 +1,6 @@
 package com.helloworld.box2dprueba.entidades;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
@@ -12,8 +13,6 @@ public abstract class Entidad {
     private Body body;
     private SpriteBatch batch;
     private float alpha;
-    //private Texture texture;
-    //World world;
 
     //Contructor
     //Se le pasa una referencia del mundo donde se va a crear (porque el mundo crea la referencia del body a asignar)
@@ -23,7 +22,6 @@ public abstract class Entidad {
 
         this.batch = batch;
         this.alpha = 1;
-        //this.world = world;
     }
 
 
@@ -52,13 +50,6 @@ public abstract class Entidad {
         this.alpha = alpha;
     }
 
-    /*public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }*/
 
     //Otros metodos
 

@@ -3,7 +3,9 @@ package com.helloworld.box2dprueba.objetos;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
@@ -15,12 +17,13 @@ import static com.helloworld.box2dprueba.utils.Constants.PPM;
 public class Farol extends Iluminacion implements ICollision {
 
     private PointLight pointLight;
-
+    private TextureRegion texture;
 
     //Constructor
     public Farol(World world, SpriteBatch batch, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
-        super(world, batch, x, y, width, height, isStatic, fixRotation, distancia);
+        super(world, batch, x, y, width, height, isStatic, fixRotation);
         pointLight = new PointLight(rayHandler,100,   Color.WHITE, distancia, 0 , 0);
+        texture = new TextureRegion(new Texture("images/Lantern.png"));
     }
 
 
@@ -87,5 +90,11 @@ public class Farol extends Iluminacion implements ICollision {
             this.setEstaEquipado(true);
 
         }
+    }
+
+    public void render()
+    {
+        if(!this.getEstaEquipado())
+            this.getBatch().draw(texture, this.pointLight.getX(), this.pointLight.getY());
     }
 }

@@ -132,7 +132,7 @@ public class Jugador extends Personaje {
         if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
             if(this.getCantidadDeBaterias()>0){
 
-                ConeLight linterna = ((Linterna)luminaria).getLinterna();
+                ConeLight linterna = ((Linterna)luminaria).getLight();
 
                 linterna.setDistance( linterna.getDistance() + (ENERGIA_BATERIAS*DISTANCIA_LUMINARIA)/PPM );
 

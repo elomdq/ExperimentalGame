@@ -6,16 +6,17 @@ import java.util.Stack;
 
 public class GameStateManager {
 
-    //referencia a la aplicacion
-    private final JuegoApp app;
 
-    private Stack<State> states;
+    private final JuegoApp app; //referencia a la aplicacion
+    private Stack<State> states; //Pila de States del juego
 
     public enum GameState
     {
         SPLASH,
         MENU,
-        PLAY
+        PLAY,
+        WIN,
+        GAMEOVER
     }
 
      public GameStateManager(final JuegoApp app)
