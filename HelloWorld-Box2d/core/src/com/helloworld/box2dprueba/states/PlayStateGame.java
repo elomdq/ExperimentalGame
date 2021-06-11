@@ -23,10 +23,13 @@ import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
 import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
 import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
+import com.helloworld.box2dprueba.utils.Stopwatch;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import static com.helloworld.box2dprueba.utils.Constants.*;
 
@@ -63,6 +66,8 @@ public class PlayStateGame extends State {
     private float alpha = 1;
 
     private Music backgroundMusic; /** NUEVO **/
+
+    public Stopwatch stopwatch;
 
 
     //Constructor
@@ -180,6 +185,8 @@ public class PlayStateGame extends State {
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.02f);
 
+        stopwatch=new Stopwatch();
+
         /** FIN NUEVO TO++ **/
 
     }
@@ -213,6 +220,9 @@ public class PlayStateGame extends State {
 
         /*distance *= 0.999f;
          light.setDistance(distance);*/
+
+        endGameEvaluation();
+
     }
 
     @Override
@@ -373,6 +383,14 @@ public class PlayStateGame extends State {
         }
 
         return chests;
+    }
+
+    private void endGameEvaluation(){
+        if (jugador.getVidas()==0 /*|| todo agregar validacion puerta */){
+            stopwatch.setEndGame(stopwatch.elapsedTime());
+            System.out.println(Stopwatch.getEndGame());
+            // todo cambio de estado de juego
+        }
     }
 }
 

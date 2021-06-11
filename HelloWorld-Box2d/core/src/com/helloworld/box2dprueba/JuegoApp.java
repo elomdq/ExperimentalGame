@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.helloworld.box2dprueba.states.GameStateManager;
@@ -40,6 +41,8 @@ public class JuegoApp extends ApplicationAdapter {
 		//float h = Gdx.graphics.getHeight();
 
 		camera = new OrthographicCamera();
+
+
 
 		//viewport = new ExtendViewport(800, 400, camera);
 

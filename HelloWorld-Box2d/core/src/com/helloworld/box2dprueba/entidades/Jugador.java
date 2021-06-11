@@ -336,4 +336,8 @@ public class Jugador extends Personaje {
             sec += Gdx.graphics.getDeltaTime();
         }
     }
+
+    public boolean isTagged() {
+        return tagged;
+    }
 }
