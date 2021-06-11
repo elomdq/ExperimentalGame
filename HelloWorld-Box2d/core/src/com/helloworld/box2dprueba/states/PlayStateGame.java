@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Json;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
 import com.helloworld.box2dprueba.objetos.Farol;
@@ -223,6 +224,7 @@ public class PlayStateGame extends State {
 
         endGameEvaluation();
 
+
     }
 
     @Override
@@ -385,7 +387,7 @@ public class PlayStateGame extends State {
         return chests;
     }
 
-    private void endGameEvaluation(){
+    private void endGameEvaluation(){/**  NUEVO **/
         if (jugador.getVidas()==0 /*|| todo agregar validacion puerta */){
             stopwatch.setEndGame(stopwatch.elapsedTime());
             System.out.println(Stopwatch.getEndGame());
