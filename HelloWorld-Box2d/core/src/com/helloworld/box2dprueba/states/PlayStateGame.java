@@ -58,7 +58,7 @@ public class PlayStateGame extends State {
 
     private float alpha = 1;
 
-    private Music backgroundMusic; /** NUEVO **/
+    private Music backgroundMusic;
 
     public Stopwatch stopwatch;
 
@@ -113,27 +113,18 @@ public class PlayStateGame extends State {
                 448,
                 7.5f);
 
-        //seteo luz
-        rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0.0000001f);
-
-        distance = DISTANCIA_LUMINARIA / PPM;
-
-/** INICIO NUEVO TO++ **/
-//        skeleton2 = new Skeleton(world,
-//                batch,
-//                jugador,
-//                1000,
-//                736);
-
         smeller2 = new Smeller(world,
                 batch,
                 jugador,
                 1970,
                 1510,
                 3.2f);
-        /** FIN NUEVO TO++ **/
 
+        //seteo luz
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0.0000001f);
+
+        distance = DISTANCIA_LUMINARIA / PPM;
 
         linterna = new Linterna(world,
                 batch,
@@ -150,34 +141,24 @@ public class PlayStateGame extends State {
         linterna.getLinterna().setConeDegree(25);
         linterna.equipar(jugador);
 
-
         jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
 
         b2dr.setDrawBodies(false);
-        //b2dr.setDrawVelocities(true);
-        //b2dr.setDrawAABBs(true);
-        //b2dr.setDrawContacts(true);
 
         hud = new Hud(batch);
 
         //seteo de cofres e items equipables
         chests = assignItems(createItems(),createChests());
 
-
-
-        /**Le agrego un farol al inventario del jugador para testear comportamientos**/
-        jugador.getInventario().add(new Farol(world, batch, DEFAULT_POS, DEFAULT_POS, 1, 1, true, false, rayHandler, 0));
-
-        /** INICIO NUEVO TO++ **/
-
+        //seteo de musica de ambiente
         this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/BackgroundMusic.mp3"));
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.02f);
 
-        stopwatch=new Stopwatch();
+        //seteo de reloj
+        stopwatch = new Stopwatch();
 
-        /** FIN NUEVO TO++ **/
     }
 
     @Override
@@ -186,17 +167,11 @@ public class PlayStateGame extends State {
 
         cameraUpdate();
 
+        jugador.update(delta);
         skeleton1.update(delta);
         banshee.update(delta);
         smeller1.update(delta);
-        jugador.update(delta);
-
-        /** INICIO NUEVO TO++ **/
-
-//        skeleton2.update(delta);
         smeller2.update(delta);
-
-        /** FIN NUEVO TO++ **/
 
 //      ciclo utilizado para el comportamiento de los faroles
         for(ItemEquipable item : jugador.getInventario()){
@@ -221,10 +196,6 @@ public class PlayStateGame extends State {
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
 
-
-        /*distance *= 0.999f;
-         light.setDistance(distance);*/
-
         endGameEvaluation();
     }
 
@@ -245,22 +216,13 @@ public class PlayStateGame extends State {
         jugador.render();
         banshee.render();
         smeller1.render();
-
-        /** INICIO NUEVO TO++ **/
-
         smeller2.render();
-//        skeleton2.render();
-
-
-        /** FIN NUEVO TO++ **/
 
         for(Cofre chest : chests){
             chest.render();
         }
 
         batch.end();
-
-        //batch.disableBlending();
 
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
 
@@ -287,14 +249,13 @@ public class PlayStateGame extends State {
         banshee.dispose();
         skeleton1.dispose();
         smeller1.dispose();
-        //cofreTexture.dispose();
         banshee.dispose();
         skeleton2.dispose();
         smeller2.dispose();
         backgroundMusic.dispose();
         smeller1.dispose();
-        for (Cofre cofre:
-             chests) {
+        backgroundMusic.dispose();
+        for (Cofre cofre : chests) {
             cofre.dispose();
         }
     }

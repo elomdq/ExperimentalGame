@@ -53,7 +53,8 @@ public abstract class Enemigo extends Personaje implements ICollision {
     @Override
     public  void render()
     {
-        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), /*this.getAlpha()*/1);
+        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
+        //ToDo: -No debería usar la duncion estatica updateAlpha()?
     }
 
     public float distanciaAlTarget(Vector2 target)

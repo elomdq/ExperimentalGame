@@ -309,8 +309,9 @@ public class Jugador extends Personaje {
 
         //Comportamiento que tendrá con un enemigo
         if(fixture.getUserData() instanceof Enemigo){
-            if(this.vidas > 0){
+            if(this.vidas > 0 && !tagged){
                 this.vidas--;
+                this.tagged = true;
             }
         }
     }
@@ -357,7 +358,7 @@ public class Jugador extends Personaje {
         if (sec >= 4) {
             tagged = false;
             sec = 0;
-        } else if (tagged == true) {
+        } else if (tagged) {
             sec += Gdx.graphics.getDeltaTime();
         }
     }
