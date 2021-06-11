@@ -6,16 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-
 import com.helloworld.box2dprueba.entidades.Entidad;
-
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
 import com.helloworld.box2dprueba.objetos.Farol;
@@ -26,11 +23,10 @@ import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
 import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
 import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
+import com.helloworld.box2dprueba.utils.Stopwatch;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.helloworld.box2dprueba.utils.Constants.*;
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 
@@ -63,6 +59,8 @@ public class PlayStateGame extends State {
     private float alpha = 1;
 
     private Music backgroundMusic; /** NUEVO **/
+
+    public Stopwatch stopwatch;
 
 
     //Constructor
@@ -177,6 +175,8 @@ public class PlayStateGame extends State {
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.02f);
 
+        stopwatch=new Stopwatch();
+
         /** FIN NUEVO TO++ **/
     }
 
@@ -220,6 +220,12 @@ public class PlayStateGame extends State {
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
+
+
+        /*distance *= 0.999f;
+         light.setDistance(distance);*/
+
+        endGameEvaluation();
     }
 
     @Override
@@ -384,27 +390,34 @@ public class PlayStateGame extends State {
     }
 
     //metodo para actualizar alpha de los Sprites
-    public void updateAlpha(Entidad objeto, Jugador target)
-    {
+    public void updateAlpha(Entidad objeto, Jugador target) {
         float ratio, coefA, coefB;
-        float min=0.65f, max=1f;
+        float min = 0.65f, max = 1f;
 
         coefA = 1 / (min - max);
-        coefB =  -1 * max * coefA;
-        ratio = distanciaEntreVectores(objeto.getBody().getPosition(), target.getBody().getPosition()) /  target.getIluminacion().getDistance();
+        coefB = -1 * max * coefA;
+        ratio = distanciaEntreVectores(objeto.getBody().getPosition(), target.getBody().getPosition()) / target.getIluminacion().getDistance();
 
-        if(ratio<min)
+        if (ratio < min)
             objeto.setAlpha(1f);
-        else if(ratio>max)
+        else if (ratio > max)
             objeto.setAlpha(0f);
         else
             objeto.setAlpha(coefA * ratio + coefB);
 
-        if( !enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), objeto.getBody().getPosition()))
+        if (!enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), objeto.getBody().getPosition()))
                 , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
                 target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
 
             objeto.setAlpha(0f);
+    }
+
+    private void endGameEvaluation(){/**  NUEVO **/
+        if (jugador.getVidas()==0 /*|| todo agregar validacion puerta */){
+            stopwatch.setEndGame(stopwatch.elapsedTime());
+
+            // todo cambio de estado de juego
+        }
     }
 }
 
