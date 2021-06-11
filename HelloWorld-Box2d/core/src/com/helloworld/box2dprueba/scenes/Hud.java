@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.states.PlayStateGame;
+import com.helloworld.box2dprueba.utils.Stopwatch;
 
 import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_VIDAS;
 
@@ -27,6 +29,7 @@ public class Hud {
     private Integer lamps;
     private Integer batteries;
     private Integer bandages;
+    private Stopwatch time;
 
     private Label lifeLabel;
     private Label livesLabel;
@@ -43,6 +46,9 @@ public class Hud {
     private Label bandegesLabel;
     private Label bandageLabel;
 
+    private Label timeLabel;
+    private Label timesLabel;
+
     public Hud(SpriteBatch sb){
 
         lives = CANTIDAD_VIDAS;
@@ -50,6 +56,7 @@ public class Hud {
         batteries = 0;
         lamps = 0;
         bandages = 0;
+        this.time=new Stopwatch();
 
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -79,6 +86,9 @@ public class Hud {
 
         lampLabel = new Label("FAROLES", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
         lampsLabel = new Label(String.format("%02d", lamps), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+
+        timeLabel = new Label("TIEMPO", new Label.LabelStyle(new BitmapFont(), Color.BLUE));
+        timesLabel = new Label(String.format("%02d", (int)time.elapsedTime()), new Label.LabelStyle(new BitmapFont(), Color.BLUE));
 
 //        //Adrega los labels a la "mesa" en una primera fila
 //        table.add(lampLabel).expandX().padTop(10);
@@ -111,6 +121,10 @@ public class Hud {
         table.add(lampLabel).padTop(10);
         table.add(lampsLabel).padLeft(20);
         table.getCell(lampsLabel).padTop(10);
+        table.row();
+        table.add(timeLabel).padTop(10);
+        table.add(timesLabel).padLeft(20).padTop(10);
+//        table.getCell(timesLabel).padTop(10);
 
         //Agrega la "mesa" a nuestro a la pantalla
         stage.addActor(table);
@@ -133,5 +147,7 @@ public class Hud {
 
         this.bandages = player.getCantidadDeBandages();
         bandegesLabel.setText(String.format("%02d", bandages));
+
+        timesLabel.setText(String.format("%02d", (int)time.elapsedTime()));
     }
 }

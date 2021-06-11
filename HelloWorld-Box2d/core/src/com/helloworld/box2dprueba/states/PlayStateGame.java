@@ -12,10 +12,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+<<<<<<< HEAD
 
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+=======
+>>>>>>> b061f49850bfa60aa75fa194fd5c9087c6b57694
 import com.helloworld.box2dprueba.entidades.Entidad;
-
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
 import com.helloworld.box2dprueba.objetos.Farol;
@@ -26,11 +28,10 @@ import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
 import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
 import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
+import com.helloworld.box2dprueba.utils.Stopwatch;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.helloworld.box2dprueba.utils.Constants.*;
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 
@@ -64,7 +65,9 @@ public class PlayStateGame extends State {
 
     private float alpha = 1;
 
-    private Music backgroundMusic; /** NUEVO **/
+    private Music backgroundMusic;
+
+    public Stopwatch stopwatch;
 
 
     //Constructor
@@ -119,27 +122,18 @@ public class PlayStateGame extends State {
                 448,
                 7.5f);
 
-        //seteo luz
-        rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0.0000001f);
-
-        distance = DISTANCIA_LUMINARIA / PPM;
-
-/** INICIO NUEVO TO++ **/
-//        skeleton2 = new Skeleton(world,
-//                batch,
-//                jugador,
-//                1000,
-//                736);
-
         smeller2 = new Smeller(world,
                 batch,
                 jugador,
                 1970,
                 1510,
                 3.2f);
-        /** FIN NUEVO TO++ **/
 
+        //seteo luz
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0.0000001f);
+
+        distance = DISTANCIA_LUMINARIA / PPM;
 
         linterna = new Linterna(world,
                 batch,
@@ -157,32 +151,24 @@ public class PlayStateGame extends State {
         linterna.equipar(jugador);
         jugador.setIluminacion(linterna);
 
-
         jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
 
         b2dr.setDrawBodies(false);
-        //b2dr.setDrawVelocities(true);
-        //b2dr.setDrawAABBs(true);
-        //b2dr.setDrawContacts(true);
 
         hud = new Hud(batch);
 
         //seteo de cofres e items equipables
         chests = assignItems(createItems(),createChests());
 
-
-
-        /**Le agrego un farol al inventario del jugador para testear comportamientos**/
-        jugador.getInventario().add(new Farol(world, batch, DEFAULT_POS, DEFAULT_POS, 1, 1, true, false, rayHandler, 0));
-
-        /** INICIO NUEVO TO++ **/
-
+        //seteo de musica de ambiente
         this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/BackgroundMusic.mp3"));
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.02f);
 
-        /** FIN NUEVO TO++ **/
+        //seteo de reloj
+        stopwatch = new Stopwatch();
+
     }
 
     @Override
@@ -191,17 +177,11 @@ public class PlayStateGame extends State {
 
         cameraUpdate();
 
+        jugador.update(delta);
         skeleton1.update(delta);
         banshee.update(delta);
         smeller1.update(delta);
-        jugador.update(delta);
-
-        /** INICIO NUEVO TO++ **/
-
-//        skeleton2.update(delta);
         smeller2.update(delta);
-
-        /** FIN NUEVO TO++ **/
 
 //      ciclo utilizado para el comportamiento de los faroles
         for(ItemEquipable item : jugador.getInventario()){
@@ -225,6 +205,8 @@ public class PlayStateGame extends State {
 
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
+
+        endGameEvaluation();
     }
 
     @Override
@@ -244,22 +226,13 @@ public class PlayStateGame extends State {
         jugador.render();
         banshee.render();
         smeller1.render();
-
-        /** INICIO NUEVO TO++ **/
-
         smeller2.render();
-//        skeleton2.render();
-
-
-        /** FIN NUEVO TO++ **/
 
         for(Cofre chest : chests){
             chest.render();
         }
 
         batch.end();
-
-        //batch.disableBlending();
 
         b2dr.render(world, camera.combined); //por alguna razon si dejo el .scl(PPM) no me hace los bodies, muy raaarro
 
@@ -288,14 +261,13 @@ public class PlayStateGame extends State {
         banshee.dispose();
         skeleton1.dispose();
         smeller1.dispose();
-        //cofreTexture.dispose();
         banshee.dispose();
         skeleton2.dispose();
         smeller2.dispose();
         backgroundMusic.dispose();
         smeller1.dispose();
-        for (Cofre cofre:
-             chests) {
+        backgroundMusic.dispose();
+        for (Cofre cofre : chests) {
             cofre.dispose();
         }
     }
@@ -391,33 +363,39 @@ public class PlayStateGame extends State {
     }
 
     //metodo para actualizar alpha de los Sprites
-    public void updateAlpha(Entidad objeto, Jugador target)
-    {
+    public void updateAlpha(Entidad objeto, Jugador target) {
         float ratio, coefA, coefB;
-        float min=0.65f, max=1f;
+        float min = 0.65f, max = 1f;
 
         coefA = 1 / (min - max);
-        coefB =  -1 * max * coefA;
-        ratio = distanciaEntreVectores(objeto.getBody().getPosition(), target.getBody().getPosition()) /  target.getIluminacion().getDistance();
+        coefB = -1 * max * coefA;
+        ratio = distanciaEntreVectores(objeto.getBody().getPosition(), target.getBody().getPosition()) / target.getIluminacion().getDistance();
 
-        if(ratio<min)
+        if (ratio < min)
             objeto.setAlpha(1f);
-        else if(ratio>max)
+        else if (ratio > max)
             objeto.setAlpha(0f);
         else
             objeto.setAlpha(coefA * ratio + coefB);
 
-        if( !enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), objeto.getBody().getPosition()))
+        if (!enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), objeto.getBody().getPosition()))
                 , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
                 target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
 
             objeto.setAlpha(0f);
     }
 
-
     public void bounderies(Camera camera, float startX, float startY, float endX, float endY)
     {
         Vector3 position = camera.position;
+    }
+
+    private void endGameEvaluation(){/**  NUEVO **/
+        if (jugador.getVidas()==0 /*|| todo agregar validacion puerta */){
+            stopwatch.setEndGame(stopwatch.elapsedTime());
+
+            // todo cambio de estado de juego
+        }
     }
 
 }

@@ -130,30 +130,6 @@ public abstract class Enemigo extends Personaje implements ICollision {
                 target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
 
             this.setAlpha(0);
-
-        /*float ratio, coefA, coefB;
-
-        float min = target.getIluminacion().getDistance() * 0.3f, max = target.getIluminacion().getDistance();
-
-        coefA = 1 / (min - max);
-        coefB =  -1 * max * coefA;
-        //ratio = this.distanciaAlTarget(this.getTarget().getBody().getPosition()) / target.getIluminacion().getDistance();
-
-        if(this.distanciaAlTarget(this.getTarget().getBody().getPosition())<min)
-            this.setAlpha(1);
-        else if(this.distanciaAlTarget(this.getTarget().getBody().getPosition())>max)
-            this.setAlpha(0);
-        else
-            this.setAlpha(coefA * this.distanciaAlTarget(this.getTarget().getBody().getPosition()) + coefB);
-
-        if(!enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), this.getBody().getPosition()))
-                , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
-                target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
-
-            this.setAlpha(0);
-
-        System.out.println("Alpha: " + this.getAlpha());
-        System.out.println("Distancia = " + target.getIluminacion().getDistance());*/
     }
 
 
