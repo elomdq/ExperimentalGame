@@ -7,6 +7,7 @@
     grey: {a: 0.3, b: 1, g: 1, r: 1  }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
-    default: { font: default-font, fontColor: white }
+    default: { font: default-font, fontColor: white },
+    timer: { font: timer, fontColor: white }
   }
 }

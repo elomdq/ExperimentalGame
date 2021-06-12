@@ -23,7 +23,7 @@ public class GameStateManager {
     {
         this.app = app;
         states = new Stack<State>();
-        this.setState(GameState.MENU);
+        this.setState(GameState.SPLASH);
     }
 
 

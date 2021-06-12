@@ -31,7 +31,7 @@ public class Hud {
     private Skin skin;
     private Viewport viewport;
     private TextureAtlas atlas;
-    private BitmapFont font;
+    private BitmapFont font, fontTimer;
 
 
     private Integer lives;
@@ -78,22 +78,24 @@ public class Hud {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/8-bit Arcade In.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        params.size = 30;
+        params.size = 35;
         params.color = Color.WHITE;
         font = generator.generateFont(params);
         skin.add("default-font", font);
 
-        skin.load(Gdx.files.internal("ui/hudSkin.json"));
+        FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/upheavtt.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter params2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params2.size = 35;
+        params2.color = Color.WHITE;
+        fontTimer = generator2.generateFont(params2);
+        skin.add("timer", fontTimer);
 
+        skin.load(Gdx.files.internal("ui/hudSkin.json")); //asignando json al skin
 
         //Se utiliza una tabla para organizar en pantalla la informacion de los Labels
         Table table = new Table();
-
-
         stage.addActor(table);
-        //Se alinea arriba de la pantalla
-       /* table.left();
-        table.top();*/
+
 
         //Se define la información que tendrá cada Label
         livesLabel = new Label(String.format("%02d", lives), skin);
@@ -111,44 +113,34 @@ public class Hud {
         lampsLabel = new Label(String.format("%02d", lamps), skin);
         lamp = new Image(skin, "farol-zero");
 
-        timesLabel = new Label(String.format("%02d", (int)time.elapsedTime()), skin);
 
+        timesLabel = new Label(String.format("%02d%c%02d", (int) Stopwatch.getMinutos(), 58, (int) Stopwatch.getSegundos()), skin, "timer");
+        //timesLabel.setFontScale(1.3f);
 
-//        //Adrega los labels a la "mesa" en una primera fila
-//        table.add(lampLabel).expandX().padTop(10);
-//        table.add(keyLabel).expandX().padTop(10);
-//        table.add(batteryLabel).expandX().padTop(10);
-//
-//        //Se crea una segunda fila para agregar la siguiente info.
-//        table.row();
-//        table.add(lampsLavel).expandX();
-//        table.add(keysLabel).expandX();
-//        table.add(batteriesLabel).expandX();
 
         table.setFillParent(true); //Se establece que la "mesa" ocupa toda la pantalla
-        table.setDebug(true);
+        //table.setDebug(true);
 
-
-
-        table.add(timesLabel);
+        table.add(timesLabel).expandX().colspan(5).expandY().padTop(20).center().top();
         table.row().expandX();
-        table.add(livesLabel).padTop(10);
-        table.add(lampsLabel).padTop(10);
-        table.add(bandegesLabel).padTop(10);
-        table.add(batteriesLabel).padTop(10);
-        table.add(keysLabel).padTop(10);
+        table.add(livesLabel).padLeft(396).padTop(10).spaceBottom(3);
+        table.add(lampsLabel).padTop(10).spaceBottom(3).padLeft(10).padRight(5);
+        table.add(bandegesLabel).padTop(10).spaceBottom(3).padLeft(5).padRight(5);
+        table.add(batteriesLabel).padTop(10).spaceBottom(3).padLeft(5).padRight(10);
+        table.add(keysLabel).padRight(396).padTop(10).spaceBottom(3);
         table.row();
-        table.add(life).width(60);
-        table.add(lamp);
-        table.add(bandage);
-        table.add(mana);
-        table.add(key);
+        table.add(life).width(50).height(50).padLeft(396).right().padBottom(20);
+        table.add(lamp).width(50).height(50).padLeft(10).padRight(5).padBottom(20);
+        table.add(bandage).width(50).height(50).padLeft(5).padRight(5).padBottom(20);
+        table.add(mana).width(50).height(50).padLeft(5).padRight(10).padBottom(20);
+        table.add(key).width(50).height(50).padRight(396).left().padBottom(20);
     }
 
 
     public void update(Jugador player){
 
         stage.act();
+        time.elapsedTime();
 
         this.lives = player.getVidas();
         livesLabel.setText(String.format("%02d", lives));
@@ -165,7 +157,27 @@ public class Hud {
         this.bandages = player.getCantidadDeBandages();
         bandegesLabel.setText(String.format("%02d", bandages));
 
-        timesLabel.setText(String.format("%02d", (int)time.elapsedTime()));
+        timesLabel.setText(String.format("%02d%c%02d", (int)Stopwatch.getMinutos(), 58 ,(int)Stopwatch.getSegundos()));
+
+        if(this.keys > 0)
+            key.setDrawable(this.skin, "llave");
+        else
+            key.setDrawable(this.skin, "llave-zero");
+
+        if(this.bandages > 0)
+            bandage.setDrawable(this.skin, "venda");
+        else
+            bandage.setDrawable(this.skin, "venda-zero");
+
+        if(this.batteries > 0)
+            mana.setDrawable(this.skin, "mana");
+        else
+            mana.setDrawable(this.skin, "mana-zero");
+
+        if(this.lamps > 0)
+            lamp.setDrawable(this.skin, "farol");
+        else
+            lamp.setDrawable(this.skin, "farol-zero");
     }
 
     public void render()

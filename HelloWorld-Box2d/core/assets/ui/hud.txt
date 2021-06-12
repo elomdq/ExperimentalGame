@@ -1,5 +1,5 @@
 hud.png
-size: 542, 60
+size: 548, 60
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -45,23 +45,30 @@ mana
   orig: 60, 60
   offset: 0, 0
   index: -1
-venda-zero
+puntitos
   rotate: false
   xy: 362, 0
+  size: 6, 16
+  orig: 6, 16
+  offset: 0, 0
+  index: -1
+venda-zero
+  rotate: false
+  xy: 368, 0
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 venda
   rotate: false
-  xy: 422, 0
+  xy: 428, 0
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 vida
   rotate: false
-  xy: 482, 0
+  xy: 488, 0
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
