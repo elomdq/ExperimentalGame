@@ -55,8 +55,8 @@ public class MenuState extends State{
 
         stage = new Stage(new ExtendViewport(800, 600, camera));
 
-        System.out.println("Width: " + camera.viewportWidth);
-        System.out.println("Height: " + camera.viewportHeight);
+        /*System.out.println("Width: " + camera.viewportWidth);
+        System.out.println("Height: " + camera.viewportHeight);*/
 
         Gdx.input.setInputProcessor(stage);
 

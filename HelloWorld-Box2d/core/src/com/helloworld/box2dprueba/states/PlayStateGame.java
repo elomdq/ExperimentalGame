@@ -84,6 +84,7 @@ public class PlayStateGame extends State {
 
         //generacion de los cuerpos solidos del mapa
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collisions").getObjects());
+        TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("doors-collision").getObjects());
 
         //Creacion de personajes
         jugador = new Jugador(world,

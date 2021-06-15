@@ -16,7 +16,8 @@ public class GameStateManager {
         MENU,
         PLAY,
         WIN,
-        GAMEOVER
+        SCORES,
+        ENDGAME
     }
 
      public GameStateManager(final JuegoApp app)
@@ -54,6 +55,8 @@ public class GameStateManager {
             case SPLASH: return new SplashState(this);
             case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
+            case SCORES: return new ScoreState(this);
+            case ENDGAME: return new EndGameState(this);
             default:
                 break;
         }
