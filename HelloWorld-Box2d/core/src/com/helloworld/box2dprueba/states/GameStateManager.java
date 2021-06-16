@@ -48,6 +48,13 @@ public class GameStateManager {
         states.push(getState(state));
     }
 
+    public void setState(GameState state, boolean isPlayerAlive)
+    {
+        if(!states.empty())
+            states.pop().dispose();
+        states.push(getState(state,isPlayerAlive));
+    }
+
     public State getState(GameState state)
     {
         switch(state)
@@ -56,12 +63,16 @@ public class GameStateManager {
             case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
             case SCORES: return new ScoreState(this);
-            case ENDGAME: return new EndGameState(this);
             default:
                 break;
         }
 
         return null;
+    }
+
+    public State getState(GameState state, boolean isPlayerAlive)
+    {
+        return new EndGameState(this,isPlayerAlive);
     }
 
 

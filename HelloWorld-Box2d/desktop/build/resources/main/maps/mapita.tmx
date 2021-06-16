@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="67" height="63" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="45">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="67" height="63" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="50">
  <tileset firstgid="1" source="../images/tileset.tsx"/>
  <tileset firstgid="1065" source="Dungeon.tsx"/>
  <tileset firstgid="1385" source="door.tsx"/>
@@ -75,9 +75,6 @@
   </object>
  </objectgroup>
  <objectgroup id="10" name="doors-collision">
-  <object id="41" x="1921.75" y="124">
-   <polygon points="1,-26.5 91.25,-26.5 91.25,-67.5 88.1264,-74.5054 82.1578,-81.9347 75.6845,-86.941 69.2588,-89.9545 62.0814,-91.9252 28.9429,-91.8522 20.5012,-88.8562 11.2774,-83.1646 5.73448,-76.8464 0.883399,-67.25"/>
-  </object>
   <object id="44" x="1976" y="27">
    <polygon points="-1845.17,69.913 -1755.04,69.7255 -1755.04,28.7255 -1758.17,21.7201 -1764.14,14.2908 -1770.61,9.28454 -1777.03,6.27104 -1784.21,4.30034 -1817.35,4.37334 -1825.79,7.36934 -1835.02,13.0609 -1840.56,19.3791 -1845.18,29.1787"/>
   </object>

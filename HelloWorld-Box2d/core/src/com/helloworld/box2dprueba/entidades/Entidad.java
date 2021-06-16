@@ -90,7 +90,7 @@ public abstract class Entidad {
 
     public void dispose(){
        // texture.dispose();
-        batch.dispose();
+//        batch.dispose();
     }
 
 }

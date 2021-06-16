@@ -75,7 +75,7 @@ public class JuegoApp extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		gsm.dispose();
-		batch.dispose();
+//		batch.dispose();
 //		backgroundMusic.dispose();
 	}
 

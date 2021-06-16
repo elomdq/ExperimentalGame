@@ -28,7 +28,7 @@ public class EndGameState extends State{
     TextField nombre;
 
 
-    public EndGameState(GameStateManager gsm) {
+    public EndGameState(GameStateManager gsm, boolean isPlayerAlive) {
         super(gsm);
 
         stage = new Stage(new ExtendViewport(1080, 720, camera));
@@ -66,7 +66,12 @@ public class EndGameState extends State{
 
         skin.load(Gdx.files.internal("ui/endGame.json"));
 
-        titulo = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
+        if(isPlayerAlive){
+            titulo = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
+        }else{
+            titulo = new Label("¡ HAS MUERTO !", skin);
+        }
+
         puntajeString = new Label("PUNTAJE", skin, "score");
 
         table.top();

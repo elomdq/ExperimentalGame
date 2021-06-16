@@ -1,2 +1,4 @@
+com/mygdx/game/desktop/DesktopLauncher.java
+ com.mygdx.game.desktop.DesktopLauncher
 com/helloworld/box2dprueba/desktop/DesktopLauncher.java
  com.helloworld.box2dprueba.desktop.DesktopLauncher

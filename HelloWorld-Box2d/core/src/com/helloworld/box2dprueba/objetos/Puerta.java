@@ -53,14 +53,14 @@ public class Puerta extends Entidad implements ICollision {
 
     @Override
     public void collision(Fixture fixture){
-        if( canBeOpened( enoughKeys( ((Jugador) fixture.getUserData()).getCantidadDeLlaves() ) ) ){
-            if(Gdx.input.isKeyPressed(Input.Keys.E)){
-                this.estaAbierta = true;
-                openAnimation();
-                playSound();
-            }
+
+
+        if(((Jugador)fixture.getUserData()).getCantidadDeLlaves() == CANTIDAD_LLAVES) {
+
+            this.estaAbierta = true;
+
+        }
     }
-}
 
     /**
      * Método que chequea si hay suficientes llaves
