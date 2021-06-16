@@ -16,7 +16,6 @@ public class GameStateManager {
         SPLASH,
         MENU,
         PLAY,
-        WIN,
         SCORES,
         ENDGAME
     }
@@ -64,6 +63,7 @@ public class GameStateManager {
             case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
             case SCORES: return new ScoreState(this);
+            case ENDGAME: return new EndGameState(this);
             default:
                 break;
         }

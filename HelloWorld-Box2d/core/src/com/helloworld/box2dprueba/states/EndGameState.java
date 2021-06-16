@@ -5,16 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-<<<<<<< HEAD
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-=======
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
->>>>>>> develope
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.google.gson.Gson;
 import com.helloworld.box2dprueba.entidades.Jugador;
@@ -37,19 +32,21 @@ public class EndGameState extends State{
     private BitmapFont font, font2;
     private Label titulo, puntajeString;
 
-    Label titulo, puntajeString, puntaje;
-    TextField nombre;
-    TextButton enter;
+
     private Score score;
+    private Label titulo, puntajeString, puntaje;
+    private TextField nombre;
+    private TextButton enter;
 
 
 
-    public EndGameState(GameStateManager gsm, Jugador player) {
+
+    public EndGameState(GameStateManager gsm/*, Jugador player*/) {
         super(gsm);
 
         score = new Score();
         score.setName("Nahuel"); // aca iria el nombre que ingresa el jugador al finalizar
-        score.setScore(Score.defineScore(player));
+        //score.setScore(Score.defineScore(player));
 
         stage = new Stage(new ExtendViewport(1080, 720, camera));
 
@@ -115,6 +112,10 @@ public class EndGameState extends State{
         generateJSON();
 
     }
+
+    /*public EndGameState(GameStateManager gsm) {
+        this(gsm);
+    }*/
 
 
     //parar updetear el state

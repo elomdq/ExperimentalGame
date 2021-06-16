@@ -25,6 +25,7 @@ public class Jugador extends Personaje {
 
     private float sec;
 
+
     public Jugador(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventario = new ArrayList<>();
