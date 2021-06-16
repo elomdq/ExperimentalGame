@@ -11,7 +11,8 @@ default: { font: default-font, fontColor: white },
   score: { font: score-font, fontColor: white }
 },
   com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
-    default: { font: score-font, fontColor: white, background: text-field}
+    default: { font: score-font, fontColor: white, background: text-field,cursor: cursor
+    }
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     default: { down: button-down, up: button, font: score-font, fontColor: white },

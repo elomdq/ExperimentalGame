@@ -42,7 +42,7 @@ public class PlayStateGame extends State {
 
     private ExtendViewport viewport;
 
-    public Jugador jugador;
+    public static Jugador jugador;
     private Skeleton skeleton1;
     private Skeleton skeleton2;
     private Banshee banshee;
@@ -72,7 +72,7 @@ public class PlayStateGame extends State {
     public PlayStateGame(GameStateManager gsm) {
         super(gsm);
 
-        //Gdx.input.setInputProcessor(gsm.getApplication().getInputProcessor());
+        Gdx.input.setInputProcessor(gsm.getApplication().getInputProcessor());
 
         world = new World(new Vector2(0, 0), false);
         world.setContactListener(new MyContactListener());
@@ -96,8 +96,8 @@ public class PlayStateGame extends State {
         //Creacion de personajes y objetos
         jugador = new Jugador(world,
                 batch,
-                160,/*1952,*/
-                32,/*1760,*/
+                /*160,*/1952,
+                /*32,*/1760,
                 32,
                 32,
                 false,
@@ -106,6 +106,11 @@ public class PlayStateGame extends State {
                 32,
                 32,
                 3);
+
+        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
+        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
+        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
+        jugador.setVidas(1);
 
         skeleton1 = new Skeleton(world,
                 batch,
@@ -273,12 +278,10 @@ public class PlayStateGame extends State {
         banshee.dispose();
         skeleton1.dispose();
         smeller1.dispose();
-        banshee.dispose();
-//        skeleton2.dispose();
+        //skeleton2.dispose();
         smeller2.dispose();
         backgroundMusic.dispose();
         smeller1.dispose();
-        backgroundMusic.dispose();
         hud.dispose();
         for (Cofre cofre : chests) {
             cofre.dispose();
@@ -413,8 +416,7 @@ public class PlayStateGame extends State {
                 isPlayerAlive=false;
             }
 
-            gsm.setState(GameStateManager.GameState.ENDGAME,jugador);
-
+            gsm.setEndState(gsm.getEndState(jugador));
         }
 
     }

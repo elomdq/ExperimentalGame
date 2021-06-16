@@ -24,7 +24,7 @@ public class GameStateManager {
     {
         this.app = app;
         states = new Stack<State>();
-        this.setState(GameState.ENDGAME);
+        this.setState(GameState.SPLASH);
     }
 
 
@@ -48,12 +48,12 @@ public class GameStateManager {
         states.push(getState(state));
     }
 
-    public void setState(GameState state, Jugador player)
+   /* public void setState(GameState state, Jugador player)
     {
         if(!states.empty())
             states.pop().dispose();
         states.push(getState(state, player));
-    }
+    }*/
 
     public State getState(GameState state)
     {
@@ -63,7 +63,6 @@ public class GameStateManager {
             case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
             case SCORES: return new ScoreState(this);
-            case ENDGAME: return new EndGameState(this);
             default:
                 break;
         }
@@ -71,9 +70,19 @@ public class GameStateManager {
         return null;
     }
 
-    public State getState(GameState state, Jugador player)
+
+    //Metodos particulares para crear el endState del juego
+    public EndGameState getEndState(Jugador player)
     {
         return new EndGameState(this, player);
+    }
+
+
+    public void setEndState(EndGameState endState)
+    {
+        if(!states.empty())
+            states.pop().dispose();
+        states.push(endState);
     }
 
 

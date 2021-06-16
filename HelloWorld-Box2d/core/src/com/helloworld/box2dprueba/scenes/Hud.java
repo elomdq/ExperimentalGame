@@ -129,11 +129,11 @@ public class Hud {
         table.add(batteriesLabel).padTop(10).spaceBottom(3).padLeft(5).padRight(10);
         table.add(keysLabel).padRight(396).padTop(10).spaceBottom(3);
         table.row();
-        table.add(life).width(50).height(50).padLeft(396).right().padBottom(20);
-        table.add(lamp).width(50).height(50).padLeft(10).padRight(5).padBottom(20);
-        table.add(bandage).width(50).height(50).padLeft(5).padRight(5).padBottom(20);
-        table.add(mana).width(50).height(50).padLeft(5).padRight(10).padBottom(20);
-        table.add(key).width(50).height(50).padRight(396).left().padBottom(20);
+        table.add(life).width(45).height(45).padLeft(396).right().padBottom(20);
+        table.add(lamp).width(45).height(45).padLeft(10).padRight(5).padBottom(20);
+        table.add(bandage).width(45).height(45).padLeft(5).padRight(5).padBottom(20);
+        table.add(mana).width(45).height(45).padLeft(5).padRight(10).padBottom(20);
+        table.add(key).width(45).height(45).padRight(396).left().padBottom(20);
     }
 
 
