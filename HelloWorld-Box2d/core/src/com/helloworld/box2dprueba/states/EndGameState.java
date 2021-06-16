@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.google.gson.Gson;
+import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.score.Score;
 
 import java.io.BufferedWriter;
@@ -34,8 +35,12 @@ public class EndGameState extends State{
     private Score score;
 
 
-    public EndGameState(GameStateManager gsm, boolean isPlayerAlive) {
+    public EndGameState(GameStateManager gsm, Jugador player) {
         super(gsm);
+
+        score = new Score();
+        score.setName("Nahuel"); // aca iria el nombre que ingresa el jugador al finalizar
+        score.setScore(Score.defineScore(player));
 
         stage = new Stage(new ExtendViewport(1080, 720, camera));
 
@@ -72,7 +77,7 @@ public class EndGameState extends State{
 
         skin.load(Gdx.files.internal("ui/endGame.json"));
 
-        if(isPlayerAlive){
+        if(player.getVidas() != 0){
             titulo = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
         }else{
             titulo = new Label("¡ HAS MUERTO !", skin);
@@ -85,7 +90,9 @@ public class EndGameState extends State{
         table.row();
         table.add(puntajeString);
 
-        /*generateJSON();*/
+        System.out.println("\nnombre: " + score.getName() + " - score: " + score.getScore() + "\n");
+
+        generateJSON();
 
     }
 
@@ -120,8 +127,6 @@ public class EndGameState extends State{
 
         Gson gson = new Gson();
 
-        score = new Score("Nahuel",1000);
-
         File file = new File("score.json");
 
         try {
@@ -136,5 +141,7 @@ public class EndGameState extends State{
             e.printStackTrace();
 
         }
+
     }
+
 }

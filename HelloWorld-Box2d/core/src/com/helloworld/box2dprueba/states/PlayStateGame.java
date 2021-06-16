@@ -413,7 +413,7 @@ public class PlayStateGame extends State {
                 isPlayerAlive=false;
             }
 
-            gsm.setState(GameStateManager.GameState.ENDGAME,isPlayerAlive);
+            gsm.setState(GameStateManager.GameState.ENDGAME,jugador);
 
         }
 

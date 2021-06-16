@@ -1,6 +1,7 @@
 package com.helloworld.box2dprueba.states;
 
 import com.helloworld.box2dprueba.JuegoApp;
+import com.helloworld.box2dprueba.entidades.Jugador;
 
 import java.util.Stack;
 
@@ -48,11 +49,11 @@ public class GameStateManager {
         states.push(getState(state));
     }
 
-    public void setState(GameState state, boolean isPlayerAlive)
+    public void setState(GameState state, Jugador player)
     {
         if(!states.empty())
             states.pop().dispose();
-        states.push(getState(state,isPlayerAlive));
+        states.push(getState(state, player));
     }
 
     public State getState(GameState state)
@@ -70,9 +71,9 @@ public class GameStateManager {
         return null;
     }
 
-    public State getState(GameState state, boolean isPlayerAlive)
+    public State getState(GameState state, Jugador player)
     {
-        return new EndGameState(this,isPlayerAlive);
+        return new EndGameState(this, player);
     }
 
 

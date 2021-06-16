@@ -1,6 +1,5 @@
 package com.helloworld.box2dprueba.score;
 
-//ToDo: GENERAR UNA FORMA DE PASAR LOS DATOS DEL JUGADOR PARA GENERAR EL PUNTAJE
 
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.utils.Stopwatch;
@@ -17,14 +16,9 @@ public class Score implements Serializable {
         this.score = score;
     }
 
-    public Score(String name) {
-        this.name = name;
-        this.score= defineScore(null);
-    }
-
     public Score() {
         this.name = null;
-        this.score = -1;
+        this.score = 0;
     }
 
     public String getName() {
@@ -43,36 +37,36 @@ public class Score implements Serializable {
         this.score = score;
     }
 
-    public int defineScore(Jugador jugador){
+    public static int defineScore(Jugador jugador){
 
-        score = SCORE_MAX - (int)Stopwatch.getEndGame();
+        int localScore = SCORE_MAX - (int)Stopwatch.getEndGame();
 
 
-        if(score < SCORE_MIN)
-            score= SCORE_MIN;
+        if(localScore < SCORE_MIN)
+            localScore= SCORE_MIN;
 
 
         if(jugador.getVidas()>0){
-            score += (jugador.getVidas()* SCORE_LIVES);
+            localScore += (jugador.getVidas()* SCORE_LIVES);
         }
 
         if(jugador.getCantidadDeBaterias()>0){
-            score += (jugador.getCantidadDeBaterias()* SCORE_BATTERIES);
+            localScore += (jugador.getCantidadDeBaterias()* SCORE_BATTERIES);
         }
 
         if(jugador.getCantidadDeBandages()>0){
-            score += (jugador.getCantidadDeBandages()* SCORE_BANDAGES);
+            localScore += (jugador.getCantidadDeBandages()* SCORE_BANDAGES);
         }
 
         if(jugador.getCantidadDeFaroles()>0){
-            score += (jugador.getCantidadDeFaroles()* SCORE_LANTERNS);
+            localScore += (jugador.getCantidadDeFaroles()* SCORE_LANTERNS);
         }
 
         if(jugador.getVidas() < 1){
-            score *= 0.8;
+            localScore *= 0.8;
         }
 
-        return score;
+        return localScore;
     }
 
 }
