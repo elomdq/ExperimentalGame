@@ -5,30 +5,51 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+<<<<<<< HEAD
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+=======
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+>>>>>>> develope
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.google.gson.Gson;
+import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.score.Score;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class EndGameState extends State{
 
     private Stage stage;
     private Table table;
     private Skin skin;
+
     TextureRegion background;
     TextureAtlas atlas;
 
-    BitmapFont font, font2;
+    private BitmapFont font, font2;
+    private Label titulo, puntajeString;
 
     Label titulo, puntajeString, puntaje;
     TextField nombre;
     TextButton enter;
+    private Score score;
 
 
-    public EndGameState(GameStateManager gsm) {
+
+    public EndGameState(GameStateManager gsm, Jugador player) {
         super(gsm);
+
+        score = new Score();
+        score.setName("Nahuel"); // aca iria el nombre que ingresa el jugador al finalizar
+        score.setScore(Score.defineScore(player));
 
         stage = new Stage(new ExtendViewport(1080, 720, camera));
 
@@ -67,7 +88,12 @@ public class EndGameState extends State{
 
         skin.load(Gdx.files.internal("ui/endGame.json"));
 
-        titulo = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
+        if(player.getVidas() != 0){
+            titulo = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
+        }else{
+            titulo = new Label("¡ HAS MUERTO !", skin);
+        }
+
         puntajeString = new Label("PUNTAJE", skin, "score");
         nombre = new TextField("", skin);
         enter = new TextButton("Enter", skin);
@@ -82,6 +108,12 @@ public class EndGameState extends State{
         table.add(nombre).width(270).padTop(60);
         table.row().expandY();
         table.add(enter).width(224).height(40).padBottom(50);
+
+
+        System.out.println("\nnombre: " + score.getName() + " - score: " + score.getScore() + "\n");
+
+        generateJSON();
+
     }
 
 
@@ -111,4 +143,25 @@ public class EndGameState extends State{
     }
 
     //metodos para ingresar nombre y guardar score
+    private void generateJSON(){
+
+        Gson gson = new Gson();
+
+        File file = new File("score.json");
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
+
+            gson.toJson(score,Score.class,bw);
+
+            bw.close();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.helloworld.box2dprueba.states;
 
 import com.helloworld.box2dprueba.JuegoApp;
+import com.helloworld.box2dprueba.entidades.Jugador;
 
 import java.util.Stack;
 
@@ -48,6 +49,13 @@ public class GameStateManager {
         states.push(getState(state));
     }
 
+    public void setState(GameState state, Jugador player)
+    {
+        if(!states.empty())
+            states.pop().dispose();
+        states.push(getState(state, player));
+    }
+
     public State getState(GameState state)
     {
         switch(state)
@@ -56,12 +64,16 @@ public class GameStateManager {
             case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
             case SCORES: return new ScoreState(this);
-            case ENDGAME: return new EndGameState(this);
             default:
                 break;
         }
 
         return null;
+    }
+
+    public State getState(GameState state, Jugador player)
+    {
+        return new EndGameState(this, player);
     }
 
 

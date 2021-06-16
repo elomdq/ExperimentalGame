@@ -294,11 +294,11 @@ public class Jugador extends Personaje {
         }
 
         //Comportamiento que tendrá con una puerta
-        if(fixture.getUserData() instanceof Puerta){
+        /*if(fixture.getUserData() instanceof Puerta){
             if(this.getCantidadDeLlaves() == CANTIDAD_LLAVES){
                 useKeys();
             }
-        }
+        }*/
 
         //Comportamiento que tendrá con un farol
         if(fixture.getUserData() instanceof Farol){

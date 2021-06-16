@@ -31,12 +31,12 @@ public final class Constants {
 
     public static final int DEFAULT_POS = -1000;
 
+    public static final int SCORE_MAX = 1000;
+    public static final int SCORE_MIN = 100;
 
-
-
-
-
-
-
+    public static final int SCORE_LIVES = 5;
+    public static final int SCORE_BATTERIES = 3;
+    public static final int SCORE_BANDAGES = 2;
+    public static final int SCORE_LANTERNS = 2;
 
 }

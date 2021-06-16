@@ -34,7 +34,7 @@ public class Linterna extends Iluminacion {
     //otros metodos
     public void dispose()
     {
-        light.dispose();
+//        light.dispose();
     }
 
     public void update()

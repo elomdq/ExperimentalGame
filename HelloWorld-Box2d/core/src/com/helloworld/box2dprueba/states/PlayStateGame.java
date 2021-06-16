@@ -42,7 +42,7 @@ public class PlayStateGame extends State {
 
     private ExtendViewport viewport;
 
-    private Jugador jugador;
+    public Jugador jugador;
     private Skeleton skeleton1;
     private Skeleton skeleton2;
     private Banshee banshee;
@@ -65,6 +65,8 @@ public class PlayStateGame extends State {
 
     public Stopwatch stopwatch;
 
+    private Puerta puerta;
+
 
     //Constructor
     public PlayStateGame(GameStateManager gsm) {
@@ -86,11 +88,16 @@ public class PlayStateGame extends State {
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collisions").getObjects());
         TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("doors-collision").getObjects());
 
-        //Creacion de personajes
+        //seteo luz
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0.0000001f);
+        distance = DISTANCIA_LUMINARIA / PPM;
+
+        //Creacion de personajes y objetos
         jugador = new Jugador(world,
                 batch,
-                160,//160
-                32,//32
+                160,/*1952,*/
+                32,/*1760,*/
                 32,
                 32,
                 false,
@@ -127,12 +134,6 @@ public class PlayStateGame extends State {
                 1510,
                 3.2f);
 
-        //seteo luz
-        rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0.0000001f);
-
-        distance = DISTANCIA_LUMINARIA / PPM;
-
         linterna = new Linterna(world,
                 batch,
                 jugador.getBody().getPosition().x,
@@ -148,15 +149,23 @@ public class PlayStateGame extends State {
         linterna.getLight().setConeDegree(25);
         linterna.equipar(jugador);
         jugador.setIluminacion(linterna);
-
         jugador.setIluminacion(linterna); //le digo al jugador que iluminacion tiene
 
-        b2dr.setDrawBodies(false);
-
-        hud = new Hud(batch, camera);
+        //seteo de puerta de salida
+        puerta = new Puerta(world,
+                batch,
+                1968,
+                1964,
+                89,
+                89,
+                true,
+                false);
 
         //seteo de cofres e items equipables
         chests = assignItems(createItems(),createChests());
+
+        //seteo de HUD
+        hud = new Hud(batch, camera);
 
         //seteo de musica de ambiente
         this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/BackgroundMusic.mp3"));
@@ -167,6 +176,8 @@ public class PlayStateGame extends State {
         //seteo de reloj
         stopwatch = new Stopwatch();
 
+
+        b2dr.setDrawBodies(false);
     }
 
     @Override
@@ -205,6 +216,7 @@ public class PlayStateGame extends State {
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
 
         endGameEvaluation();
+
     }
 
     @Override
@@ -236,7 +248,7 @@ public class PlayStateGame extends State {
 
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
 
-       hud.render();
+        hud.render();
 
     }
 
@@ -262,7 +274,7 @@ public class PlayStateGame extends State {
         skeleton1.dispose();
         smeller1.dispose();
         banshee.dispose();
-        skeleton2.dispose();
+//        skeleton2.dispose();
         smeller2.dispose();
         backgroundMusic.dispose();
         smeller1.dispose();
@@ -391,12 +403,20 @@ public class PlayStateGame extends State {
         Vector3 position = camera.position;
     }
 
-    private void endGameEvaluation(){/**  NUEVO **/
-        if (jugador.getVidas()==0 /*|| todo agregar validacion puerta */){
-            stopwatch.setEndGame(stopwatch.elapsedTime());
+    private void endGameEvaluation(){
+        if (jugador.getVidas()==0 || puerta.isEstaAbierta()){
+            Stopwatch.setEndGame(stopwatch.elapsedTime());
 
-            // todo cambio de estado de juego
+            boolean isPlayerAlive = true;
+
+            if(jugador.getVidas()==0){
+                isPlayerAlive=false;
+            }
+
+            gsm.setState(GameStateManager.GameState.ENDGAME,jugador);
+
         }
+
     }
 
 }

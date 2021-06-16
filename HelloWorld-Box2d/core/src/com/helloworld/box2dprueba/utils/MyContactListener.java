@@ -50,12 +50,12 @@ public class MyContactListener implements ContactListener {
             if(isDoor(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
 
-                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    /*((Jugador)fixtureA.getUserData()).collision(fixtureB);*/
                     ((Puerta)fixtureB.getUserData()).collision(fixtureA);
 
                 }else {
 
-                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+                    /*((Jugador) fixtureB.getUserData()).collision(fixtureA);*/
                     ((Puerta) fixtureA.getUserData()).collision(fixtureB);
 
                 }
