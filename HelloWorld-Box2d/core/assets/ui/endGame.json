@@ -9,6 +9,13 @@
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 default: { font: default-font, fontColor: white },
   score: { font: score-font, fontColor: white }
-}
+},
+  com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+    default: { font: score-font, fontColor: white, background: text-field}
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: { down: button-down, up: button, font: score-font, fontColor: white },
+    toggle: { down: button-down, up: button, checked: button-down, font: score-font, fontColor: grey, downFontColor: red }
+  }
 
 }

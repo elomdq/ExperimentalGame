@@ -24,7 +24,7 @@ public class GameStateManager {
     {
         this.app = app;
         states = new Stack<State>();
-        this.setState(GameState.SPLASH);
+        this.setState(GameState.ENDGAME);
     }
 
 

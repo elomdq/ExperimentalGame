@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class EndGameState extends State{
@@ -21,11 +18,13 @@ public class EndGameState extends State{
     private Table table;
     private Skin skin;
     TextureRegion background;
+    TextureAtlas atlas;
 
     BitmapFont font, font2;
 
     Label titulo, puntajeString, puntaje;
     TextField nombre;
+    TextButton enter;
 
 
     public EndGameState(GameStateManager gsm) {
@@ -43,8 +42,10 @@ public class EndGameState extends State{
         stage.addActor(table);
 
         background = new TextureRegion(new Texture("ui/EndGame-Back.jpg"));
+        atlas = new TextureAtlas("ui/pruebas.txt");
 
         skin.add("background", background);
+        skin.addRegions(atlas);
 
         table.setSkin(skin);
         table.setBackground("background");
@@ -68,12 +69,19 @@ public class EndGameState extends State{
 
         titulo = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
         puntajeString = new Label("PUNTAJE", skin, "score");
+        nombre = new TextField("", skin);
+        enter = new TextButton("Enter", skin);
+
+        table.setDebug(true);
 
         table.top();
         table.add(titulo).padTop(80);
         table.row();
-        table.add(puntajeString);
-
+        table.add(puntajeString).padTop(50);
+        table.row();
+        table.add(nombre).width(270).padTop(60);
+        table.row().expandY();
+        table.add(enter).width(224).height(40).padBottom(50);
     }
 
 
