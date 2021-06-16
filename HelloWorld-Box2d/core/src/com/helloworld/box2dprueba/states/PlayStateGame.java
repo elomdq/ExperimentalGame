@@ -42,7 +42,7 @@ public class PlayStateGame extends State {
 
     private ExtendViewport viewport;
 
-    private Jugador jugador;
+    public Jugador jugador;
     private Skeleton skeleton1;
     private Skeleton skeleton2;
     private Banshee banshee;
@@ -64,7 +64,6 @@ public class PlayStateGame extends State {
     private Music backgroundMusic;
 
     public Stopwatch stopwatch;
-
 
     private Puerta puerta;
 

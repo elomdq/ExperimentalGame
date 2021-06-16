@@ -5,27 +5,33 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.google.gson.Gson;
+import com.helloworld.box2dprueba.score.Score;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class EndGameState extends State{
 
     private Stage stage;
     private Table table;
     private Skin skin;
-    TextureRegion background;
+    private TextureRegion background;
 
-    BitmapFont font, font2;
+    private BitmapFont font, font2;
 
-    Label titulo, puntajeString, puntaje;
-    TextField nombre;
+    private Label titulo, puntajeString;
+
+    private Score score;
 
 
     public EndGameState(GameStateManager gsm, boolean isPlayerAlive) {
@@ -79,6 +85,8 @@ public class EndGameState extends State{
         table.row();
         table.add(puntajeString);
 
+        /*generateJSON();*/
+
     }
 
 
@@ -108,4 +116,25 @@ public class EndGameState extends State{
     }
 
     //metodos para ingresar nombre y guardar score
+    private void generateJSON(){
+
+        Gson gson = new Gson();
+
+        score = new Score("Nahuel",1000);
+
+        File file = new File("score.json");
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
+
+            gson.toJson(score,Score.class,bw);
+
+            bw.close();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+    }
 }
