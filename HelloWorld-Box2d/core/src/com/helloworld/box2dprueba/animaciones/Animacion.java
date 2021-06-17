@@ -1,6 +1,5 @@
 package com.helloworld.box2dprueba.animaciones;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -10,13 +9,11 @@ import java.util.List;
 public class Animacion {
 
     TextureAtlas textureAtlas;
-    private List<Sprite> tmpFrames;
-    private Sprite[] animationFramesUp, animationFramesDown, animationFramesLeft, animationFramesRight; //Conjunto de frames en Sprits
+    private List<Sprite> frames;
     private Sprite currentFrame; //Frame actualmente en pantalla
-    private int frameWidth, frameHeight;
-    private Animation<Sprite> animacionActual, animationUp, animationDown, animationLeft, animationRight; //Animaciones
+    private int frameWidth, frameHeight, animationFrames;
     private float stateTime;
-
+    private com.badlogic.gdx.graphics.g2d.Animation<Sprite> actualAnimation;
 
     //Constructor
     public Animacion(String texturePath, int frameWidth, int frameHeight, int frames)
@@ -25,13 +22,10 @@ public class Animacion {
         this.textureAtlas = new TextureAtlas(texturePath);
         this.frameHeight = frameHeight;
         this.frameWidth = frameWidth;
-        animacionesConSprites(frames);
-        setCurrentFrame();
+        this.animationFrames = frames;
     }
 
-
-    //setters & getters
-
+    //setter & getters
     public TextureAtlas getTextureAtlas() {
         return textureAtlas;
     }
@@ -40,44 +34,12 @@ public class Animacion {
         this.textureAtlas = textureAtlas;
     }
 
-    public List<Sprite> getTmpFrames() {
-        return tmpFrames;
+    public List<Sprite> getFrames() {
+        return frames;
     }
 
-    public void setTmpFrames(List<Sprite> tmpFrames) {
-        this.tmpFrames = tmpFrames;
-    }
-
-    public Sprite[] getAnimationFramesUp() {
-        return animationFramesUp;
-    }
-
-    public void setAnimationFramesUp(Sprite[] animationFramesUp) {
-        this.animationFramesUp = animationFramesUp;
-    }
-
-    public Sprite[] getAnimationFramesDown() {
-        return animationFramesDown;
-    }
-
-    public void setAnimationFramesDown(Sprite[] animationFramesDown) {
-        this.animationFramesDown = animationFramesDown;
-    }
-
-    public Sprite[] getAnimationFramesLeft() {
-        return animationFramesLeft;
-    }
-
-    public void setAnimationFramesLeft(Sprite[] animationFramesLeft) {
-        this.animationFramesLeft = animationFramesLeft;
-    }
-
-    public Sprite[] getAnimationFramesRight() {
-        return animationFramesRight;
-    }
-
-    public void setAnimationFramesRight(Sprite[] animationFramesRight) {
-        this.animationFramesRight = animationFramesRight;
+    public void setFrames(List<Sprite> frames) {
+        this.frames = frames;
     }
 
     public Sprite getCurrentFrame() {
@@ -86,7 +48,7 @@ public class Animacion {
 
     public void setCurrentFrame()
     {
-        this.currentFrame = animacionActual.getKeyFrame(this.stateTime, true);
+        this.currentFrame = actualAnimation.getKeyFrame(this.stateTime, true);
     }
 
     public int getFrameWidth() {
@@ -105,44 +67,12 @@ public class Animacion {
         this.frameHeight = frameHeight;
     }
 
-    public Animation<Sprite> getAnimacionActual() {
-        return animacionActual;
+    public com.badlogic.gdx.graphics.g2d.Animation<Sprite> getActualAnimation() {
+        return actualAnimation;
     }
 
-    public void setAnimacionActual(Animation<Sprite> animacionActual) {
-        this.animacionActual = animacionActual;
-    }
-
-    public Animation<Sprite> getAnimationUp() {
-        return animationUp;
-    }
-
-    public void setAnimationUp(Animation<Sprite> animationUp) {
-        this.animationUp = animationUp;
-    }
-
-    public Animation<Sprite> getAnimationDown() {
-        return animationDown;
-    }
-
-    public void setAnimationDown(Animation<Sprite> animationDown) {
-        this.animationDown = animationDown;
-    }
-
-    public Animation<Sprite> getAnimationLeft() {
-        return animationLeft;
-    }
-
-    public void setAnimationLeft(Animation<Sprite> animationLeft) {
-        this.animationLeft = animationLeft;
-    }
-
-    public Animation<Sprite> getAnimationRight() {
-        return animationRight;
-    }
-
-    public void setAnimationRight(Animation<Sprite> animationRight) {
-        this.animationRight = animationRight;
+    public void setActualAnimation(com.badlogic.gdx.graphics.g2d.Animation<Sprite> actualAnimation) {
+        this.actualAnimation = actualAnimation;
     }
 
     public float getStateTime() {
@@ -153,51 +83,26 @@ public class Animacion {
         this.stateTime = stateTime;
     }
 
+    public int getAnimationFrames() {
+        return animationFrames;
+    }
 
-    //otros metodos
+    public void setAnimationFrames(int animationFrames) {
+        this.animationFrames = animationFrames;
+    }
 
-    public void animacionesConSprites(int frames)
+
+    // Otros metodos
+    public void crearAnimacion()
     {
-        int i=0, counter=1;
-
-        animationFramesUp = new Sprite[frames];
-        animationFramesDown = new Sprite[frames];
-        animationFramesLeft = new Sprite[frames];
-        animationFramesRight = new Sprite[frames];
-
-        tmpFrames = new ArrayList<>();
+        this.frames = new ArrayList<>();
 
         for (TextureAtlas.AtlasRegion region:
                 textureAtlas.getRegions()) {
-            tmpFrames.add(new Sprite(region));
+            frames.add(new Sprite(region));
         }
 
-        for (Sprite sprite:
-                tmpFrames) {
-
-            if(i >= frames)
-                i=0;
-
-            if(counter<=frames)
-                animationFramesDown[i] = sprite;
-            if(counter>frames && counter<=frames*2)
-                animationFramesLeft[i] = sprite;
-            if(counter>frames*2 && counter<=frames*3)
-                animationFramesRight[i] = sprite;
-            if(counter>frames*3 && counter<=frames*4)
-                animationFramesUp[i] = sprite;
-
-            i++;
-            counter++;
-        }
-
-
-        animationDown = new Animation(0.1f, animationFramesDown);
-        animationLeft = new Animation(0.1f, animationFramesLeft);
-        animationRight = new Animation(0.1f, animationFramesRight);
-        animationUp = new Animation(0.1f, animationFramesUp);
-        animacionActual = new Animation(0, animationFramesUp);
-
+        actualAnimation = new com.badlogic.gdx.graphics.g2d.Animation(0.0f, frames);
     }
 
     //hace un update del stateTime que es la variable que nos indicaria hace cuanto estan las animaciones creadas
@@ -211,6 +116,5 @@ public class Animacion {
     {
         textureAtlas.dispose();
     }
-
 
 }

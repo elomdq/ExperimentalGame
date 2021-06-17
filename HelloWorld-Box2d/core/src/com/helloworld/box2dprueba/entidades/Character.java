@@ -4,41 +4,37 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 import com.helloworld.box2dprueba.utils.ICollision;
-import com.helloworld.box2dprueba.animaciones.Animacion;
+import com.helloworld.box2dprueba.animaciones.CharacterAnimation;
 import com.helloworld.box2dprueba.entities.AISteeringBehavior;
 
-public abstract class Personaje extends Entidad implements ICollision {
+public abstract class Character extends Entity implements ICollision {
 
-    private Animacion animacion;
-    private float alpha;
+    private CharacterAnimation animation;
     private AISteeringBehavior steeringBehavior;
 
 
     //constructor
-    public Personaje(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames)
+    public Character(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames)
     {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
-        this.animacion = new Animacion(texturePath, frameWidth, frameHeight, frames);
+        this.animation = new CharacterAnimation(texturePath, frameWidth, frameHeight, frames);
+        animation.crearAnimacion();
+
         steeringBehavior = new AISteeringBehavior(this.getBody(), 1);
-        alpha = 1f;
+
     }
 
     //setters & getters
 
-    public Animacion getAnimacion() {
-        return animacion;
+    public CharacterAnimation getAnimation() {
+        return animation;
     }
 
-    public void setAnimacion(Animacion animacion) {
-        this.animacion = animacion;
+    public void setAnimation(CharacterAnimation animation) {
+        this.animation = animation;
     }
 
-    public void setAlpha(float alpha)
-    {
-        this.alpha = alpha;
-    }
 
-    public float getAlpha(){return this.alpha;}
 
 
     //otros metodos
@@ -46,14 +42,15 @@ public abstract class Personaje extends Entidad implements ICollision {
     //Hace un update del stateTime y del frame que deberia renderizarse en ese valor de tiempo
     public void updateAnimation(float delta)
     {
-        this.animacion.updateStateTime(delta);
-        this.animacion.setCurrentFrame();
+        this.animation.updateStateTime(delta);
+        this.animation.setCurrentFrame();
+
     }
 
     //Tomo la posicion del Body del Personaje y actualizo la posicion de renderizado del Sprite
     public void updateFramePosition()
     {
-        this.animacion.getCurrentFrame().setPosition(this.getBody().getPosition().x * PPM - (32/2),this.getBody().getPosition().y * PPM - (32/2));
+        this.animation.getCurrentFrame().setPosition(this.getBody().getPosition().x * PPM - (32/2),this.getBody().getPosition().y * PPM - (32/2));
     }
 
     //Con este metodo actualizamos todoo lo referente al personaje sea Jugador o Enemigo
@@ -68,7 +65,7 @@ public abstract class Personaje extends Entidad implements ICollision {
 
     public void dispose()
     {
-        animacion.dispose();
+        animation.dispose();
         super.dispose();
     }
 

@@ -4,29 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.ai.steer.behaviors.Evade;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
-import com.helloworld.box2dprueba.entidades.Enemigo;
-import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.Enemy;
+import com.helloworld.box2dprueba.entidades.Player;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class Banshee extends Enemigo {
+public class Banshee extends Enemy {
 
-    private Jugador target;
+    private Player target;
     private Wander<Vector2> wanderBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
-    private Music scream;
 
-    public Banshee(World world, SpriteBatch batch, Jugador target, int spawnX, int spawnY) {
-        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/banshee.txt", 32, 32, 3, target);
+
+    public Banshee(World world, SpriteBatch batch, Player target, int spawnX, int spawnY) {
+        super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Banshee.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
 
         this.target = target;
-        this.scream = Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3"));
 
         this.wanderBehavior = new Wander<Vector2>(this.getSteeringBehavior())
                 .setWanderOffset(2.5f / PPM)
@@ -37,7 +35,6 @@ public class Banshee extends Enemigo {
                 .setTarget(target.getSteeringBehavior());
 
         this.arriveBhehavior = new Arrive<Vector2>(this.getSteeringBehavior(), this.target.getSteeringBehavior())
-                //.setTarget(target.getSteeringEntity())
                 .setArrivalTolerance(0.2f)
                 .setDecelerationRadius(2)
                 .setTimeToTarget(0.002f);
@@ -54,48 +51,49 @@ public class Banshee extends Enemigo {
 
     public void update(float delta) {
 
-        if (this.targetisInRange(target)) {
-            //en rango
+        changeBehavior();
 
-            if (!this.scream.isPlaying()) {
-                this.scream.play();
-            }
-
-            this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
-            this.configSteeringBehavior(1000, 4000, 22, 8.75f);
-
-        } else {
-            //fuera de rango
-
-
-            this.getSteeringBehavior().setBehavior(this.wanderBehavior);
-            this.configSteeringBehavior(130,10000,50,10);
-
-        }
-//        this.scream.setPan(-1f, 1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
-
-        this.scream.setVolume(1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/1.75f));
+        alterScreamVolume();
 
         this.getSteeringBehavior().update(delta);
         super.update(delta);
 
-        /**
-         *
-         * validar colisionh con jugador
-         *
-         * agregar animaciones
-         */
+    }
 
+    private void changeBehavior(){
+
+        if(getHealth()>=100){
+            if (this.targetisInRange(target)) {
+                //en rango
+
+                if (!getScream().isPlaying()) {
+                    getScream().play();
+                }
+
+                this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
+                this.configSteeringBehavior(1000, 5000, 12, 6.75f);
+
+            } else {
+                //fuera de rango
+
+
+                this.getSteeringBehavior().setBehavior(this.wanderBehavior);
+                this.configSteeringBehavior(90,10000,50,10);
+
+            }
+        } else {
+
+            healthRegen(0.1f);
+
+            this.getSteeringBehavior().setBehavior(getEvadeBehavior());
+            this.configSteeringBehavior(130, 4000, 12, 6.75f);
+        }
 
     }
 
-//    public void render(float delta) {
-//        this.setStateTime(this.getStateTime() + delta);
-//        this.setCurrentFrame();
-//    }
 
-    public boolean targetisInRange(Jugador target) {
-        if (MathUtils.getDistance(target.getBody(), this.getBody()) < 3.33) {
+    public boolean targetisInRange(Player target) {
+        if (MathUtils.getDistance(target.getBody(), this.getBody()) < 6.6) {
             return true;
         } else {
             return false;

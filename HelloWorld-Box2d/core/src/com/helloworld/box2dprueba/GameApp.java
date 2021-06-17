@@ -2,43 +2,55 @@ package com.helloworld.box2dprueba;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.helloworld.box2dprueba.states.GameStateManager;
 
-public class JuegoApp extends ApplicationAdapter {
+public class GameApp extends ApplicationAdapter {
 
 	//Debug
 	private boolean DEBUG = false;
 
 	public static final String TITLE = "Dungeon Crawler";
-	public static final int V_WIDTH = 800;
-	public static final int H_HEIGHT = 600;
+	public static final int V_WIDTH = 1080;
+	public static final int H_HEIGHT = 720;
 
 	private final float SCALE = 1.5f;
 
+	private InputProcessor inputProcessor;
+
 	private GameStateManager gsm;
 	private OrthographicCamera camera;
+	private SpriteBatch batch;
 
 	private ExtendViewport viewport;
 
-	private SpriteBatch batch;
+
+
+	private Music backgroundMusic; /** NUEVO **/
+
+
 
 	@Override
 	public void create () {
-		//float w = Gdx.graphics.getWidth();
-		//float h = Gdx.graphics.getHeight();
 
 		camera = new OrthographicCamera();
 
-		//viewport = new ExtendViewport(800, 400, camera);
 
-		camera.setToOrtho(false, V_WIDTH/SCALE, H_HEIGHT/SCALE);
+		viewport = new ExtendViewport(1080, 720, camera);
+
+		inputProcessor = Gdx.input.getInputProcessor();
+
+		//camera.setToOrtho(false, V_WIDTH/SCALE, H_HEIGHT/SCALE);
 
 		batch = new SpriteBatch();
 
 		gsm = new GameStateManager(this);
+
 	}
 
 	@Override
@@ -67,5 +79,11 @@ public class JuegoApp extends ApplicationAdapter {
 	{
 		return batch;
 	}
+
+	public Viewport getViewPort(){return viewport;}
+
+	public GameStateManager getGameStateManager(){return gsm;}
+
+	public InputProcessor getInputProcessor(){return inputProcessor;}
 
 }

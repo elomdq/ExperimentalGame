@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public final class CositasLindas {
+public final class BeautifulThings {
 
 
     //pasa angulo de radianes a grados
@@ -16,7 +16,7 @@ public final class CositasLindas {
     }
 
     //en grados, no radianes
-    public static float anguloOpuesto(float angle)
+    public static float OppositeAngle(float angle)
     {
         if(angle >0 )
             return angle - 180;
@@ -25,16 +25,17 @@ public final class CositasLindas {
     }
 
     //Esto es solo para fines practicos del uso de la linterna
-    public static boolean enfrentados(float angleTarget, float angle1, float angle2)
+    //evalua si el angulo de la entidad esta dentro del arco dado por angle1 y angle2
+    public static boolean faced(float angleTarget, float angle1, float angle2)
     {
-        if(anguloOpuesto(angleTarget) >= angle1 && anguloOpuesto(angleTarget) <= angle2)
+        if(OppositeAngle(angleTarget) >= angle1 && OppositeAngle(angleTarget) <= angle2)
             return true;
 
         return false;
     }
 
     //Cual es el angulo entre 2 vectores pocision, sobre la absisa
-    public static float anguloEntreVectores(Vector2 target, Vector2 referencia)
+    public static float angleBetweenVectors(Vector2 target, Vector2 referencia)
     {
         double deltaX = target.x - referencia.x;
         double deltaY = target.y - referencia.y;
@@ -45,12 +46,12 @@ public final class CositasLindas {
     }
 
     //Calcula la hipotenusa(o dsitancia) entre 2 vectores
-    public static float distanciaEntreVectores(Vector2 target, Vector2 referencia)
+    public static float distanceBetweenVectors(Vector2 target, Vector2 referencia)
     {
         double deltaX = target.x - referencia.x;
         double deltaY = target.y - referencia.y;
 
-        double Hypo = Math.hypot(deltaX * PPM, deltaY * PPM);
+        double Hypo = Math.hypot(deltaX, deltaY);
 
         return (float) Math.abs(Hypo);
     }

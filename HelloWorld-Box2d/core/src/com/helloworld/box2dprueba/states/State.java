@@ -1,18 +1,16 @@
 package com.helloworld.box2dprueba.states;
 
-
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.helloworld.box2dprueba.JuegoApp;
+import com.helloworld.box2dprueba.GameApp;
 
 public abstract class State {
 
     //protected OrthographicCamera camera;
     protected Vector3 mouse;
     protected GameStateManager gsm; //Funciona como un stack de states (pila de estados), renderiza el del tope de la pila
-    protected JuegoApp app;
+    protected GameApp app;
 
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
@@ -30,7 +28,7 @@ public abstract class State {
 
     public void resize(int w, int h, float scale)
     {
-        camera.setToOrtho(false, w/scale, h/scale);
+        app.getViewPort().update(w,h,true);
     }
 
     //para manejar cualquier input ingresado por el usuario

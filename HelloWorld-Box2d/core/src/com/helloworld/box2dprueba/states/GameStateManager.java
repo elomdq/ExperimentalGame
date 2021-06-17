@@ -1,24 +1,26 @@
 package com.helloworld.box2dprueba.states;
 
-import com.helloworld.box2dprueba.JuegoApp;
+import com.helloworld.box2dprueba.GameApp;
+import com.helloworld.box2dprueba.entidades.Player;
 
 import java.util.Stack;
 
 public class GameStateManager {
 
-    //referencia a la aplicacion
-    private final JuegoApp app;
 
-    private Stack<State> states;
+    private final GameApp app; //referencia a la aplicacion
+    private Stack<State> states; //Pila de States del juego
 
     public enum GameState
     {
         SPLASH,
         MENU,
-        PLAY
+        PLAY,
+        SCORE,
+        ENDGAME
     }
 
-     public GameStateManager(final JuegoApp app)
+     public GameStateManager(final GameApp app)
     {
         this.app = app;
         states = new Stack<State>();
@@ -46,14 +48,21 @@ public class GameStateManager {
         states.push(getState(state));
     }
 
+   /* public void setState(GameState state, Jugador player)
+    {
+        if(!states.empty())
+            states.pop().dispose();
+        states.push(getState(state, player));
+    }*/
+
     public State getState(GameState state)
     {
         switch(state)
         {
             case SPLASH: return new SplashState(this);
-            case MENU:
-                break;
+            case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
+            case SCORE: return new ScoreState(this);
             default:
                 break;
         }
@@ -62,7 +71,22 @@ public class GameStateManager {
     }
 
 
-    public JuegoApp getApplication()
+    //Metodos particulares para crear el endState del juego
+    public EndGameState getEndState(Player player)
+    {
+        return new EndGameState(this, player);
+    }
+
+
+    public void setEndState(EndGameState endState)
+    {
+        if(!states.empty())
+            states.pop().dispose();
+        states.push(endState);
+    }
+
+
+    public GameApp getApplication()
     {
         return app;
     }
