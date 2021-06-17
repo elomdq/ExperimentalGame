@@ -17,11 +17,13 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.google.gson.Gson;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.score.Score;
+import com.helloworld.box2dprueba.score.AuxFiles;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class EndGameState extends State{
 
@@ -167,6 +169,10 @@ public class EndGameState extends State{
             table.add(button).height(40).width(330).padTop(80);
         }
 
+        ArrayList<Score> scoreList = AuxFiles.returnSortedList();
+
+        System.out.println("scoreList = " + scoreList);
+        AuxFiles.updateScores(scoreList, new Score("tom", 8));
     }
 
     /*public EndGameState(GameStateManager gsm) {

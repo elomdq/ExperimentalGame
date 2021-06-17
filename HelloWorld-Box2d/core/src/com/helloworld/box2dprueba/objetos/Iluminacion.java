@@ -1,10 +1,9 @@
 package com.helloworld.box2dprueba.objetos;
 
-import box2dLight.PositionalLight;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.helloworld.box2dprueba.entidades.Personaje;
+
 
 public abstract class Iluminacion extends ItemEquipable {
 
