@@ -185,6 +185,11 @@ public class Hud {
         stage.draw();
     }
 
+    public void resize(int width, int height, float scale)
+    {
+        stage.getViewport().update(width, height, true);
+    }
+
     public void dispose()
     {
         //atlas.dispose();
