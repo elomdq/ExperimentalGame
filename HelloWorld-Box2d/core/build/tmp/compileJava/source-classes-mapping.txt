@@ -76,18 +76,16 @@ com/helloworld/box2dprueba/utils/Stopwatch.java
  com.helloworld.box2dprueba.utils.Stopwatch
 com/helloworld/box2dprueba/objetos/Flashlight.java
  com.helloworld.box2dprueba.objetos.Flashlight
-com/helloworld/box2dprueba/states/GameStateManager.java
- com.helloworld.box2dprueba.states.GameStateManager
- com.helloworld.box2dprueba.states.GameStateManager$1
- com.helloworld.box2dprueba.states.GameStateManager$GameState
+com/helloworld/box2dprueba/states/SplashState.java
+ com.helloworld.box2dprueba.states.SplashState
 com/helloworld/box2dprueba/states/MenuState.java
  com.helloworld.box2dprueba.states.MenuState
  com.helloworld.box2dprueba.states.MenuState$1
  com.helloworld.box2dprueba.states.MenuState$2
  com.helloworld.box2dprueba.states.MenuState$3
  com.helloworld.box2dprueba.states.MenuState$Event
-com/helloworld/box2dprueba/states/PlayStateGame.java
- com.helloworld.box2dprueba.states.PlayStateGame
+com/helloworld/box2dprueba/states/State.java
+ com.helloworld.box2dprueba.states.State
 com/helloworld/box2dprueba/states/EndGameState.java
  com.helloworld.box2dprueba.states.EndGameState
  com.helloworld.box2dprueba.states.EndGameState$1
@@ -97,10 +95,12 @@ com/helloworld/box2dprueba/score/AuxFiles.java
  com.helloworld.box2dprueba.score.AuxFiles
 com/helloworld/box2dprueba/GameApp.java
  com.helloworld.box2dprueba.GameApp
-com/helloworld/box2dprueba/states/SplashState.java
- com.helloworld.box2dprueba.states.SplashState
-com/helloworld/box2dprueba/states/State.java
- com.helloworld.box2dprueba.states.State
+com/helloworld/box2dprueba/states/PlayStateGame.java
+ com.helloworld.box2dprueba.states.PlayStateGame
+com/helloworld/box2dprueba/states/GameStateManager.java
+ com.helloworld.box2dprueba.states.GameStateManager
+ com.helloworld.box2dprueba.states.GameStateManager$1
+ com.helloworld.box2dprueba.states.GameStateManager$GameState
 com/helloworld/box2dprueba/states/ScoreState.java
  com.helloworld.box2dprueba.states.ScoreState
  com.helloworld.box2dprueba.states.ScoreState$1

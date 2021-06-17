@@ -137,11 +137,13 @@ public class ScoreState extends State{
     //metodos para levantar los score del archivo
     public void deploydScores(Table table, java.util.List<Score> scores)
     {
-        for (Score score:
-        scores) {
-            table.add(new Label(score.getName(), this.skin)).spaceRight(150).left().padBottom(30);
-            table.add(new Label(score.getScoreString(), this.skin)).spaceLeft(150).right().padBottom(30);
+
+        for(int i=0; i<5; i++)
+        {
+            table.add(new Label(scores.get(i).getName(), this.skin)).spaceRight(150).left().padBottom(30);
+            table.add(new Label(scores.get(i).getScoreString(), this.skin)).spaceLeft(150).right().padBottom(30);
             table.row();
         }
+
     }
 }
