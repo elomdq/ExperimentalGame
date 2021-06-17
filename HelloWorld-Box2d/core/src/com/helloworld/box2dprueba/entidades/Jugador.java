@@ -2,6 +2,7 @@ package com.helloworld.box2dprueba.entidades;
 
 
 import box2dLight.ConeLight;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
@@ -12,7 +13,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.objetos.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.helloworld.box2dprueba.utils.Constants.*;
 
@@ -23,12 +26,19 @@ public class Jugador extends Personaje {
     private List<ItemEquipable> inventario;
     private boolean tagged;
 
+    private Map<String, Music> soundEffects;
+
     private float sec;
 
     public Jugador(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventario = new ArrayList<>();
         this.vidas = CANTIDAD_VIDAS;
+        soundEffects= new HashMap<>();
+        soundEffects.put("bandage", Gdx.audio.newMusic(Gdx.files.internal("sounds/Bandage.mp3")));
+        soundEffects.put("lantern", Gdx.audio.newMusic(Gdx.files.internal("sounds/Lantern.mp3")));
+        soundEffects.put("batery", Gdx.audio.newMusic(Gdx.files.internal("sounds/Batery.mp3")));
+        soundEffects.put("damage", Gdx.audio.newMusic(Gdx.files.internal("sounds/Hit.mp3")));
 
     }
 
@@ -119,12 +129,14 @@ public class Jugador extends Personaje {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
             if(this.getCantidadDeFaroles()>0) {
                 ((Farol) inventario.remove(getFarolFromInventario())).desequipar(this);
+                soundEffects.get("lantern").play();
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
             if (this.getCantidadDeBandages() > 0 && this.getVidas() < 3) {
                 this.setVidas(getVidas() + ((Bandage) inventario.remove(getBandageFromInventario())).getHealAmmount());
+                soundEffects.get("bandage").play();
             }
         }
 
@@ -137,6 +149,7 @@ public class Jugador extends Personaje {
                 linterna.setDistance( linterna.getDistance() + (ENERGIA_BATERIAS*DISTANCIA_LUMINARIA)/PPM );
 
                 ((Bateria)inventario.get(getBateriaFromInventario())).setDisponibleParaUsar(false);
+                soundEffects.get("batery").play();
             }
         }
     }
@@ -312,6 +325,7 @@ public class Jugador extends Personaje {
             if(this.vidas > 0 && !tagged){
                 this.vidas--;
                 this.tagged = true;
+                soundEffects.get("damage").play();
             }
         }
     }

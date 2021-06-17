@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+
 public class ScoreState extends State{
 
     private Stage stage;
@@ -23,7 +24,5 @@ public class ScoreState extends State{
 
     //para limpiar texturas, audio y otras entidades y facilitar el manejo de memoria
     public void dispose(){}
-
-    //metodos para levantar los score del archivo
 
 }
