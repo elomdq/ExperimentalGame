@@ -86,7 +86,7 @@ public class MenuState extends State{
 
         buttonPlay.act(Gdx.graphics.getDeltaTime());
 
-        table.setDebug(true);
+        //table.setDebug(true);
         table.bottom().padBottom(130);
         table.add(buttonPlay).pad(10).height(40).width(224);
         table.row();
@@ -123,9 +123,9 @@ public class MenuState extends State{
     {
         //font.dispose();
         //atlas.dispose();
+        backgroundMusic.dispose();
         stage.dispose();
         skin.dispose();
-        backgroundMusic.dispose();
     }
 
     public void resize(int width, int height, float scale)

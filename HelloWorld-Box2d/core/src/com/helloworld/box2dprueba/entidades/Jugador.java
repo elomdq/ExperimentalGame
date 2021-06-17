@@ -134,7 +134,7 @@ public class Jugador extends Personaje {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             if (this.getCantidadDeBandages() > 0 && this.getVidas() < 3) {
                 this.setVidas(getVidas() + ((Bandage) inventario.remove(getBandageFromInventario())).getHealAmmount());
                 soundEffects.get("bandage").play();
@@ -142,7 +142,7 @@ public class Jugador extends Personaje {
         }
 
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             if(this.getCantidadDeBaterias()>0){
 
                 ConeLight linterna = ((Linterna)luminaria).getLight();

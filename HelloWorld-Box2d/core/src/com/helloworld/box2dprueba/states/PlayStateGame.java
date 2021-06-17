@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.helloworld.box2dprueba.entidades.Entidad;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.*;
@@ -28,7 +30,9 @@ import com.helloworld.box2dprueba.entidades.enemigos.Smeller;
 import com.helloworld.box2dprueba.utils.Stopwatch;
 import com.helloworld.box2dprueba.utils.TiledObjectUtil;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 import static com.helloworld.box2dprueba.utils.Constants.*;
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 
@@ -37,6 +41,7 @@ public class PlayStateGame extends State {
 
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap map;
+    private MapProperties mapProperties;
 
     private Box2DDebugRenderer b2dr;
     private World world;
@@ -45,7 +50,6 @@ public class PlayStateGame extends State {
 
     public static Jugador jugador;
     private Skeleton skeleton1;
-    private Skeleton skeleton2;
     private Banshee banshee;
     private Smeller smeller1;
     private Smeller smeller2;
@@ -53,7 +57,6 @@ public class PlayStateGame extends State {
     private Hud hud;
 
     private List<Cofre> chests;
-    //private Texture cofreTexture;
 
     private RayHandler rayHandler;
     private float distance;
@@ -81,6 +84,8 @@ public class PlayStateGame extends State {
 
         map = new TmxMapLoader().load("maps/mapita.tmx"); // Devuelve un TiledMap
         tmr = new OrthogonalTiledMapRenderer(map);
+        //mapProperties = map.getProperties();
+        //int width = map.getProperties().get("with", Integer.class);
 
         //Seteo un viewport y la camara se adapta
         viewport = new ExtendViewport(1080, 720, camera);
@@ -97,8 +102,8 @@ public class PlayStateGame extends State {
         //Creacion de personajes y objetos
         jugador = new Jugador(world,
                 batch,
-                160,/*1952,*/
-                32,/*1760,*/
+                160,//1952,
+                32,//1760,
                 32,
                 32,
                 false,
@@ -108,17 +113,17 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
+        /*jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-//        jugador.setVidas(1);
+        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));*/
+
+        //Seteo de Enemigos
 
         skeleton1 = new Skeleton(world,
                 batch,
                 jugador,
                 1310,
                 646);
-
 
         banshee = new Banshee(world,
                 batch,
@@ -140,6 +145,7 @@ public class PlayStateGame extends State {
                 1510,
                 3.2f);
 
+        //Seteo de Linterna
         linterna = new Linterna(world,
                 batch,
                 jugador.getBody().getPosition().x,
@@ -194,6 +200,13 @@ public class PlayStateGame extends State {
 
         Score.defineScore(jugador);
 
+        //seteando limites de camara
+        float startX = camera.viewportWidth / 2;
+        float startY = camera.viewportHeight / 2;
+        float width = 67 * 32 - startX*2;
+        float height = 63 * 32 - startY*2;
+        bounderies(camera,startX,startY, width, height);
+
         jugador.update(delta);
         skeleton1.update(delta);
         banshee.update(delta);
@@ -223,11 +236,7 @@ public class PlayStateGame extends State {
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
 
-        System.out.println(Score.defineScore(jugador));
-
         endGameEvaluation();
-
-        System.out.println(Score.defineScore(jugador));
 
     }
 
@@ -266,30 +275,33 @@ public class PlayStateGame extends State {
 
     @Override
     public void resize(int w, int h, float scale) {
-
         super.resize(w, h, scale);
-        hud.stage.getViewport().update(w,h);
-        //viewport.update(w, h);
+        hud.resize(w,h,scale);
     }
 
     @Override
     public void dispose() {
         world.dispose();
-        b2dr.dispose();
         map.dispose();
+        b2dr.dispose();
         tmr.dispose();
-        batch.dispose();
+
+        //batch.dispose();
         rayHandler.dispose();
-        jugador.dispose();
         linterna.dispose();
+
+        jugador.dispose();
+
         banshee.dispose();
         skeleton1.dispose();
         smeller1.dispose();
-        //skeleton2.dispose();
         smeller2.dispose();
+
         backgroundMusic.dispose();
-        smeller1.dispose();
+
         hud.dispose();
+
+        puerta.dispose();
         for (Cofre cofre : chests) {
             cofre.dispose();
         }
@@ -310,7 +322,7 @@ public class PlayStateGame extends State {
         Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         float deltaX = mousePos.x - jugador.getBody().getPosition().x *PPM;
-        float deltaY = mousePos.y - jugador.getBody().getPosition().y *PPM;
+        float deltaY = mousePos.y- jugador.getBody().getPosition().y *PPM;
 
         float nuevoAngulo = (float) Math.atan2(deltaY, deltaX);
 
@@ -408,10 +420,35 @@ public class PlayStateGame extends State {
             objeto.setAlpha(0f);
     }
 
-    public void bounderies(Camera camera, float startX, float startY, float endX, float endY)
+
+    public void bounderies(Camera camera, float startX, float startY, float width, float height)
     {
         Vector3 position = camera.position;
+
+        if(position.x < startX)
+        {
+            position.x = startX;
+        }
+
+        if(position.y < startY)
+        {
+            position.y = startY;
+        }
+
+        if(position.x > startX + width)
+        {
+            position.x = startX + width;
+        }
+
+        if(position.y > startY + height)
+        {
+            position.y = startY + height;
+        }
+
+        camera.position.set(position);
+        camera.update();
     }
+
 
     private void endGameEvaluation(){
         if (jugador.getVidas()==0 || puerta.isEstaAbierta()){
