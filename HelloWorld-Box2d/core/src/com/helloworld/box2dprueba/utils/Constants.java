@@ -9,7 +9,7 @@ public final class Constants {
     public static final int CANTIDAD_BATERIAS = 3;
     public static final int CANTIDAD_VENDAS = 2;
     public static final int CANTIDAD_FAROLES = 2;
-    public static final int CANTIDAD_VIDAS = 3;
+    public static final int CANTIDAD_VIDAS = 0;
 
     public static final float ENERGIA_BATERIAS = 0.25f;
     public static final float DISTANCIA_LUMINARIA = 384f;
@@ -38,5 +38,11 @@ public final class Constants {
     public static final int SCORE_BATTERIES = 3;
     public static final int SCORE_BANDAGES = 2;
     public static final int SCORE_LANTERNS = 2;
+
+    public static final String SCORE_1 = "core/assets/scores/score1.json";
+    public static final String SCORE_2 = "core/assets/scores/score2.json";
+    public static final String SCORE_3 = "core/assets/scores/score3.json";
+    public static final String SCORE_4 = "core/assets/scores/score4.json";
+    public static final String SCORE_5 = "core/assets/scores/score5.json";
 
 }
