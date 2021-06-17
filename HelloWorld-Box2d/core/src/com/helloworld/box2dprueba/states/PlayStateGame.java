@@ -95,7 +95,7 @@ public class PlayStateGame extends State {
 
         //seteo luz
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(0.0000001f);
+        rayHandler.setAmbientLight(0.0000000f);
         distance = DISTANCIA_LUMINARIA / PPM;
 
         //Creacion de personajes y objetos
@@ -115,8 +115,8 @@ public class PlayStateGame extends State {
         /*jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-        jugador.setVidas(1);*/
-
+        jugador.setVidas(1);
+*/
 
         //Seteo de Enemigos
 
@@ -238,7 +238,6 @@ public class PlayStateGame extends State {
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
 
         endGameEvaluation();
-
     }
 
     @Override
