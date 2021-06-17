@@ -129,7 +129,8 @@ public class EndGameState extends State{
 
                     score.setName(nombre.getText()); // aca iria el nombre que ingresa el jugador al finalizar
 
-                    AuxFiles.updateScores(AuxFiles.returnSortedList(), score);
+                    //AuxFiles.updateScores(AuxFiles.returnSortedList(), score);
+                    AuxFiles.generateJSON(score);
                     gsm.setState(GameStateManager.GameState.MENU);
                 }
             });
@@ -202,26 +203,6 @@ public class EndGameState extends State{
         stage.getViewport().update(width, height, true);
     }
 
-    //metodos para ingresar nombre y guardar score
-//    private void generateJSON(){
-//
-//        Gson gson = new Gson();
-//
-//        File file = new File("score.json");
-//
-//        try {
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
-//
-//            gson.toJson(score,Score.class,bw);
-//
-//            bw.close();
-//
-//        } catch (IOException e) {
-//
-//            e.printStackTrace();
-//
-//        }
-//
-//    }
+
 
 }

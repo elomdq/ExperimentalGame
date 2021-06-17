@@ -92,6 +92,10 @@ public class ScoreState extends State{
         scoreList.add(new Score("Memphis", 20));
         scoreList.add(new Score("Lewis", 4350));
 
+        //System.out.println(AuxFiles.readJsonFile("core\\assets\\scores\\scores.json"));
+        //System.out.println(AuxFiles.scoreFromGson(AuxFiles.readJsonFile("core\\assets\\scores\\scores.json")));
+
+
         /** FIN Probando */
 
 
@@ -112,7 +116,7 @@ public class ScoreState extends State{
         table.top();
         table.add(title).padTop(80).padBottom(60).colspan(2).center();
         table.row();
-        deploydScores(table, AuxFiles.returnSortedList());
+        deploydScores(table, AuxFiles.scoreFromGson(AuxFiles.readJsonFile("core\\assets\\scores\\scores.json")));
         table.row().expandY();
         table.add(button).top().width(224).height(40).padTop(60).colspan(2);
         table.row();

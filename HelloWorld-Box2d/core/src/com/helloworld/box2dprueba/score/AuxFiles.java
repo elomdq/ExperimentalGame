@@ -3,6 +3,8 @@ package com.helloworld.box2dprueba.score;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
 
 import com.google.gson.Gson;
 
@@ -17,7 +19,7 @@ public class AuxFiles {
     public static ArrayList<Score> returnSortedList() {
         ArrayList<Score> localList = filesToScoreList();
 
-        System.out.println(localList);
+        //System.out.println(localList);
 
         Collections.sort(localList);
 
@@ -81,6 +83,8 @@ public class AuxFiles {
         return jsonString;
     }
 
+
+
     public static void updateScores(ArrayList<Score> scorelist1, Score score) {
 
         scorelist1.add(score);
@@ -136,6 +140,96 @@ public class AuxFiles {
             e.printStackTrace();
 
         }
+    }
+
+
+    /** ELOY PROBANDO COSAS */
+
+    //metodos para ingresar nombre y guardar score
+    public static void generateJSON(Score score){
+
+        Gson gson = new Gson();
+
+        File file = new File("core\\assets\\scores\\scores.json");
+
+        try {
+            FileWriter filewriter = new FileWriter(file, true);
+
+            gson.toJson(score,Score.class,filewriter);
+
+            filewriter.close();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+    /*public static String readJsonFile(String path)
+    {
+        StringBuilder sb = new StringBuilder(); //para construir un string a partir del buffer
+        File file = new File(path);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            while( (line = reader.readLine()) != null)
+            {
+                sb.append(line);
+            };
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return sb.toString();
+    }*/
+
+    public static ArrayList<String> readJsonFile(String path)
+    {
+        StringBuilder sb = new StringBuilder(); //para construir un string a partir del buffer
+        File file = new File(path);
+        ArrayList<String> jsons = new ArrayList<>();
+
+        try {
+            Scanner sc = new Scanner(file);
+            sc.useDelimiter("}");
+
+            while(sc.hasNext())
+            {
+                sb.append(sc.next()).append("}");
+                jsons.add(sb.toString());
+                sb.delete(0, sb.length());
+            };
+
+            sc.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return jsons;
+    }
+
+    public static ArrayList<Score> scoreFromGson(ArrayList<String> jsons)
+    {
+        ArrayList<Score> scores = new ArrayList<>();
+        Gson gson = new Gson();
+
+        for (String json:
+             jsons) {
+            scores.add(gson.fromJson(json, Score.class));
+        }
+
+        orderScoreList(scores);
+
+        return scores;
+    }
+
+    public static void orderScoreList(ArrayList<Score> scores)
+    {
+        Collections.sort(scores);
     }
 
 }

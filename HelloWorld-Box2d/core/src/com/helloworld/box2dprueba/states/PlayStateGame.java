@@ -102,8 +102,8 @@ public class PlayStateGame extends State {
         //Creacion de personajes y objetos
         jugador = new Jugador(world,
                 batch,
-                160,//1952,
-                32,//1760,
+                /*160,*/1952,
+                /*32,*/1760,
                 32,
                 32,
                 false,
@@ -113,11 +113,10 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
-        /*jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
+        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.setVidas(1);
-*/
 
         //Seteo de Enemigos
 
