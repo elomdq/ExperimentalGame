@@ -2,7 +2,7 @@ package com.helloworld.box2dprueba.objetos;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
-import com.helloworld.box2dprueba.entidades.Personaje;
+import com.helloworld.box2dprueba.entidades.Character;
 
 
 public abstract class Iluminacion extends ItemEquipable {
@@ -38,8 +38,8 @@ public abstract class Iluminacion extends ItemEquipable {
     //otros metodos
 
 
-    public abstract void equipar(Personaje target);
-    public abstract void desequipar(Personaje target);
+    public abstract void equipar(Character target);
+    public abstract void desequipar(Character target);
     public abstract float getDirection();
     public abstract float getConeDegree();
 

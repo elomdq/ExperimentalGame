@@ -1,7 +1,7 @@
 package com.helloworld.box2dprueba.states;
 
 import com.helloworld.box2dprueba.JuegoApp;
-import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.Player;
 
 import java.util.Stack;
 
@@ -72,7 +72,7 @@ public class GameStateManager {
 
 
     //Metodos particulares para crear el endState del juego
-    public EndGameState getEndState(Jugador player)
+    public EndGameState getEndState(Player player)
     {
         return new EndGameState(this, player);
     }

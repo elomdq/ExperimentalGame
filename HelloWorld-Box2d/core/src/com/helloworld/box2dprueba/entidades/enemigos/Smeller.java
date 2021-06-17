@@ -7,20 +7,20 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
 import com.helloworld.box2dprueba.entidades.Enemy;
-import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.Player;
 
 
 public class Smeller extends Enemy {
 
 
-    private Jugador target;
+    private Player target;
     private Pursue<Vector2> pursueBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
 
 
 
-    public Smeller(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY, float predictionTime) {
+    public Smeller(World world, SpriteBatch batch , Player target, int spawnX, int spawnY, float predictionTime) {
 
         super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Zombie.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/Zombie_1.mp3")));
 
@@ -97,7 +97,7 @@ public class Smeller extends Enemy {
         }
     }
 
-    public boolean targetisInRange(Jugador target, float range) {
+    public boolean targetisInRange(Player target, float range) {
         if (MathUtils.getDistance(target.getBody(), this.getBody()) < range) {
             return true;
         } else {

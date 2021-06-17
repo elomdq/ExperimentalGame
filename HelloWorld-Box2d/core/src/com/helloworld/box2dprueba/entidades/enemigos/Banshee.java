@@ -9,19 +9,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
 import com.helloworld.box2dprueba.entidades.Enemy;
-import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.Player;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 public class Banshee extends Enemy {
 
-    private Jugador target;
+    private Player target;
     private Wander<Vector2> wanderBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
 
 
-    public Banshee(World world, SpriteBatch batch, Jugador target, int spawnX, int spawnY) {
+    public Banshee(World world, SpriteBatch batch, Player target, int spawnX, int spawnY) {
         super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Banshee.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/FemaleScream_1.mp3")));
 
         this.target = target;
@@ -98,7 +98,7 @@ public class Banshee extends Enemy {
 //        this.setCurrentFrame();
 //    }
 
-    public boolean targetisInRange(Jugador target) {
+    public boolean targetisInRange(Player target) {
         if (MathUtils.getDistance(target.getBody(), this.getBody()) < 6.6) {
             return true;
         } else {

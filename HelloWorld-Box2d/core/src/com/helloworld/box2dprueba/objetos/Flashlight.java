@@ -6,9 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
-import com.helloworld.box2dprueba.entidades.Personaje;
+import com.helloworld.box2dprueba.entidades.Character;
 
-public class Linterna extends Iluminacion {
+public class Flashlight extends Iluminacion {
 
     private ConeLight light;
     private float sec = 0;
@@ -16,7 +16,7 @@ public class Linterna extends Iluminacion {
 
     //Constructor
     // HAY QUE REVISAR EL TEMA DEL ANGULO DE DIRECCION DE LA LUZ QUE AL PRINCIPIO VA A SER LA DEL CUERPO QUE VA A CARGAR ESTA LUZ PERO DSP ES LA DEL PERSONAJE
-    public Linterna(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
+    public Flashlight(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
         light = new ConeLight(rayHandler, 100, Color.WHITE, distancia, x , y, 0, 25);
         light.setSoftnessLength(0f);
@@ -44,14 +44,14 @@ public class Linterna extends Iluminacion {
     }
 
     @Override
-    public void equipar(Personaje target)
+    public void equipar(Character target)
     {
         light.attachToBody(target.getBody());
     }
 
 
     @Override
-    public void desequipar(Personaje target)
+    public void desequipar(Character target)
     {
         light.attachToBody(this.getBody());
     }

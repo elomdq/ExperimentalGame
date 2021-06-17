@@ -1,14 +1,12 @@
 package com.helloworld.box2dprueba.entidades;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
-import com.helloworld.box2dprueba.objetos.Farol;
+import com.helloworld.box2dprueba.objetos.Lantern;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public abstract class Entidad {
+public abstract class Entity {
 
     private Body body;
     private SpriteBatch batch;
@@ -17,7 +15,7 @@ public abstract class Entidad {
     //Contructor
     //Se le pasa una referencia del mundo donde se va a crear (porque el mundo crea la referencia del body a asignar)
     //Se le pasa posicion con X e Y, ancho y alto, Si es cuerpo estatico o dinamico, y si no va a rotar
-    public Entidad(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
+    public Entity(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
         body = createBox(world, x, y, width, height, isStatic, fixRotation);
 
         this.batch = batch;
@@ -78,7 +76,7 @@ public abstract class Entidad {
         fixDef.shape = shape;
         fixDef.density = 1f;
 
-        if(this instanceof Farol)
+        if(this instanceof Lantern)
             fixDef.isSensor = true;
 
         body.createFixture(fixDef).setUserData(this);

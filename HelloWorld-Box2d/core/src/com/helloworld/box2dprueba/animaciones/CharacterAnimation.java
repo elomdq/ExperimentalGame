@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import java.util.ArrayList;
 
-public class AnimacionPersonaje extends Animacion {
+public class CharacterAnimation extends Animacion {
 
     private Sprite[] animationFramesUp, animationFramesDown, animationFramesLeft, animationFramesRight; //Conjunto de frames en Sprits
     private com.badlogic.gdx.graphics.g2d.Animation animationUp, animationDown, animationLeft, animationRight; //Animaciones
 
 
     //Constructor
-    public AnimacionPersonaje(String texturePath, int frameWidth, int frameHeight, int frames)
+    public CharacterAnimation(String texturePath, int frameWidth, int frameHeight, int frames)
     {
         super(texturePath, frameWidth, frameHeight, frames);
     }

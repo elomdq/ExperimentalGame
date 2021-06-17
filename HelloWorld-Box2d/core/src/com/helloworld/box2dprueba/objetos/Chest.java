@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
-import com.helloworld.box2dprueba.entidades.Entidad;
+import com.helloworld.box2dprueba.entidades.Entity;
 import com.helloworld.box2dprueba.utils.ICollision;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
@@ -14,7 +14,7 @@ import static com.helloworld.box2dprueba.utils.Constants.PPM;
 //ToDO: - Agregar la animacion de apertura de cofre
 //      - Mostrar el elemento contenido por el cofre
 
-public class Cofre extends Entidad implements ICollision {
+public class Chest extends Entity implements ICollision {
 
     private ItemEquipable item;
     private boolean isClosed;
@@ -25,7 +25,7 @@ public class Cofre extends Entidad implements ICollision {
 
 
     //Constructor
-    public Cofre(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation){
+    public Chest(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation){
         super(world, batch, x, y, width, height, isStatic, fixRotation);
         this.item = null;
         this.isClosed = true;

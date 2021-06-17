@@ -2,9 +2,9 @@ package com.helloworld.box2dprueba.utils;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.helloworld.box2dprueba.entidades.Enemy;
-import com.helloworld.box2dprueba.entidades.Jugador;
-import com.helloworld.box2dprueba.objetos.Cofre;
-import com.helloworld.box2dprueba.objetos.Farol;
+import com.helloworld.box2dprueba.entidades.Player;
+import com.helloworld.box2dprueba.objetos.Chest;
+import com.helloworld.box2dprueba.objetos.Lantern;
 import com.helloworld.box2dprueba.objetos.Puerta;
 
 /**
@@ -35,13 +35,13 @@ public class MyContactListener implements ContactListener {
             if(isChest(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
 
-                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
-                    ((Cofre)fixtureB.getUserData()).collision(fixtureA);
+                    ((Player)fixtureA.getUserData()).collision(fixtureB);
+                    ((Chest)fixtureB.getUserData()).collision(fixtureA);
 
                 }else{
 
-                    ((Jugador)fixtureB.getUserData()).collision(fixtureA);
-                    ((Cofre)fixtureA.getUserData()).collision(fixtureB);
+                    ((Player)fixtureB.getUserData()).collision(fixtureA);
+                    ((Chest)fixtureA.getUserData()).collision(fixtureB);
 
                 }
             }
@@ -65,13 +65,13 @@ public class MyContactListener implements ContactListener {
             if(isLantern(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
 
-                    ((Farol)fixtureB.getUserData()).collision(fixtureA);
-                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    ((Lantern)fixtureB.getUserData()).collision(fixtureA);
+                    ((Player)fixtureA.getUserData()).collision(fixtureB);
 
                 }else {
 
-                    ((Farol) fixtureA.getUserData()).collision(fixtureB);
-                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+                    ((Lantern) fixtureA.getUserData()).collision(fixtureB);
+                    ((Player) fixtureB.getUserData()).collision(fixtureA);
 
                 }
             }
@@ -80,12 +80,12 @@ public class MyContactListener implements ContactListener {
             if(isEnemy(fixtureA,fixtureB)){
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
 
-                    ((Jugador)fixtureA.getUserData()).collision(fixtureB);
+                    ((Player)fixtureA.getUserData()).collision(fixtureB);
                     ((Enemy)fixtureB.getUserData()).collision(fixtureA);
 
                 }else {
 
-                    ((Jugador) fixtureB.getUserData()).collision(fixtureA);
+                    ((Player) fixtureB.getUserData()).collision(fixtureA);
                     ((Enemy) fixtureA.getUserData()).collision(fixtureB);
 
                 }
@@ -123,7 +123,7 @@ public class MyContactListener implements ContactListener {
      * @return
      */
     private boolean playerInvolved(Fixture fa, Fixture fb){
-        if(fa.getUserData() instanceof Jugador || fb.getUserData() instanceof Jugador)
+        if(fa.getUserData() instanceof Player || fb.getUserData() instanceof Player)
             return true;
         return false;
     }
@@ -137,7 +137,7 @@ public class MyContactListener implements ContactListener {
      * @return
      */
     private boolean isPlayer(Fixture fixture){
-        if(fixture.getUserData() instanceof Jugador)
+        if(fixture.getUserData() instanceof Player)
             return true;
         return false;
     }
@@ -152,7 +152,7 @@ public class MyContactListener implements ContactListener {
      * @return
      */
     private boolean isChest(Fixture fa, Fixture fb){
-        if(fa.getUserData() instanceof Cofre || fb.getUserData() instanceof Cofre)
+        if(fa.getUserData() instanceof Chest || fb.getUserData() instanceof Chest)
             return true;
         return false;
     }
@@ -182,7 +182,7 @@ public class MyContactListener implements ContactListener {
      * @return
      */
     private boolean isLantern(Fixture fa, Fixture fb){
-        if(fa.getUserData() instanceof Farol || fb.getUserData() instanceof Farol)
+        if(fa.getUserData() instanceof Lantern || fb.getUserData() instanceof Lantern)
             return true;
         return false;
     }

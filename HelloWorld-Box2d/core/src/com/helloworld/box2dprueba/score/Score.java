@@ -1,7 +1,7 @@
 package com.helloworld.box2dprueba.score;
 
 
-import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.Player;
 import com.helloworld.box2dprueba.utils.Stopwatch;
 
 import java.io.Serializable;
@@ -43,7 +43,7 @@ public class Score implements Serializable, Comparable<Score> {
         this.score = score;
     }
 
-    public static int defineScore(Jugador jugador) {
+    public static int defineScore(Player player) {
 
         int localScore = SCORE_MAX - (int) (Stopwatch.getSegundos()*3.5);
 
@@ -51,23 +51,23 @@ public class Score implements Serializable, Comparable<Score> {
         if (localScore < SCORE_MIN)
             localScore = SCORE_MIN;
 
-        if (jugador.getVidas() > 0) {
-            localScore += (jugador.getVidas() * SCORE_LIVES);
+        if (player.getHealth() > 0) {
+            localScore += (player.getHealth() * SCORE_LIVES);
         }
 
-        if (jugador.getCantidadDeBaterias() > 0) {
-            localScore += Stopwatch.getSegundos()/10 *(jugador.getCantidadDeBaterias() * SCORE_BATTERIES);
+        if (player.getCantidadDeBaterias() > 0) {
+            localScore += Stopwatch.getSegundos()/10 *(player.getCantidadDeBaterias() * SCORE_BATTERIES);
         }
 
-        if (jugador.getCantidadDeBandages() > 0) {
-            localScore += Stopwatch.getSegundos()/10 *(jugador.getCantidadDeBandages() * SCORE_BANDAGES);
+        if (player.getCantidadDeBandages() > 0) {
+            localScore += Stopwatch.getSegundos()/10 *(player.getCantidadDeBandages() * SCORE_BANDAGES);
         }
 
-        if (jugador.getCantidadDeFaroles() > 0) {
-            localScore += Stopwatch.getSegundos()/10 *(jugador.getCantidadDeFaroles() * SCORE_LANTERNS);
+        if (player.getCantidadDeFaroles() > 0) {
+            localScore += Stopwatch.getSegundos()/10 *(player.getCantidadDeFaroles() * SCORE_LANTERNS);
         }
 
-        if (jugador.getVidas() < 1) {
+        if (player.getHealth() < 1) {
             localScore *= 0.8;
         }
 

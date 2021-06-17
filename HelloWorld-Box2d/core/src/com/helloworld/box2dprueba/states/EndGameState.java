@@ -14,16 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.google.gson.Gson;
-import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.Player;
 import com.helloworld.box2dprueba.score.Score;
 import com.helloworld.box2dprueba.score.AuxFiles;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class EndGameState extends State{
 
@@ -55,7 +48,7 @@ public class EndGameState extends State{
 
 
 
-    public EndGameState(GameStateManager gsm, Jugador player) {
+    public EndGameState(GameStateManager gsm, Player player) {
         super(gsm);
 
         score = new Score();
@@ -100,7 +93,7 @@ public class EndGameState extends State{
 
         //table.setDebug(true);
 
-        if(player.getVidas() != 0){
+        if(player.getHealth() != 0){
 
             table.setBackground("background");
 

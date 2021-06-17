@@ -12,15 +12,15 @@ import com.helloworld.box2dprueba.utils.ICollision;
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public abstract class Enemy extends Personaje implements ICollision {
+public abstract class Enemy extends Character implements ICollision {
 
     private float distanciaAlTarget;
-    private Jugador target;
+    private Player target;
     private double health;
     private Music scream;
     private Evade<Vector2> evadeBehavior;
 
-    public Enemy(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target, double health, Music scream) {
+    public Enemy(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Player target, double health, Music scream) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         this.target = target;
         this.scream = scream;
@@ -30,7 +30,7 @@ public abstract class Enemy extends Personaje implements ICollision {
 
     //setter & getters
 
-    public Jugador getTarget() {
+    public Player getTarget() {
         return target;
     }
 
@@ -48,10 +48,10 @@ public abstract class Enemy extends Personaje implements ICollision {
     @Override
     public  void render()
     {
-        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
+        this.getAnimation().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
     }
 
-    public float distanciaAlTarget(Vector2 target)
+    public float distanceToTarget(Vector2 target)
     {
         double deltaX = this.getBody().getPosition().x - target.x;
         double deltaY = this.getBody().getPosition().y - target.y;
@@ -64,7 +64,7 @@ public abstract class Enemy extends Personaje implements ICollision {
 
     public void updateDistancia()
     {
-        distanciaAlTarget = distanciaAlTarget(target.getBody().getPosition());
+        distanciaAlTarget = distanceToTarget(target.getBody().getPosition());
     }
 
 
@@ -78,40 +78,40 @@ public abstract class Enemy extends Personaje implements ICollision {
         {
             if(angle>-45 && angle<45)
             {
-                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationRight());
-                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationRight());
+                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
             }
             else if(angle>45 && angle<135)
             {
-                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationUp());
-                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationUp());
+                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
             }
             else if(angle>-135 && angle<-45)
             {
-                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationDown());
-                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationDown());
+                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
             }
             else
             {
-                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationLeft());
-                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationLeft());
+                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
             }
         }
         else
         {
-            enemy.getAnimacion().getAnimacionActual().setFrameDuration(0);
+            enemy.getAnimation().getAnimacionActual().setFrameDuration(0);
         }
 
     }
 
-    public void updateAlpha(Jugador target)
+    public void updateAlpha(Player target)
     {
         float ratio, coefA, coefB;
         float min=0.35f, max=0.85f;
 
         coefA = 1 / (min - max);
         coefB =  -1 * max * coefA;
-        ratio = this.distanciaAlTarget(this.getTarget().getBody().getPosition()) / target.getIluminacion().getDistance();
+        ratio = this.distanceToTarget(this.getTarget().getBody().getPosition()) / target.getIluminacion().getDistance();
 
         if(ratio<min)
             this.setAlpha(1);

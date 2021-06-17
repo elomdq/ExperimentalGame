@@ -19,11 +19,11 @@ import java.util.Map;
 
 import static com.helloworld.box2dprueba.utils.Constants.*;
 
-public class Jugador extends Personaje {
+public class Player extends Character {
 
-    private Integer vidas;
-    private Iluminacion luminaria;
-    private List<ItemEquipable> inventario;
+    private Integer health;
+    private Iluminacion lighting;
+    private List<ItemEquipable> inventory;
     private boolean tagged;
 
     private Map<String, Music> soundEffects;
@@ -31,10 +31,10 @@ public class Jugador extends Personaje {
     private float sec;
 
 
-    public Jugador(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
+    public Player(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
-        inventario = new ArrayList<>();
-        this.vidas = CANTIDAD_VIDAS;
+        inventory = new ArrayList<>();
+        this.health = CANTIDAD_VIDAS;
         soundEffects= new HashMap<>();
         soundEffects.put("bandage", Gdx.audio.newMusic(Gdx.files.internal("sounds/Bandage.mp3")));
         soundEffects.put("lantern", Gdx.audio.newMusic(Gdx.files.internal("sounds/Lantern.mp3")));
@@ -45,34 +45,34 @@ public class Jugador extends Personaje {
 
 
     //Setters & getters
-    public Integer getVidas() {
-        return vidas;
+    public Integer getHealth() {
+        return health;
     }
 
-    public void setVidas(Integer vidas) {
-        this.vidas = vidas;
+    public void setHealth(Integer health) {
+        this.health = health;
     }
 
-    public List<ItemEquipable> getInventario() {
-        return inventario;
+    public List<ItemEquipable> getInventory() {
+        return inventory;
     }
 
-    public void setInventario(List<ItemEquipable> inventario) {
-        this.inventario = inventario;
+    public void setInventory(List<ItemEquipable> inventory) {
+        this.inventory = inventory;
     }
 
     public void setIluminacion(Iluminacion luminaria) {
-        this.luminaria = luminaria;
+        this.lighting = luminaria;
     }
 
     public Iluminacion getIluminacion() {
-        return this.luminaria;
+        return this.lighting;
     }
 
 
     //Otros metodos
     public void render() {
-        this.getAnimacion().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
+        this.getAnimation().getCurrentFrame().draw(this.getBatch(), this.getAlpha());
     }
 
     public void update(float delta) {
@@ -84,7 +84,7 @@ public class Jugador extends Personaje {
     }
 
     public void dispose() {
-        luminaria.dispose();
+        lighting.dispose();
         super.dispose();
     }
     
@@ -96,31 +96,31 @@ public class Jugador extends Personaje {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             horizontalForce -= 1;
-            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationLeft());
-            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationLeft());
+            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             horizontalForce += 1;
-            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationRight());
-            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationRight());
+            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             verticalForce += 1;
-            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationUp());
-            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationUp());
+            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             verticalForce -= 1;
-            this.getAnimacion().setAnimacionActual(this.getAnimacion().getAnimationDown());
-            this.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationDown());
+            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
         }
 
         if (!Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.W)
                 && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A))
-            this.getAnimacion().getAnimacionActual().setFrameDuration(0);
+            this.getAnimation().getAnimacionActual().setFrameDuration(0);
 
 
         this.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
@@ -129,14 +129,14 @@ public class Jugador extends Personaje {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
             if(this.getCantidadDeFaroles()>0) {
-                ((Farol) inventario.remove(getFarolFromInventario())).desequipar(this);
+                ((Lantern) inventory.remove(getFarolFromInventario())).desequipar(this);
                 soundEffects.get("lantern").play();
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-            if (this.getCantidadDeBandages() > 0 && this.getVidas() < 3) {
-                this.setVidas(getVidas() + ((Bandage) inventario.remove(getBandageFromInventario())).getHealAmmount());
+            if (this.getCantidadDeBandages() > 0 && this.getHealth() < 3) {
+                this.setHealth(getHealth() + ((Bandage) inventory.remove(getBandageFromInventario())).getHealAmmount());
                 soundEffects.get("bandage").play();
             }
         }
@@ -145,11 +145,11 @@ public class Jugador extends Personaje {
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             if(this.getCantidadDeBaterias()>0){
 
-                ConeLight linterna = ((Linterna)luminaria).getLight();
+                ConeLight linterna = ((Flashlight) lighting).getLight();
 
                 linterna.setDistance( linterna.getDistance() + (ENERGIA_BATERIAS*DISTANCIA_LUMINARIA)/PPM );
 
-                ((Bateria)inventario.get(getBateriaFromInventario())).setDisponibleParaUsar(false);
+                ((Batery) inventory.get(getBateriaFromInventario())).setUsable(false);
                 soundEffects.get("batery").play();
             }
         }
@@ -166,7 +166,7 @@ public class Jugador extends Personaje {
 
         int cantidadDeLlaves = 0;
 
-        for (ItemEquipable item : inventario) {
+        for (ItemEquipable item : inventory) {
             if (item instanceof Llave)
                 cantidadDeLlaves++;
         }
@@ -184,8 +184,8 @@ public class Jugador extends Personaje {
 
         int cantidadDeBaterias = 0;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Bateria && ((Bateria)item).isDisponibleParaUsar())
+        for(ItemEquipable item : inventory){
+            if(item instanceof Batery && ((Batery)item).isUsable())
                 cantidadDeBaterias++;
         }
 
@@ -203,8 +203,8 @@ public class Jugador extends Personaje {
 
         int cantidadDeFaroles = 0;
 
-        for (ItemEquipable item : inventario) {
-            if (item instanceof Farol)
+        for (ItemEquipable item : inventory) {
+            if (item instanceof Lantern)
                 cantidadDeFaroles++;
         }
 
@@ -221,7 +221,7 @@ public class Jugador extends Personaje {
 
         int cantidadDeBandages = 0;
 
-        for (ItemEquipable item : inventario) {
+        for (ItemEquipable item : inventory) {
             if (item instanceof Bandage)
                 cantidadDeBandages++;
         }
@@ -239,9 +239,9 @@ public class Jugador extends Personaje {
 
         int index = -1;
 
-        for (ItemEquipable item : inventario) {
-            if (item instanceof Farol) {
-                index = inventario.indexOf(item);
+        for (ItemEquipable item : inventory) {
+            if (item instanceof Lantern) {
+                index = inventory.indexOf(item);
                 break;
             }
         }
@@ -259,9 +259,9 @@ public class Jugador extends Personaje {
 
         int index = -1;
 
-        for(ItemEquipable item : inventario){
-            if(item instanceof Bateria && ((Bateria)item).isDisponibleParaUsar()){
-                index = inventario.indexOf(item);
+        for(ItemEquipable item : inventory){
+            if(item instanceof Batery && ((Batery)item).isUsable()){
+                index = inventory.indexOf(item);
                 break;
             }
         }
@@ -275,7 +275,7 @@ public class Jugador extends Personaje {
      */
     private void useKeys() {
         while (getCantidadDeLlaves() > 0) {
-            inventario.remove(keyToDelete());
+            inventory.remove(keyToDelete());
         }
     }
 
@@ -286,7 +286,7 @@ public class Jugador extends Personaje {
 
         Llave key = null;
 
-        for (ItemEquipable item : inventario) {
+        for (ItemEquipable item : inventory) {
             if (item instanceof Llave)
                 key = (Llave) item;
         }
@@ -298,13 +298,13 @@ public class Jugador extends Personaje {
     public void collision(Fixture fixture) {
 
         //Comportamiento que tendrá con un cofre
-        if(fixture.getUserData() instanceof Cofre){
+        if(fixture.getUserData() instanceof Chest){
 
             //Este comportamiento quizas haya que definirlo al finalizar la colision
             //y luego de que el jugador haya "clickeado" en el objeto que contiene.
-            inventario.add(((Cofre) fixture.getUserData()).getItem());
+            inventory.add(((Chest) fixture.getUserData()).getItem());
 
-            ((Cofre) fixture.getUserData()).setItem(null);
+            ((Chest) fixture.getUserData()).setItem(null);
         }
 
         //Comportamiento que tendrá con una puerta
@@ -315,16 +315,16 @@ public class Jugador extends Personaje {
         }*/
 
         //Comportamiento que tendrá con un farol
-        if(fixture.getUserData() instanceof Farol){
-            if(!((Farol)fixture.getUserData()).getEstaEquipado() && !this.getInventario().contains(((Farol)fixture.getUserData()))){
-                inventario.add((Farol)fixture.getUserData());
+        if(fixture.getUserData() instanceof Lantern){
+            if(!((Lantern)fixture.getUserData()).getEstaEquipado() && !this.getInventory().contains(((Lantern)fixture.getUserData()))){
+                inventory.add((Lantern)fixture.getUserData());
             }
         }
 
         //Comportamiento que tendrá con un enemigo
         if(fixture.getUserData() instanceof Enemy){
-            if(this.vidas > 0 && !tagged){
-                this.vidas--;
+            if(this.health > 0 && !tagged){
+                this.health--;
                 this.tagged = true;
                 soundEffects.get("damage").play();
             }
@@ -332,10 +332,10 @@ public class Jugador extends Personaje {
     }
 
     public void useVenda() {
-        for (ItemEquipable item : inventario) {
+        for (ItemEquipable item : inventory) {
             if (item instanceof Bandage) {
-                this.inventario.remove(item);
-                this.setVidas(getVidas() + 1);
+                this.inventory.remove(item);
+                this.setHealth(getHealth() + 1);
                 break;
             }
         }
@@ -352,9 +352,9 @@ public class Jugador extends Personaje {
 
         int index = -1;
 
-        for (ItemEquipable item : inventario) {
+        for (ItemEquipable item : inventory) {
             if (item instanceof Bandage) {
-                index = inventario.indexOf(item);
+                index = inventory.indexOf(item);
                 break;
             }
         }

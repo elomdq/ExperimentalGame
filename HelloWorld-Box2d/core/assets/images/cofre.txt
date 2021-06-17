@@ -1,4 +1,4 @@
-cofre.png
+chest.png
 size: 104, 27
 format: RGBA8888
 filter: Linear,Linear
