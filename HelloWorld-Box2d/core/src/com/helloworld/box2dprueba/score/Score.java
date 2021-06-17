@@ -3,7 +3,9 @@ package com.helloworld.box2dprueba.score;
 
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.utils.Stopwatch;
+
 import java.io.Serializable;
+
 import static com.helloworld.box2dprueba.utils.Constants.*;
 
 public class Score implements Serializable, Comparable<Score> {
@@ -33,36 +35,39 @@ public class Score implements Serializable, Comparable<Score> {
         return score;
     }
 
+    public String getScoreString() {
+        return String.valueOf(score);
+    }
+
     public void setScore(int score) {
         this.score = score;
     }
 
-    public static int defineScore(Jugador jugador){
+    public static int defineScore(Jugador jugador) {
 
-        int localScore = SCORE_MAX - (int)Stopwatch.getEndGame();
-
-
-        if(localScore < SCORE_MIN)
-            localScore= SCORE_MIN;
+        int localScore = SCORE_MAX - (int) (Stopwatch.getSegundos()*3.5);
 
 
-        if(jugador.getVidas()>0){
-            localScore += (jugador.getVidas()* SCORE_LIVES);
+        if (localScore < SCORE_MIN)
+            localScore = SCORE_MIN;
+
+        if (jugador.getVidas() > 0) {
+            localScore += (jugador.getVidas() * SCORE_LIVES);
         }
 
-        if(jugador.getCantidadDeBaterias()>0){
-            localScore += (jugador.getCantidadDeBaterias()* SCORE_BATTERIES);
+        if (jugador.getCantidadDeBaterias() > 0) {
+            localScore += Stopwatch.getSegundos()/10 *(jugador.getCantidadDeBaterias() * SCORE_BATTERIES);
         }
 
-        if(jugador.getCantidadDeBandages()>0){
-            localScore += (jugador.getCantidadDeBandages()* SCORE_BANDAGES);
+        if (jugador.getCantidadDeBandages() > 0) {
+            localScore += Stopwatch.getSegundos()/10 *(jugador.getCantidadDeBandages() * SCORE_BANDAGES);
         }
 
-        if(jugador.getCantidadDeFaroles()>0){
-            localScore += (jugador.getCantidadDeFaroles()* SCORE_LANTERNS);
+        if (jugador.getCantidadDeFaroles() > 0) {
+            localScore += Stopwatch.getSegundos()/10 *(jugador.getCantidadDeFaroles() * SCORE_LANTERNS);
         }
 
-        if(jugador.getVidas() < 1){
+        if (jugador.getVidas() < 1) {
             localScore *= 0.8;
         }
 
@@ -81,10 +86,11 @@ public class Score implements Serializable, Comparable<Score> {
     @Override
     public int compareTo(Score o) {
 
-        if (score == 0 || o.score == 0){
+        if (score == o.score) {
             return 0;
-        }
+        } else if (score < o.getScore())
+            return 1;
 
-        return score.compareTo(o.getScore());
+        return -1;
     }
 }

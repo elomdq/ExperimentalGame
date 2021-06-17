@@ -20,6 +20,7 @@ import com.helloworld.box2dprueba.objetos.Farol;
 import com.helloworld.box2dprueba.objetos.Linterna;
 import com.helloworld.box2dprueba.objetos.Cofre;
 import com.helloworld.box2dprueba.scenes.Hud;
+import com.helloworld.box2dprueba.score.Score;
 import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
 import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
@@ -96,8 +97,8 @@ public class PlayStateGame extends State {
         //Creacion de personajes y objetos
         jugador = new Jugador(world,
                 batch,
-                /*160,*/1952,
-                /*32,*/1760,
+                160,/*1952,*/
+                32,/*1760,*/
                 32,
                 32,
                 false,
@@ -110,7 +111,7 @@ public class PlayStateGame extends State {
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-        jugador.setVidas(1);
+//        jugador.setVidas(1);
 
         skeleton1 = new Skeleton(world,
                 batch,
@@ -191,6 +192,8 @@ public class PlayStateGame extends State {
 
         cameraUpdate();
 
+        Score.defineScore(jugador);
+
         jugador.update(delta);
         skeleton1.update(delta);
         banshee.update(delta);
@@ -220,7 +223,11 @@ public class PlayStateGame extends State {
         rayHandler.update();
         rayHandler.setCombinedMatrix(camera.combined.scl(PPM), camera.position.x /  PPM, camera.position.y / PPM, camera.viewportWidth, camera.viewportHeight);
 
+        System.out.println(Score.defineScore(jugador));
+
         endGameEvaluation();
+
+        System.out.println(Score.defineScore(jugador));
 
     }
 

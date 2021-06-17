@@ -23,6 +23,8 @@ com/helloworld/box2dprueba/score/Score.java
  com.helloworld.box2dprueba.score.Score
 com/helloworld/box2dprueba/states/ScoreState.java
  com.helloworld.box2dprueba.states.ScoreState
+ com.helloworld.box2dprueba.states.ScoreState$1
+ com.helloworld.box2dprueba.states.ScoreState$Evento
 com/helloworld/box2dprueba/entidades/AI/AIUtils/Health.java
  com.helloworld.box2dprueba.entidades.AI.AIUtils.Health
  com.helloworld.box2dprueba.entidades.AI.AIUtils.Health$1
@@ -60,6 +62,8 @@ com/helloworld/box2dprueba/utils/MyContactListener.java
 com/helloworld/box2dprueba/states/MenuState.java
  com.helloworld.box2dprueba.states.MenuState
  com.helloworld.box2dprueba.states.MenuState$1
+ com.helloworld.box2dprueba.states.MenuState$2
+ com.helloworld.box2dprueba.states.MenuState$3
  com.helloworld.box2dprueba.states.MenuState$Evento
 com/helloworld/box2dprueba/utils/Constants.java
  com.helloworld.box2dprueba.utils.Constants

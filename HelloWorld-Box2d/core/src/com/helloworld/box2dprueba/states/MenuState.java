@@ -43,11 +43,6 @@ public class MenuState extends State{
 
         public Evento(GameStateManager gsm)
         {this.gsm = gsm;}
-
-        @Override
-        public void clicked(InputEvent event, float x, float y){
-            gsm.setState(GameStateManager.GameState.PLAY);
-        }
     }
 
     public MenuState(GameStateManager gsm){
@@ -91,11 +86,14 @@ public class MenuState extends State{
 
         buttonPlay.act(Gdx.graphics.getDeltaTime());
 
-        //table.setDebug(true);
-        table.bottom().padBottom(170);
+        table.setDebug(true);
+        table.bottom().padBottom(130);
         table.add(buttonPlay).pad(10).height(40).width(224);
         table.row();
+        table.add(buttonScores).pad(10).height(40).width(224);
+        table.row();
         table.add(buttonExit).pad(10).height(40).width(224);
+
 
         /** INICIO NUEVO TO++ **/
 
@@ -144,13 +142,26 @@ public class MenuState extends State{
     {
         buttonPlay = new TextButton("Empezar", this.skin);
         buttonExit = new TextButton("Salir", this.skin);
+        buttonScores = new TextButton("Scores", this.skin);
 
-        buttonPlay.addListener(new Evento(this.gsm));
+        buttonPlay.addListener(new Evento(this.gsm){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                gsm.setState(GameStateManager.GameState.PLAY);
+            }
+        });
 
         buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
+            }
+        });
+
+        buttonScores.addListener(new Evento(this.gsm){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                gsm.setState(GameStateManager.GameState.SCORE);
             }
         });
     }
