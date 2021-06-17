@@ -34,11 +34,6 @@ public abstract class Enemy extends Personaje implements ICollision {
         return target;
     }
 
-    public void setTarget(Jugador target) {
-        this.target = target;
-    }
-
-
     //Otros metodos
 
     @Override
@@ -141,15 +136,8 @@ public abstract class Enemy extends Personaje implements ICollision {
         this.getSteeringBehavior().setMaxAngularAcceleration(maxAngularAcceleration/PPM);
     }
 
-
-    //private abstract void changeBehavior(); todo: preguntar si poner como abstacto
-
     public double getHealth() {
         return health;
-    }
-
-    public void setHealth(double health) {
-        this.health = health;
     }
 
     public Evade<Vector2> getEvadeBehavior() {

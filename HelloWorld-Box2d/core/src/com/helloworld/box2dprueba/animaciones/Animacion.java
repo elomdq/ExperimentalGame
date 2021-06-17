@@ -14,7 +14,7 @@ public class Animacion {
     private Sprite currentFrame; //Frame actualmente en pantalla
     private int frameWidth, frameHeight, animationFrames;
     private float stateTime;
-    private Animation<Sprite> animacionActual;
+    private com.badlogic.gdx.graphics.g2d.Animation<Sprite> animacionActual;
 
     //Constructor
     public Animacion(String texturePath, int frameWidth, int frameHeight, int frames)
@@ -70,11 +70,11 @@ public class Animacion {
         this.frameHeight = frameHeight;
     }
 
-    public Animation<Sprite> getAnimacionActual() {
+    public com.badlogic.gdx.graphics.g2d.Animation<Sprite> getAnimacionActual() {
         return animacionActual;
     }
 
-    public void setAnimacionActual(Animation<Sprite> animacionActual) {
+    public void setAnimacionActual(com.badlogic.gdx.graphics.g2d.Animation<Sprite> animacionActual) {
         this.animacionActual = animacionActual;
     }
 
@@ -107,7 +107,7 @@ public class Animacion {
             frames.add(new Sprite(region));
         }
 
-        animacionActual = new Animation(0.0f, frames);
+        animacionActual = new com.badlogic.gdx.graphics.g2d.Animation(0.0f, frames);
         //setCurrentFrame();
     }
 
