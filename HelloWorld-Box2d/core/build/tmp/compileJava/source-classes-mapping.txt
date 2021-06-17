@@ -41,8 +41,8 @@ com/helloworld/box2dprueba/scenes/Hud.java
  com.helloworld.box2dprueba.scenes.Hud
 com/helloworld/box2dprueba/entidades/AI/AIUtils/MathUtils.java
  com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils
-com/mygdx/game/MyGdxGame.java
- com.mygdx.game.MyGdxGame
+com/helloworld/box2dprueba/objetos/Chest.java
+ com.helloworld.box2dprueba.objetos.Chest
 com/helloworld/box2dprueba/entidades/AI/AIUtils/SteeringUtils.java
  com.helloworld.box2dprueba.entidades.AI.AIUtils.SteeringUtils
 com/helloworld/box2dprueba/animaciones/Animacion.java
@@ -91,5 +91,3 @@ com/helloworld/box2dprueba/entidades/enemigos/Skeleton.java
  com.helloworld.box2dprueba.entidades.enemigos.Skeleton
 com/helloworld/box2dprueba/states/State.java
  com.helloworld.box2dprueba.states.State
-com/helloworld/box2dprueba/objetos/Chest.java
- com.helloworld.box2dprueba.objetos.Chest
