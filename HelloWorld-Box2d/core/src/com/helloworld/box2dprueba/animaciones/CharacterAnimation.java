@@ -1,20 +1,18 @@
 package com.helloworld.box2dprueba.animaciones;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class AnimacionPersonaje extends Animacion{
+public class CharacterAnimation extends Animacion {
 
     private Sprite[] animationFramesUp, animationFramesDown, animationFramesLeft, animationFramesRight; //Conjunto de frames en Sprits
-    private Animation<Sprite> animationUp, animationDown, animationLeft, animationRight; //Animaciones
+    private com.badlogic.gdx.graphics.g2d.Animation animationUp, animationDown, animationLeft, animationRight; //Animaciones
 
 
     //Constructor
-    public AnimacionPersonaje(String texturePath, int frameWidth, int frameHeight, int frames)
+    public CharacterAnimation(String texturePath, int frameWidth, int frameHeight, int frames)
     {
         super(texturePath, frameWidth, frameHeight, frames);
     }
@@ -54,35 +52,35 @@ public class AnimacionPersonaje extends Animacion{
         this.animationFramesRight = animationFramesRight;
     }
 
-    public Animation<Sprite> getAnimationUp() {
+    public com.badlogic.gdx.graphics.g2d.Animation getAnimationUp() {
         return animationUp;
     }
 
-    public void setAnimationUp(Animation<Sprite> animationUp) {
+    public void setAnimationUp(com.badlogic.gdx.graphics.g2d.Animation animationUp) {
         this.animationUp = animationUp;
     }
 
-    public Animation<Sprite> getAnimationDown() {
+    public com.badlogic.gdx.graphics.g2d.Animation getAnimationDown() {
         return animationDown;
     }
 
-    public void setAnimationDown(Animation<Sprite> animationDown) {
+    public void setAnimationDown(com.badlogic.gdx.graphics.g2d.Animation animationDown) {
         this.animationDown = animationDown;
     }
 
-    public Animation<Sprite> getAnimationLeft() {
+    public com.badlogic.gdx.graphics.g2d.Animation getAnimationLeft() {
         return animationLeft;
     }
 
-    public void setAnimationLeft(Animation<Sprite> animationLeft) {
+    public void setAnimationLeft(com.badlogic.gdx.graphics.g2d.Animation animationLeft) {
         this.animationLeft = animationLeft;
     }
 
-    public Animation<Sprite> getAnimationRight() {
+    public com.badlogic.gdx.graphics.g2d.Animation getAnimationRight() {
         return animationRight;
     }
 
-    public void setAnimationRight(Animation<Sprite> animationRight) {
+    public void setAnimationRight(com.badlogic.gdx.graphics.g2d.Animation animationRight) {
         this.animationRight = animationRight;
     }
 
@@ -126,11 +124,11 @@ public class AnimacionPersonaje extends Animacion{
         }
 
 
-        animationDown = new Animation(0.1f, animationFramesDown);
-        animationLeft = new Animation(0.1f, animationFramesLeft);
-        animationRight = new Animation(0.1f, animationFramesRight);
-        animationUp = new Animation(0.1f, animationFramesUp);
-        setAnimacionActual(new Animation(0, animationFramesUp));
+        animationDown = new com.badlogic.gdx.graphics.g2d.Animation(0.1f, animationFramesDown);
+        animationLeft = new com.badlogic.gdx.graphics.g2d.Animation(0.1f, animationFramesLeft);
+        animationRight = new com.badlogic.gdx.graphics.g2d.Animation(0.1f, animationFramesRight);
+        animationUp = new com.badlogic.gdx.graphics.g2d.Animation(0.1f, animationFramesUp);
+        setActualAnimation(new com.badlogic.gdx.graphics.g2d.Animation(0, animationFramesUp));
 
         setCurrentFrame();
     }

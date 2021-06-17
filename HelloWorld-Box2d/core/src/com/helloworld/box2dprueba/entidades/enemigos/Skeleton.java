@@ -4,24 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.ai.steer.behaviors.Evade;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
-import com.helloworld.box2dprueba.entidades.Enemigo;
-import com.helloworld.box2dprueba.entidades.Jugador;
+import com.helloworld.box2dprueba.entidades.Enemy;
+import com.helloworld.box2dprueba.entidades.Player;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class Skeleton extends Enemigo {
+public class Skeleton extends Enemy {
 
-    private Jugador target;
+    private Player target;
     private Wander<Vector2> wanderBehavior;
     private Arrive<Vector2> arriveBhehavior;
     private Evade<Vector2> evadeBehavior;
 
-    public Skeleton(World world, SpriteBatch batch , Jugador target, int spawnX, int spawnY) {
+    public Skeleton(World world, SpriteBatch batch , Player target, int spawnX, int spawnY) {
         super(world, batch, spawnX, spawnY, 15, 15, false, false, "images/Skeleton.txt", 32, 32, 3, target, 100, Gdx.audio.newMusic(Gdx.files.internal("sounds/Esqueleto_1.mp3")));
 
         this.target=target;
@@ -39,7 +38,6 @@ public class Skeleton extends Enemigo {
                 .setTarget(target.getSteeringBehavior());
 
         this.arriveBhehavior = new Arrive<Vector2>(this.getSteeringBehavior(), this.target.getSteeringBehavior())
-                //.setTarget(target.getSteeringEntity())
                 .setArrivalTolerance(0.1f)
                 .setDecelerationRadius(1)
                 .setTimeToTarget(0.001f);
@@ -94,7 +92,7 @@ public class Skeleton extends Enemigo {
 
     }
 
-    public boolean targetisInRange(Jugador target){
+    public boolean targetisInRange(Player target){
         if (MathUtils.getDistance(target.getBody(), this.getBody()) < 4.25 ){
             return true;
         }else {

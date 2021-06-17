@@ -3,7 +3,6 @@ package com.helloworld.box2dprueba.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -14,13 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.helloworld.box2dprueba.entidades.Jugador;
-import com.helloworld.box2dprueba.states.PlayStateGame;
+import com.helloworld.box2dprueba.entidades.Player;
 import com.helloworld.box2dprueba.utils.Stopwatch;
 
-import static com.helloworld.box2dprueba.utils.Constants.CANTIDAD_VIDAS;
+import static com.helloworld.box2dprueba.utils.Constants.AMOUNT_LIVES;
 
 public class Hud {
 
@@ -61,7 +58,7 @@ public class Hud {
 
     public Hud(SpriteBatch batch, Camera camera){
 
-        lives = CANTIDAD_VIDAS;
+        lives = AMOUNT_LIVES;
         keys = 0;
         batteries = 0;
         lamps = 0;
@@ -114,7 +111,7 @@ public class Hud {
         lamp = new Image(skin, "farol-zero");
 
 
-        timesLabel = new Label(String.format("%02d%c%02d", (int) Stopwatch.getMinutos(), 58, (int) Stopwatch.getSegundos()), skin, "timer");
+        timesLabel = new Label(String.format("%02d%c%02d", (int) Stopwatch.getMinutes(), 58, (int) Stopwatch.getSeconds()), skin, "timer");
         //timesLabel.setFontScale(1.3f);
 
 
@@ -137,12 +134,12 @@ public class Hud {
     }
 
 
-    public void update(Jugador player){
+    public void update(Player player){
 
         stage.act();
         time.elapsedTime();
 
-        this.lives = player.getVidas();
+        this.lives = player.getHealth();
         livesLabel.setText(String.format("%02d", lives));
 
         this.keys = player.getCantidadDeLlaves();
@@ -157,7 +154,7 @@ public class Hud {
         this.bandages = player.getCantidadDeBandages();
         bandegesLabel.setText(String.format("%02d", bandages));
 
-        timesLabel.setText(String.format("%02d%c%02d", (int)Stopwatch.getMinutos(), 58 ,(int)Stopwatch.getSegundos()));
+        timesLabel.setText(String.format("%02d%c%02d", (int)Stopwatch.getMinutes(), 58 ,(int)Stopwatch.getSeconds()));
 
         if(this.keys > 0)
             key.setDrawable(this.skin, "llave");

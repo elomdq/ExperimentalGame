@@ -9,18 +9,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
-import com.helloworld.box2dprueba.entidades.Personaje;
+import com.helloworld.box2dprueba.entidades.Character;
 import com.helloworld.box2dprueba.utils.ICollision;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class Farol extends Iluminacion implements ICollision {
+public class Lantern extends Illumination implements ICollision {
 
     private PointLight pointLight;
     private TextureRegion texture;
 
     //Constructor
-    public Farol(World world, SpriteBatch batch, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
+    public Lantern(World world, SpriteBatch batch, int x, int y, int width, int height, boolean isStatic, boolean fixRotation, RayHandler rayHandler, float distancia) {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
         pointLight = new PointLight(rayHandler,100,   Color.WHITE, distancia, 0 , 0);
         texture = new TextureRegion(new Texture("images/Lantern.png"));
@@ -39,21 +39,21 @@ public class Farol extends Iluminacion implements ICollision {
 
     @Override
     public void collision(Fixture fixture) {
-        if(!this.getEstaEquipado() && MathUtils.getDistance(this.getBody(),((Personaje)fixture.getUserData()).getBody()) > 0.5){
-            this.equipar((Personaje) fixture.getUserData());
+        if(!this.getEquipped() && MathUtils.getDistance(this.getBody(),((Character)fixture.getUserData()).getBody()) > 0.5){
+            this.equip((Character) fixture.getUserData());
         }
     }
 
     @Override
-    public void equipar(Personaje target){
+    public void equip(Character target){
         pointLight.setDistance(0);
     }
 
     @Override
-    public void desequipar(Personaje target){
+    public void unequip(Character target){
 
-        if(target.getAnimacion().getAnimacionActual() == target.getAnimacion().getAnimationUp() ||
-           target.getAnimacion().getAnimacionActual() == target.getAnimacion().getAnimationRight()){
+        if(target.getAnimation().getActualAnimation() == target.getAnimation().getAnimationUp() ||
+           target.getAnimation().getActualAnimation() == target.getAnimation().getAnimationRight()){
 
             this.getBody().setTransform(target.getBody().getPosition().x-(17/PPM),target.getBody().getPosition().y-(17/PPM),0);
 
@@ -79,22 +79,22 @@ public class Farol extends Iluminacion implements ICollision {
         return 0f;
     }
 
-    public void update(Personaje target){
+    public void update(Character target){
 
         if(MathUtils.getDistance(this.getBody(),target.getBody()) > 0.0000001){
 
-            this.setEstaEquipado(false);
+            this.setIsEquipped(false);
 
         }else{
 
-            this.setEstaEquipado(true);
+            this.setIsEquipped(true);
 
         }
     }
 
     public void render()
     {
-        if(!this.getEstaEquipado())
+        if(!this.getEquipped())
             this.getBatch().draw(texture, this.pointLight.getX(), this.pointLight.getY());
     }
 }

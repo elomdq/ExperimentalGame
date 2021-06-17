@@ -1,6 +1,5 @@
 package com.helloworld.box2dprueba.states;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -17,9 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuState extends State{
 
@@ -35,13 +31,13 @@ public class MenuState extends State{
     TextButton buttonExit;
     TextButton buttonScores;
 
-    private Music backgroundMusic; /** NUEVO **/
+    private Music backgroundMusic;
 
-    public class Evento extends ClickListener
+    public class Event extends ClickListener
     {
         GameStateManager gsm;
 
-        public Evento(GameStateManager gsm)
+        public Event(GameStateManager gsm)
         {this.gsm = gsm;}
     }
 
@@ -49,9 +45,6 @@ public class MenuState extends State{
         super(gsm);
 
         stage = new Stage(new ExtendViewport(800, 600, camera));
-
-        /*System.out.println("Width: " + camera.viewportWidth);
-        System.out.println("Height: " + camera.viewportHeight);*/
 
         Gdx.input.setInputProcessor(stage);
 
@@ -94,15 +87,11 @@ public class MenuState extends State{
         table.row();
         table.add(buttonExit).pad(10).height(40).width(224);
 
-
-        /** INICIO NUEVO TO++ **/
-
         this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/IntroMusic.mp3"));
         backgroundMusic.play();
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.2f);
 
-        /** FIN NUEVO TO++ **/
     }
 
     public void update(float delta)
@@ -115,14 +104,11 @@ public class MenuState extends State{
         Gdx.gl.glClearColor(1f,1f,1f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         stage.draw();
     }
 
     public void dispose()
     {
-        //font.dispose();
-        //atlas.dispose();
         backgroundMusic.dispose();
         stage.dispose();
         skin.dispose();
@@ -144,7 +130,7 @@ public class MenuState extends State{
         buttonExit = new TextButton("Salir", this.skin);
         buttonScores = new TextButton("Scores", this.skin);
 
-        buttonPlay.addListener(new Evento(this.gsm){
+        buttonPlay.addListener(new Event(this.gsm){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 gsm.setState(GameStateManager.GameState.PLAY);
@@ -158,7 +144,7 @@ public class MenuState extends State{
             }
         });
 
-        buttonScores.addListener(new Evento(this.gsm){
+        buttonScores.addListener(new Event(this.gsm){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 gsm.setState(GameStateManager.GameState.SCORE);

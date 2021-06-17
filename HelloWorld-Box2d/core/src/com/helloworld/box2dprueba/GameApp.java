@@ -2,17 +2,15 @@ package com.helloworld.box2dprueba;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.helloworld.box2dprueba.states.GameStateManager;
 
-public class JuegoApp extends ApplicationAdapter {
+public class GameApp extends ApplicationAdapter {
 
 	//Debug
 	private boolean DEBUG = false;
@@ -39,11 +37,8 @@ public class JuegoApp extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		//float w = Gdx.graphics.getWidth();
-		//float h = Gdx.graphics.getHeight();
 
 		camera = new OrthographicCamera();
-
 
 
 		viewport = new ExtendViewport(1080, 720, camera);
@@ -56,14 +51,6 @@ public class JuegoApp extends ApplicationAdapter {
 
 		gsm = new GameStateManager(this);
 
-//		/** INICIO NUEVO TO++ **/
-//
-//		this.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/BackgroundMusic.mp3"));
-//		backgroundMusic.play();
-//		backgroundMusic.setLooping(true);
-//		backgroundMusic.setVolume(0.02f);
-//
-//		/** FIN NUEVO TO++ **/
 	}
 
 	@Override
@@ -76,7 +63,6 @@ public class JuegoApp extends ApplicationAdapter {
 	public void dispose () {
 		gsm.dispose();
 		batch.dispose();
-//		backgroundMusic.dispose();
 	}
 
 	@Override
