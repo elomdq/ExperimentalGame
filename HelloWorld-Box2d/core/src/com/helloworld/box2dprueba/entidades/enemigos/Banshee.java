@@ -4,17 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.ai.steer.behaviors.Evade;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
-import com.helloworld.box2dprueba.entidades.Enemigo;
+import com.helloworld.box2dprueba.entidades.Enemy;
 import com.helloworld.box2dprueba.entidades.Jugador;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class Banshee extends Enemigo {
+public class Banshee extends Enemy {
 
     private Jugador target;
     private Wander<Vector2> wanderBehavior;

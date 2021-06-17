@@ -12,7 +12,7 @@ import com.helloworld.box2dprueba.utils.ICollision;
 import static com.helloworld.box2dprueba.utils.CositasLindas.*;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public abstract class Enemigo extends Personaje implements ICollision {
+public abstract class Enemy extends Personaje implements ICollision {
 
     private float distanciaAlTarget;
     private Jugador target;
@@ -20,7 +20,7 @@ public abstract class Enemigo extends Personaje implements ICollision {
     private Music scream;
     private Evade<Vector2> evadeBehavior;
 
-    public Enemigo(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target, double health, Music scream) {
+    public Enemy(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames, Jugador target, double health, Music scream) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         this.target = target;
         this.scream = scream;
@@ -73,38 +73,38 @@ public abstract class Enemigo extends Personaje implements ICollision {
     }
 
 
-    public void selectEnemyAnimation(Enemigo enemigo)
+    public void selectEnemyAnimation(Enemy enemy)
     {
-        float angle = radiansToDegrees(enemigo.getBody().getAngle());
+        float angle = radiansToDegrees(enemy.getBody().getAngle());
 
-        float angularVelocity = enemigo.getBody().getAngularVelocity();
+        float angularVelocity = enemy.getBody().getAngularVelocity();
 
         if(angularVelocity != 0)
         {
             if(angle>-45 && angle<45)
             {
-                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationRight());
-                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationRight());
+                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
             else if(angle>45 && angle<135)
             {
-                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationUp());
-                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationUp());
+                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
             else if(angle>-135 && angle<-45)
             {
-                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationDown());
-                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationDown());
+                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
             else
             {
-                enemigo.getAnimacion().setAnimacionActual(enemigo.getAnimacion().getAnimationLeft());
-                enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimacion().setAnimacionActual(enemy.getAnimacion().getAnimationLeft());
+                enemy.getAnimacion().getAnimacionActual().setFrameDuration(0.1f);
             }
         }
         else
         {
-            enemigo.getAnimacion().getAnimacionActual().setFrameDuration(0);
+            enemy.getAnimacion().getAnimacionActual().setFrameDuration(0);
         }
 
     }

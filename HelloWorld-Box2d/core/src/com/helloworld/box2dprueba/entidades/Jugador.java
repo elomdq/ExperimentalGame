@@ -322,7 +322,7 @@ public class Jugador extends Personaje {
         }
 
         //Comportamiento que tendrá con un enemigo
-        if(fixture.getUserData() instanceof Enemigo){
+        if(fixture.getUserData() instanceof Enemy){
             if(this.vidas > 0 && !tagged){
                 this.vidas--;
                 this.tagged = true;

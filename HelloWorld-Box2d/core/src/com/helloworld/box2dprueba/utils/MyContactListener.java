@@ -1,7 +1,7 @@
 package com.helloworld.box2dprueba.utils;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.helloworld.box2dprueba.entidades.Enemigo;
+import com.helloworld.box2dprueba.entidades.Enemy;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.objetos.Cofre;
 import com.helloworld.box2dprueba.objetos.Farol;
@@ -81,12 +81,12 @@ public class MyContactListener implements ContactListener {
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
 
                     ((Jugador)fixtureA.getUserData()).collision(fixtureB);
-                    ((Enemigo)fixtureB.getUserData()).collision(fixtureA);
+                    ((Enemy)fixtureB.getUserData()).collision(fixtureA);
 
                 }else {
 
                     ((Jugador) fixtureB.getUserData()).collision(fixtureA);
-                    ((Enemigo) fixtureA.getUserData()).collision(fixtureB);
+                    ((Enemy) fixtureA.getUserData()).collision(fixtureB);
 
                 }
             }
@@ -197,7 +197,7 @@ public class MyContactListener implements ContactListener {
      * @return
      */
     private boolean isEnemy(Fixture fa, Fixture fb){
-        if(fa.getUserData() instanceof Enemigo || fb.getUserData() instanceof Enemigo)
+        if(fa.getUserData() instanceof Enemy || fb.getUserData() instanceof Enemy)
             return true;
         return false;
     }

@@ -2,16 +2,15 @@ package com.helloworld.box2dprueba.entidades.enemigos;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.behaviors.*;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
-import com.helloworld.box2dprueba.entidades.Enemigo;
+import com.helloworld.box2dprueba.entidades.Enemy;
 import com.helloworld.box2dprueba.entidades.Jugador;
 
 
-public class Smeller extends Enemigo {
+public class Smeller extends Enemy {
 
 
     private Jugador target;
