@@ -128,7 +128,7 @@ public class CharacterAnimation extends Animacion {
         animationLeft = new com.badlogic.gdx.graphics.g2d.Animation(0.1f, animationFramesLeft);
         animationRight = new com.badlogic.gdx.graphics.g2d.Animation(0.1f, animationFramesRight);
         animationUp = new com.badlogic.gdx.graphics.g2d.Animation(0.1f, animationFramesUp);
-        setAnimacionActual(new com.badlogic.gdx.graphics.g2d.Animation(0, animationFramesUp));
+        setActualAnimation(new com.badlogic.gdx.graphics.g2d.Animation(0, animationFramesUp));
 
         setCurrentFrame();
     }

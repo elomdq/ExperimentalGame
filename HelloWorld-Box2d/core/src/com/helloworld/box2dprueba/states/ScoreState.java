@@ -10,12 +10,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ArraySelection;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.helloworld.box2dprueba.score.AuxFiles;
 import com.helloworld.box2dprueba.score.Score;
-
-import java.util.ArrayList;
 
 
 public class ScoreState extends State{
@@ -32,15 +29,13 @@ public class ScoreState extends State{
     private Label title;
     private TextButton button;
 
-   /* private ScrollPane scrollable;
-    private List<Score> scores;*/
     private java.util.List<Score> scoreList;
 
-    public class Evento extends ClickListener
+    public class Event extends ClickListener
     {
         GameStateManager gsm;
 
-        public Evento(GameStateManager gsm)
+        public Event(GameStateManager gsm)
         {this.gsm = gsm;}
 
     }
@@ -83,22 +78,10 @@ public class ScoreState extends State{
         skin.load(Gdx.files.internal("ui/score.json"));
 
 
-        /** PROBANDO */
-
-        scoreList = new ArrayList<>();
-
-        scoreList.add(new Score("Carl", 20));
-        scoreList.add(new Score("Soprano", 340));
-        scoreList.add(new Score("Memphis", 20));
-        scoreList.add(new Score("Lewis", 4350));
-
-        /** FIN Probando */
-
-
         title = new Label("SCORES", skin, "title");
 
         button = new TextButton("Menu", skin);
-        button.addListener(new Evento(gsm){
+        button.addListener(new Event(gsm){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 gsm.setState(GameStateManager.GameState.MENU);
@@ -137,7 +120,6 @@ public class ScoreState extends State{
     }
 
     //metodos para levantar los score del archivo
-
     public void deploydScores(Table table, java.util.List<Score> scores)
     {
         for (Score score:

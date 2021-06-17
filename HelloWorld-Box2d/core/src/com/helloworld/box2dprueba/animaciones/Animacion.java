@@ -1,6 +1,5 @@
 package com.helloworld.box2dprueba.animaciones;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -14,7 +13,7 @@ public class Animacion {
     private Sprite currentFrame; //Frame actualmente en pantalla
     private int frameWidth, frameHeight, animationFrames;
     private float stateTime;
-    private com.badlogic.gdx.graphics.g2d.Animation<Sprite> animacionActual;
+    private com.badlogic.gdx.graphics.g2d.Animation<Sprite> actualAnimation;
 
     //Constructor
     public Animacion(String texturePath, int frameWidth, int frameHeight, int frames)
@@ -24,8 +23,6 @@ public class Animacion {
         this.frameHeight = frameHeight;
         this.frameWidth = frameWidth;
         this.animationFrames = frames;
-        /*animacionesConSprites(frames);
-        setCurrentFrame();*/
     }
 
     //setter & getters
@@ -51,7 +48,7 @@ public class Animacion {
 
     public void setCurrentFrame()
     {
-        this.currentFrame = animacionActual.getKeyFrame(this.stateTime, true);
+        this.currentFrame = actualAnimation.getKeyFrame(this.stateTime, true);
     }
 
     public int getFrameWidth() {
@@ -70,12 +67,12 @@ public class Animacion {
         this.frameHeight = frameHeight;
     }
 
-    public com.badlogic.gdx.graphics.g2d.Animation<Sprite> getAnimacionActual() {
-        return animacionActual;
+    public com.badlogic.gdx.graphics.g2d.Animation<Sprite> getActualAnimation() {
+        return actualAnimation;
     }
 
-    public void setAnimacionActual(com.badlogic.gdx.graphics.g2d.Animation<Sprite> animacionActual) {
-        this.animacionActual = animacionActual;
+    public void setActualAnimation(com.badlogic.gdx.graphics.g2d.Animation<Sprite> actualAnimation) {
+        this.actualAnimation = actualAnimation;
     }
 
     public float getStateTime() {
@@ -96,8 +93,6 @@ public class Animacion {
 
 
     // Otros metodos
-
-
     public void crearAnimacion()
     {
         this.frames = new ArrayList<>();
@@ -107,8 +102,7 @@ public class Animacion {
             frames.add(new Sprite(region));
         }
 
-        animacionActual = new com.badlogic.gdx.graphics.g2d.Animation(0.0f, frames);
-        //setCurrentFrame();
+        actualAnimation = new com.badlogic.gdx.graphics.g2d.Animation(0.0f, frames);
     }
 
     //hace un update del stateTime que es la variable que nos indicaria hace cuanto estan las animaciones creadas

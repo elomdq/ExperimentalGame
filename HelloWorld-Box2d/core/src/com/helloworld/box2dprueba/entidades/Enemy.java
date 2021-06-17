@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.AI.AIUtils.MathUtils;
 import com.helloworld.box2dprueba.utils.ICollision;
 
-import static com.helloworld.box2dprueba.utils.CositasLindas.*;
+import static com.helloworld.box2dprueba.utils.BeautifulThings.*;
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
 public abstract class Enemy extends Character implements ICollision {
@@ -78,28 +78,28 @@ public abstract class Enemy extends Character implements ICollision {
         {
             if(angle>-45 && angle<45)
             {
-                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationRight());
-                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setActualAnimation(enemy.getAnimation().getAnimationRight());
+                enemy.getAnimation().getActualAnimation().setFrameDuration(0.1f);
             }
             else if(angle>45 && angle<135)
             {
-                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationUp());
-                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setActualAnimation(enemy.getAnimation().getAnimationUp());
+                enemy.getAnimation().getActualAnimation().setFrameDuration(0.1f);
             }
             else if(angle>-135 && angle<-45)
             {
-                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationDown());
-                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setActualAnimation(enemy.getAnimation().getAnimationDown());
+                enemy.getAnimation().getActualAnimation().setFrameDuration(0.1f);
             }
             else
             {
-                enemy.getAnimation().setAnimacionActual(enemy.getAnimation().getAnimationLeft());
-                enemy.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+                enemy.getAnimation().setActualAnimation(enemy.getAnimation().getAnimationLeft());
+                enemy.getAnimation().getActualAnimation().setFrameDuration(0.1f);
             }
         }
         else
         {
-            enemy.getAnimation().getAnimacionActual().setFrameDuration(0);
+            enemy.getAnimation().getActualAnimation().setFrameDuration(0);
         }
 
     }
@@ -120,7 +120,7 @@ public abstract class Enemy extends Character implements ICollision {
         else
             this.setAlpha(coefA * ratio + coefB);
 
-        if(!enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), this.getBody().getPosition()))
+        if(!faced(radiansToDegrees(angleBetweenVectors(target.getBody().getPosition(), this.getBody().getPosition()))
                 , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
                 target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
 

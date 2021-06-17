@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.helloworld.box2dprueba.entidades.Character;
 
-public class Flashlight extends Iluminacion {
+public class Flashlight extends Illumination {
 
     private ConeLight light;
     private float sec = 0;
-
 
     //Constructor
     // HAY QUE REVISAR EL TEMA DEL ANGULO DE DIRECCION DE LA LUZ QUE AL PRINCIPIO VA A SER LA DEL CUERPO QUE VA A CARGAR ESTA LUZ PERO DSP ES LA DEL PERSONAJE
@@ -34,7 +33,6 @@ public class Flashlight extends Iluminacion {
     //otros metodos
     public void dispose()
     {
-//        light.dispose();
     }
 
     public void update()
@@ -44,14 +42,14 @@ public class Flashlight extends Iluminacion {
     }
 
     @Override
-    public void equipar(Character target)
+    public void equip(Character target)
     {
         light.attachToBody(target.getBody());
     }
 
 
     @Override
-    public void desequipar(Character target)
+    public void unequip(Character target)
     {
         light.attachToBody(this.getBody());
     }

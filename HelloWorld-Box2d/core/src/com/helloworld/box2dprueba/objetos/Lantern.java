@@ -14,7 +14,7 @@ import com.helloworld.box2dprueba.utils.ICollision;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-public class Lantern extends Iluminacion implements ICollision {
+public class Lantern extends Illumination implements ICollision {
 
     private PointLight pointLight;
     private TextureRegion texture;
@@ -39,21 +39,21 @@ public class Lantern extends Iluminacion implements ICollision {
 
     @Override
     public void collision(Fixture fixture) {
-        if(!this.getEstaEquipado() && MathUtils.getDistance(this.getBody(),((Character)fixture.getUserData()).getBody()) > 0.5){
-            this.equipar((Character) fixture.getUserData());
+        if(!this.getEquipped() && MathUtils.getDistance(this.getBody(),((Character)fixture.getUserData()).getBody()) > 0.5){
+            this.equip((Character) fixture.getUserData());
         }
     }
 
     @Override
-    public void equipar(Character target){
+    public void equip(Character target){
         pointLight.setDistance(0);
     }
 
     @Override
-    public void desequipar(Character target){
+    public void unequip(Character target){
 
-        if(target.getAnimation().getAnimacionActual() == target.getAnimation().getAnimationUp() ||
-           target.getAnimation().getAnimacionActual() == target.getAnimation().getAnimationRight()){
+        if(target.getAnimation().getActualAnimation() == target.getAnimation().getAnimationUp() ||
+           target.getAnimation().getActualAnimation() == target.getAnimation().getAnimationRight()){
 
             this.getBody().setTransform(target.getBody().getPosition().x-(17/PPM),target.getBody().getPosition().y-(17/PPM),0);
 
@@ -94,7 +94,7 @@ public class Lantern extends Iluminacion implements ICollision {
 
     public void render()
     {
-        if(!this.getEstaEquipado())
+        if(!this.getEquipped())
             this.getBatch().draw(texture, this.pointLight.getX(), this.pointLight.getY());
     }
 }

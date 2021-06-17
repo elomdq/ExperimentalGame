@@ -3,23 +3,23 @@ package com.helloworld.box2dprueba.objetos;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Batery extends ItemEquipable {
+public class Battery extends EquippableItem {
 
-    private boolean disponibleParaUsar;
+    private boolean isUsable;
 
-    public Batery(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
+    public Battery(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation) {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
-        this.disponibleParaUsar = true;
+        this.isUsable = true;
     }
 
     //Getter & Setter
 
     public boolean isUsable() {
-        return disponibleParaUsar;
+        return isUsable;
     }
 
     public void setUsable(boolean usable) {
-        this.disponibleParaUsar = usable;
+        this.isUsable = usable;
     }
 
 

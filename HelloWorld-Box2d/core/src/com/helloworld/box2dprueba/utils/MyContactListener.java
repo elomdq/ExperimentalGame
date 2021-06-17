@@ -5,7 +5,7 @@ import com.helloworld.box2dprueba.entidades.Enemy;
 import com.helloworld.box2dprueba.entidades.Player;
 import com.helloworld.box2dprueba.objetos.Chest;
 import com.helloworld.box2dprueba.objetos.Lantern;
-import com.helloworld.box2dprueba.objetos.Puerta;
+import com.helloworld.box2dprueba.objetos.Door;
 
 /**
  * Esta clase es utilizada por el "mundo" para saber cuándo,
@@ -51,12 +51,12 @@ public class MyContactListener implements ContactListener {
                 if(isPlayer(fixtureA)){//Chequea que fixrue es la del jugador
 
                     /*((Jugador)fixtureA.getUserData()).collision(fixtureB);*/
-                    ((Puerta)fixtureB.getUserData()).collision(fixtureA);
+                    ((Door)fixtureB.getUserData()).collision(fixtureA);
 
                 }else {
 
                     /*((Jugador) fixtureB.getUserData()).collision(fixtureA);*/
-                    ((Puerta) fixtureA.getUserData()).collision(fixtureB);
+                    ((Door) fixtureA.getUserData()).collision(fixtureB);
 
                 }
             }
@@ -167,7 +167,7 @@ public class MyContactListener implements ContactListener {
      * @return
      */
     private boolean isDoor(Fixture fa, Fixture fb){
-        if(fa.getUserData() instanceof Puerta || fb.getUserData() instanceof Puerta)
+        if(fa.getUserData() instanceof Door || fb.getUserData() instanceof Door)
             return true;
         return false;
     }

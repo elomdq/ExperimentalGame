@@ -3,10 +3,8 @@ package com.helloworld.box2dprueba.states;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -32,14 +30,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.helloworld.box2dprueba.utils.Constants.*;
-import static com.helloworld.box2dprueba.utils.CositasLindas.*;
+import static com.helloworld.box2dprueba.utils.BeautifulThings.*;
 
 
 public class PlayStateGame extends State {
 
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap map;
-    private MapProperties mapProperties;
 
     private Box2DDebugRenderer b2dr;
     private World world;
@@ -67,7 +64,7 @@ public class PlayStateGame extends State {
 
     public Stopwatch stopwatch;
 
-    private Puerta puerta;
+    private Door door;
 
 
     //Constructor
@@ -82,8 +79,6 @@ public class PlayStateGame extends State {
 
         map = new TmxMapLoader().load("maps/mapita.tmx"); // Devuelve un TiledMap
         tmr = new OrthogonalTiledMapRenderer(map);
-        //mapProperties = map.getProperties();
-        //int width = map.getProperties().get("with", Integer.class);
 
         //Seteo un viewport y la camara se adapta
         viewport = new ExtendViewport(1080, 720, camera);
@@ -95,7 +90,7 @@ public class PlayStateGame extends State {
         //seteo luz
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0.0000001f);
-        distance = DISTANCIA_LUMINARIA / PPM;
+        distance = LIGHT_DISTANCE / PPM;
 
         //Creacion de personajes y objetos
         player = new Player(world,
@@ -126,8 +121,8 @@ public class PlayStateGame extends State {
         banshee = new Banshee(world,
                 batch,
                 player,
-                416,//416
-                1200); //1200
+                416,
+                1200);
 
         smeller1 = new Smeller(world,
                 batch,
@@ -157,12 +152,12 @@ public class PlayStateGame extends State {
 
         //Las siguientes dos líneas de código quizas haya que mandarlas a la clase Linterna
         flashlight.getLight().setConeDegree(25);
-        flashlight.equipar(player);
+        flashlight.equip(player);
         player.setIluminacion(flashlight);
         player.setIluminacion(flashlight); //le digo al jugador que iluminacion tiene
 
         //seteo de puerta de salida
-        puerta = new Puerta(world,
+        door = new Door(world,
                 batch,
                 1968,
                 1964,
@@ -203,7 +198,7 @@ public class PlayStateGame extends State {
         float startY = camera.viewportHeight / 2;
         float width = 67 * 32 - startX*2;
         float height = 63 * 32 - startY*2;
-        bounderies(camera,startX,startY, width, height);
+        /*bounderies(camera,startX,startY, width, height);*/
 
         player.update(delta);
         skeleton1.update(delta);
@@ -212,7 +207,7 @@ public class PlayStateGame extends State {
         smeller2.update(delta);
 
 //      ciclo utilizado para el comportamiento de los faroles
-        for(ItemEquipable item : player.getInventory()){
+        for(EquippableItem item : player.getInventory()){
             if(item instanceof Lantern){
                 ((Lantern)item).update(player);
             }
@@ -284,7 +279,6 @@ public class PlayStateGame extends State {
         b2dr.dispose();
         tmr.dispose();
 
-        //batch.dispose();
         rayHandler.dispose();
         flashlight.dispose();
 
@@ -299,7 +293,7 @@ public class PlayStateGame extends State {
 
         hud.dispose();
 
-        puerta.dispose();
+        door.dispose();
         for (Chest chest : chests) {
             chest.dispose();
         }
@@ -330,23 +324,23 @@ public class PlayStateGame extends State {
 
 
     /*********Cofres e Items**********/
-    private List<ItemEquipable> createItems(){
+    private List<EquippableItem> createItems(){
 
-        List<ItemEquipable> list = new ArrayList<>();
+        List<EquippableItem> list = new ArrayList<>();
 
-        for(int i = 0 ; i < CANTIDAD_LLAVES ; i++){
-            list.add(new Llave(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
+        for(int i = 0; i < AMOUNT_KEYS; i++){
+            list.add(new Key(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
         }
 
-        for(int i = 0 ; i < CANTIDAD_VENDAS ; i++){
+        for(int i = 0; i < AMOUNT_BANDAGES; i++){
             list.add(new Bandage(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
         }
 
-        for(int i = 0 ; i < CANTIDAD_BATERIAS ; i++){
-            list.add(new Batery(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
+        for(int i = 0; i < AMOUNT_BATTERIES; i++){
+            list.add(new Battery(world,batch,DEFAULT_POS,DEFAULT_POS,10,10,true,false));
         }
 
-        for(int i = 0 ; i < CANTIDAD_FAROLES ; i++){
+        for(int i = 0; i < AMOUNT_LANTERN; i++){
             list.add(new Lantern(world,batch,DEFAULT_POS,DEFAULT_POS,1,1,true,false,rayHandler,0));
         }
 
@@ -375,9 +369,9 @@ public class PlayStateGame extends State {
         return list;
     }
 
-    private List<Chest> assignItems(List<ItemEquipable> items , List<Chest> chests){
+    private List<Chest> assignItems(List<EquippableItem> items , List<Chest> chests){
 
-        int nullItem = 4;
+        int nullItem = chests.size() - AMOUNT_ITEMS;
 
         for(Chest chest : chests){
 
@@ -402,7 +396,7 @@ public class PlayStateGame extends State {
 
         coefA = 1 / (min - max);
         coefB = -1 * max * coefA;
-        ratio = distanciaEntreVectores(objeto.getBody().getPosition(), target.getBody().getPosition()) / target.getIluminacion().getDistance();
+        ratio = distanceBetweenVectors(objeto.getBody().getPosition(), target.getBody().getPosition()) / target.getIluminacion().getDistance();
 
         if (ratio < min)
             objeto.setAlpha(1f);
@@ -411,15 +405,14 @@ public class PlayStateGame extends State {
         else
             objeto.setAlpha(coefA * ratio + coefB);
 
-        if (!enfrentados(radiansToDegrees(anguloEntreVectores(target.getBody().getPosition(), objeto.getBody().getPosition()))
+        if (!faced(radiansToDegrees(angleBetweenVectors(target.getBody().getPosition(), objeto.getBody().getPosition()))
                 , target.getIluminacion().getDirection() - target.getIluminacion().getConeDegree(),
                 target.getIluminacion().getDirection() + target.getIluminacion().getConeDegree()))
 
             objeto.setAlpha(0f);
     }
 
-
-    public void bounderies(Camera camera, float startX, float startY, float width, float height)
+    /*public void bounderies(Camera camera, float startX, float startY, float width, float height)
     {
         Vector3 position = camera.position;
 
@@ -445,11 +438,10 @@ public class PlayStateGame extends State {
 
         camera.position.set(position);
         camera.update();
-    }
-
+    }*/
 
     private void endGameEvaluation(){
-        if (player.getHealth()==0 || puerta.isEstaAbierta()){
+        if (player.getHealth()==0 || door.isOpen()){
             Stopwatch.setEndGame(stopwatch.elapsedTime());
 
             boolean isPlayerAlive = true;

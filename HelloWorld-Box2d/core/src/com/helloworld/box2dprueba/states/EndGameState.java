@@ -31,17 +31,17 @@ public class EndGameState extends State{
 
     private Score score;
 
-    private Label titulo, puntajeString, puntaje, descripcion;
-    private TextField nombre;
+    private Label tittle, scoreString, scoreLabel, description;
+    private TextField name;
     private TextButton button;
     private Image image;
 
 
-    public class Evento extends ClickListener
+    public class Event extends ClickListener
     {
         GameStateManager gsm;
 
-        public Evento(GameStateManager gsm)
+        public Event(GameStateManager gsm)
         {this.gsm = gsm;}
 
     }
@@ -91,36 +91,34 @@ public class EndGameState extends State{
         skin.load(Gdx.files.internal("ui/endGame.json"));
 
 
-        //table.setDebug(true);
-
         if(player.getHealth() != 0){
 
             table.setBackground("background");
 
-            titulo = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
+            tittle = new Label("¡ HAS LOGRADO ESCAPAR !", skin);
 
-            puntajeString = new Label("PUNTAJE", skin, "score");
-            puntaje = new Label(String.format("%d", score.getScore()), skin, "score");
-            puntaje.setFontScale(1.2f);
-            puntajeString.setFontScale(1.2f);
+            scoreString = new Label("PUNTAJE", skin, "score");
+            scoreLabel = new Label(String.format("%d", score.getScore()), skin, "score");
+            scoreLabel.setFontScale(1.2f);
+            scoreString.setFontScale(1.2f);
 
-            descripcion = new Label("Ingresa tu nombre para el historial", skin);
-            descripcion.setFontScale(0.6f);
+            description = new Label("Ingresa tu nombre para el historial", skin);
+            description.setFontScale(0.6f);
 
-            nombre = new TextField("", skin);
-            nombre.setMaxLength(6);
-            nombre.setAlignment(Align.center);
+            name = new TextField("", skin);
+            name.setMaxLength(6);
+            name.setAlignment(Align.center);
 
             button = new TextButton("Enter", skin);
 
-            button.addListener(new Evento(this.gsm){
+            button.addListener(new Event(this.gsm){
                 @Override
                 public void clicked(InputEvent event, float x, float y){
 
-                    if(nombre.getText() == "" || nombre.getText() == null )
+                    if(name.getText() == "" || name.getText() == null )
                         return;
 
-                    score.setName(nombre.getText()); // aca iria el nombre que ingresa el jugador al finalizar
+                    score.setName(name.getText()); // aca iria el nombre que ingresa el jugador al finalizar
 
                     AuxFiles.updateScores(AuxFiles.returnSortedList(), score);
                     gsm.setState(GameStateManager.GameState.MENU);
@@ -128,45 +126,40 @@ public class EndGameState extends State{
             });
 
             table.top();
-            table.add(titulo).padTop(80).colspan(2);
+            table.add(tittle).padTop(80).colspan(2);
             table.row();
-            table.add(puntajeString).right().padRight(10).padTop(80);
-            table.add(puntaje).left().padLeft(10).padTop(80);
+            table.add(scoreString).right().padRight(10).padTop(80);
+            table.add(scoreLabel).left().padLeft(10).padTop(80);
             table.row();
-            table.add(descripcion).padTop(80).colspan(2);
+            table.add(description).padTop(80).colspan(2);
             table.row();
-            table.add(nombre).width(270).padTop(30).colspan(2);
+            table.add(name).width(270).padTop(30).colspan(2);
             table.row().expandY();
             table.add(button).width(224).height(40).top().padTop(30).padBottom(50).colspan(2);
         }else{
-            titulo = new Label("¡ TE MORISTE !", skin);
-            descripcion = new Label("Sos malisimo", skin);
-            descripcion.setFontScale(0.6f);
+            tittle = new Label("¡ TE MORISTE !", skin);
+            description = new Label("Sos malisimo", skin);
+            description.setFontScale(0.6f);
             image = new Image(skin, "muerte");
 
             button = new TextButton("Volver al Menu", skin);
 
-            button.addListener(new Evento(this.gsm){
+            button.addListener(new Event(this.gsm){
                 @Override
                 public void clicked(InputEvent event, float x, float y){
                     gsm.setState(GameStateManager.GameState.MENU);
                 }
             });
 
-            table.add(titulo);
+            table.add(tittle);
             table.row();
             table.add(image).padTop(60);
             table.row();
-            table.add(descripcion).padTop(60);
+            table.add(description).padTop(60);
             table.row();
             table.add(button).height(40).width(330).padTop(80);
         }
     }
-
-    /*public EndGameState(GameStateManager gsm) {
-        this(gsm);
-    }*/
-
 
     //parar updetear el state
     public void update(float delta){
@@ -177,15 +170,11 @@ public class EndGameState extends State{
     public void render(){
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
         stage.draw();
     }
 
     //para limpiar texturas, audio y otras entidades y facilitar el manejo de memoria
     public void dispose(){
-        /*font.dispose();
-        font2.dispose();*/
         stage.dispose();
         skin.dispose();
     }
@@ -194,27 +183,5 @@ public class EndGameState extends State{
     {
         stage.getViewport().update(width, height, true);
     }
-
-    //metodos para ingresar nombre y guardar score
-//    private void generateJSON(){
-//
-//        Gson gson = new Gson();
-//
-//        File file = new File("score.json");
-//
-//        try {
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
-//
-//            gson.toJson(score,Score.class,bw);
-//
-//            bw.close();
-//
-//        } catch (IOException e) {
-//
-//            e.printStackTrace();
-//
-//        }
-//
-//    }
 
 }

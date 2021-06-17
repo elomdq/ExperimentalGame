@@ -1,46 +1,42 @@
-com/helloworld/box2dprueba/animaciones/AnimacionPersonaje.java
- com.helloworld.box2dprueba.animaciones.AnimacionPersonaje
 com/helloworld/box2dprueba/states/PlayStateGame.java
  com.helloworld.box2dprueba.states.PlayStateGame
 com/helloworld/box2dprueba/states/EndGameState.java
  com.helloworld.box2dprueba.states.EndGameState
  com.helloworld.box2dprueba.states.EndGameState$1
  com.helloworld.box2dprueba.states.EndGameState$2
- com.helloworld.box2dprueba.states.EndGameState$Evento
+ com.helloworld.box2dprueba.states.EndGameState$Event
+com/helloworld/box2dprueba/objetos/Battery.java
+ com.helloworld.box2dprueba.objetos.Battery
 com/helloworld/box2dprueba/entidades/AI/AISteeringBehavior.java
  com.helloworld.box2dprueba.entidades.AI.AISteeringBehavior
+com/helloworld/box2dprueba/entidades/Character.java
+ com.helloworld.box2dprueba.entidades.Character
 com/helloworld/box2dprueba/utils/SteeringUtils.java
  com.helloworld.box2dprueba.utils.SteeringUtils
 com/helloworld/box2dprueba/entidades/enemigos/Banshee.java
  com.helloworld.box2dprueba.entidades.enemigos.Banshee
-com/helloworld/box2dprueba/objetos/Cofre.java
- com.helloworld.box2dprueba.objetos.Cofre
+com/helloworld/box2dprueba/objetos/Lantern.java
+ com.helloworld.box2dprueba.objetos.Lantern
 com/helloworld/box2dprueba/utils/TiledObjectUtil.java
  com.helloworld.box2dprueba.utils.TiledObjectUtil
-com/helloworld/box2dprueba/objetos/Iluminacion.java
- com.helloworld.box2dprueba.objetos.Iluminacion
 com/helloworld/box2dprueba/score/Score.java
  com.helloworld.box2dprueba.score.Score
 com/helloworld/box2dprueba/states/ScoreState.java
  com.helloworld.box2dprueba.states.ScoreState
  com.helloworld.box2dprueba.states.ScoreState$1
  com.helloworld.box2dprueba.states.ScoreState$Evento
-com/helloworld/box2dprueba/entidades/AI/AIUtils/Health.java
- com.helloworld.box2dprueba.entidades.AI.AIUtils.Health
- com.helloworld.box2dprueba.entidades.AI.AIUtils.Health$1
- com.helloworld.box2dprueba.entidades.AI.AIUtils.Health$2
-com/helloworld/box2dprueba/objetos/ItemEquipable.java
- com.helloworld.box2dprueba.objetos.ItemEquipable
-com/helloworld/box2dprueba/objetos/Llave.java
- com.helloworld.box2dprueba.objetos.Llave
 com/helloworld/box2dprueba/entities/AISteeringBehavior.java
  com.helloworld.box2dprueba.entities.AISteeringBehavior
 com/helloworld/box2dprueba/states/GameStateManager.java
  com.helloworld.box2dprueba.states.GameStateManager
  com.helloworld.box2dprueba.states.GameStateManager$1
  com.helloworld.box2dprueba.states.GameStateManager$GameState
+com/helloworld/box2dprueba/objetos/Door.java
+ com.helloworld.box2dprueba.objetos.Door
 com/helloworld/box2dprueba/entidades/enemigos/Smeller.java
  com.helloworld.box2dprueba.entidades.enemigos.Smeller
+com/helloworld/box2dprueba/entidades/Enemy.java
+ com.helloworld.box2dprueba.entidades.Enemy
 com/helloworld/box2dprueba/scenes/Hud.java
  com.helloworld.box2dprueba.scenes.Hud
 com/helloworld/box2dprueba/entidades/AI/AIUtils/MathUtils.java
@@ -49,14 +45,12 @@ com/mygdx/game/MyGdxGame.java
  com.mygdx.game.MyGdxGame
 com/helloworld/box2dprueba/entidades/AI/AIUtils/SteeringUtils.java
  com.helloworld.box2dprueba.entidades.AI.AIUtils.SteeringUtils
-com/helloworld/box2dprueba/objetos/Farol.java
- com.helloworld.box2dprueba.objetos.Farol
 com/helloworld/box2dprueba/animaciones/Animacion.java
  com.helloworld.box2dprueba.animaciones.Animacion
-com/helloworld/box2dprueba/entidades/Jugador.java
- com.helloworld.box2dprueba.entidades.Jugador
-com/helloworld/box2dprueba/objetos/Puerta.java
- com.helloworld.box2dprueba.objetos.Puerta
+com/helloworld/box2dprueba/objetos/Illumination.java
+ com.helloworld.box2dprueba.objetos.Illumination
+com/helloworld/box2dprueba/objetos/EquippableItem.java
+ com.helloworld.box2dprueba.objetos.EquippableItem
 com/helloworld/box2dprueba/utils/MyContactListener.java
  com.helloworld.box2dprueba.utils.MyContactListener
 com/helloworld/box2dprueba/states/MenuState.java
@@ -64,9 +58,11 @@ com/helloworld/box2dprueba/states/MenuState.java
  com.helloworld.box2dprueba.states.MenuState$1
  com.helloworld.box2dprueba.states.MenuState$2
  com.helloworld.box2dprueba.states.MenuState$3
- com.helloworld.box2dprueba.states.MenuState$Evento
+ com.helloworld.box2dprueba.states.MenuState$Event
 com/helloworld/box2dprueba/utils/Constants.java
  com.helloworld.box2dprueba.utils.Constants
+com/helloworld/box2dprueba/entidades/Player.java
+ com.helloworld.box2dprueba.entidades.Player
 com/helloworld/box2dprueba/score/AuxFiles.java
  com.helloworld.box2dprueba.score.AuxFiles
 com/helloworld/box2dprueba/states/SplashState.java
@@ -77,23 +73,23 @@ com/helloworld/box2dprueba/utils/CositasLindas.java
  com.helloworld.box2dprueba.utils.CositasLindas
 com/helloworld/box2dprueba/JuegoApp.java
  com.helloworld.box2dprueba.JuegoApp
+com/helloworld/box2dprueba/objetos/Flashlight.java
+ com.helloworld.box2dprueba.objetos.Flashlight
 com/helloworld/box2dprueba/entities/Box2dLocation.java
  com.helloworld.box2dprueba.entities.Box2dLocation
+com/helloworld/box2dprueba/objetos/Key.java
+ com.helloworld.box2dprueba.objetos.Key
 com/helloworld/box2dprueba/utils/ICollision.java
  com.helloworld.box2dprueba.utils.ICollision
-com/helloworld/box2dprueba/objetos/Linterna.java
- com.helloworld.box2dprueba.objetos.Linterna
+com/helloworld/box2dprueba/animaciones/CharacterAnimation.java
+ com.helloworld.box2dprueba.animaciones.CharacterAnimation
 com/helloworld/box2dprueba/objetos/Bandage.java
  com.helloworld.box2dprueba.objetos.Bandage
-com/helloworld/box2dprueba/objetos/Bateria.java
- com.helloworld.box2dprueba.objetos.Bateria
+com/helloworld/box2dprueba/entidades/Entity.java
+ com.helloworld.box2dprueba.entidades.Entity
 com/helloworld/box2dprueba/entidades/enemigos/Skeleton.java
  com.helloworld.box2dprueba.entidades.enemigos.Skeleton
 com/helloworld/box2dprueba/states/State.java
  com.helloworld.box2dprueba.states.State
-com/helloworld/box2dprueba/entidades/Enemigo.java
- com.helloworld.box2dprueba.entidades.Enemigo
-com/helloworld/box2dprueba/entidades/Entidad.java
- com.helloworld.box2dprueba.entidades.Entidad
-com/helloworld/box2dprueba/entidades/Personaje.java
- com.helloworld.box2dprueba.entidades.Personaje
+com/helloworld/box2dprueba/objetos/Chest.java
+ com.helloworld.box2dprueba.objetos.Chest

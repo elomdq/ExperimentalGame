@@ -10,7 +10,6 @@ import com.helloworld.box2dprueba.entities.AISteeringBehavior;
 public abstract class Character extends Entity implements ICollision {
 
     private CharacterAnimation animation;
-    //private float alpha;
     private AISteeringBehavior steeringBehavior;
 
 

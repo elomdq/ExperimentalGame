@@ -38,7 +38,6 @@ public class Skeleton extends Enemy {
                 .setTarget(target.getSteeringBehavior());
 
         this.arriveBhehavior = new Arrive<Vector2>(this.getSteeringBehavior(), this.target.getSteeringBehavior())
-                //.setTarget(target.getSteeringEntity())
                 .setArrivalTolerance(0.1f)
                 .setDecelerationRadius(1)
                 .setTimeToTarget(0.001f);

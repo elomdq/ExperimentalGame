@@ -1,6 +1,6 @@
 package com.helloworld.box2dprueba.states;
 
-import com.helloworld.box2dprueba.JuegoApp;
+import com.helloworld.box2dprueba.GameApp;
 import com.helloworld.box2dprueba.entidades.Player;
 
 import java.util.Stack;
@@ -8,7 +8,7 @@ import java.util.Stack;
 public class GameStateManager {
 
 
-    private final JuegoApp app; //referencia a la aplicacion
+    private final GameApp app; //referencia a la aplicacion
     private Stack<State> states; //Pila de States del juego
 
     public enum GameState
@@ -20,7 +20,7 @@ public class GameStateManager {
         ENDGAME
     }
 
-     public GameStateManager(final JuegoApp app)
+     public GameStateManager(final GameApp app)
     {
         this.app = app;
         states = new Stack<State>();
@@ -86,7 +86,7 @@ public class GameStateManager {
     }
 
 
-    public JuegoApp getApplication()
+    public GameApp getApplication()
     {
         return app;
     }

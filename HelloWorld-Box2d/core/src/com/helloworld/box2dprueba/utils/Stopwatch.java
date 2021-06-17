@@ -3,13 +3,13 @@ package com.helloworld.box2dprueba.utils;
 public class Stopwatch {
     private static final long start= System.currentTimeMillis();
     private static double endGame;
-    private static double minutos;
-    private static double segundos;
+    private static double minutes;
+    private static double seconds;
     private static double stopTime;
 
     public Stopwatch() {
-        minutos = 0;
-        segundos = 0;
+        minutes = 0;
+        seconds = 0;
     }
 
 
@@ -23,16 +23,16 @@ public class Stopwatch {
     }
 
     public void formateo(double stopTime){
-        minutos = Math.floor(stopTime/60);
-        segundos = stopTime - minutos*60;
+        minutes = Math.floor(stopTime/60);
+        seconds = stopTime - minutes *60;
     }
 
-    public static double getMinutos() {
-        return minutos;
+    public static double getMinutes() {
+        return minutes;
     }
 
-    public static double getSegundos() {
-        return segundos;
+    public static double getSeconds() {
+        return seconds;
     }
 
     public static double getEndGame() {
@@ -43,5 +43,4 @@ public class Stopwatch {
         Stopwatch.endGame = endGame;
     }
 
-    //public static int getMinutos(){return minutos;}
 }

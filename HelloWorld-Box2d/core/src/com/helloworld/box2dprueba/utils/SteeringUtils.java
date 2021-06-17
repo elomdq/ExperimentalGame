@@ -1,6 +1,5 @@
 package com.helloworld.box2dprueba.utils;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;

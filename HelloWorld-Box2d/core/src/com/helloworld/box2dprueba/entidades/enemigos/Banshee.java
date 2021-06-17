@@ -35,7 +35,6 @@ public class Banshee extends Enemy {
                 .setTarget(target.getSteeringBehavior());
 
         this.arriveBhehavior = new Arrive<Vector2>(this.getSteeringBehavior(), this.target.getSteeringBehavior())
-                //.setTarget(target.getSteeringEntity())
                 .setArrivalTolerance(0.2f)
                 .setDecelerationRadius(2)
                 .setTimeToTarget(0.002f);
@@ -53,7 +52,6 @@ public class Banshee extends Enemy {
     public void update(float delta) {
 
         changeBehavior();
-//        this.scream.setPan(-1f, 1/ ((float) MathUtils.getDistance(target.getBody(), this.getBody())/2));
 
         alterScreamVolume();
 
@@ -93,10 +91,6 @@ public class Banshee extends Enemy {
 
     }
 
-//    public void render(float delta) {
-//        this.setStateTime(this.getStateTime() + delta);
-//        this.setCurrentFrame();
-//    }
 
     public boolean targetisInRange(Player target) {
         if (MathUtils.getDistance(target.getBody(), this.getBody()) < 6.6) {

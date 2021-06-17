@@ -45,7 +45,7 @@ public class Score implements Serializable, Comparable<Score> {
 
     public static int defineScore(Player player) {
 
-        int localScore = SCORE_MAX - (int) (Stopwatch.getSegundos()*3.5);
+        int localScore = SCORE_MAX - (int) (Stopwatch.getSeconds()*3.5);
 
 
         if (localScore < SCORE_MIN)
@@ -56,15 +56,15 @@ public class Score implements Serializable, Comparable<Score> {
         }
 
         if (player.getCantidadDeBaterias() > 0) {
-            localScore += Stopwatch.getSegundos()/10 *(player.getCantidadDeBaterias() * SCORE_BATTERIES);
+            localScore += Stopwatch.getSeconds()/10 *(player.getCantidadDeBaterias() * SCORE_BATTERIES);
         }
 
         if (player.getCantidadDeBandages() > 0) {
-            localScore += Stopwatch.getSegundos()/10 *(player.getCantidadDeBandages() * SCORE_BANDAGES);
+            localScore += Stopwatch.getSeconds()/10 *(player.getCantidadDeBandages() * SCORE_BANDAGES);
         }
 
         if (player.getCantidadDeFaroles() > 0) {
-            localScore += Stopwatch.getSegundos()/10 *(player.getCantidadDeFaroles() * SCORE_LANTERNS);
+            localScore += Stopwatch.getSeconds()/10 *(player.getCantidadDeFaroles() * SCORE_LANTERNS);
         }
 
         if (player.getHealth() < 1) {

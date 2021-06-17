@@ -10,17 +10,12 @@ import com.helloworld.box2dprueba.utils.ICollision;
 
 import static com.helloworld.box2dprueba.utils.Constants.PPM;
 
-
-//ToDO: - Agregar la animacion de apertura de cofre
-//      - Mostrar el elemento contenido por el cofre
-
 public class Chest extends Entity implements ICollision {
 
-    private ItemEquipable item;
+    private EquippableItem item;
     private boolean isClosed;
-    //private Animacion animacion;
 
-    private Sprite imagen;
+    private Sprite image;
     private TextureAtlas atlas;
 
 
@@ -29,21 +24,17 @@ public class Chest extends Entity implements ICollision {
         super(world, batch, x, y, width, height, isStatic, fixRotation);
         this.item = null;
         this.isClosed = true;
-
-        //animacion = new Animacion("images/cofre.txt", 26, 27, 4);
-
-
         atlas = new TextureAtlas("images/cofre.txt");
-        imagen = atlas.createSprite("chest-1");
+        image = atlas.createSprite("chest-1");
     }
 
 
     //Getter & Setter
-    public ItemEquipable getItem() {
+    public EquippableItem getItem() {
         return item;
     }
 
-    public void setItem(ItemEquipable item) {
+    public void setItem(EquippableItem item) {
         this.item = item;
     }
 
@@ -52,8 +43,8 @@ public class Chest extends Entity implements ICollision {
 
     public void render()
     {
-        imagen.setPosition(this.getBody().getPosition().x * PPM - (26/2), this.getBody().getPosition().y* PPM - (27/2));
-        imagen.draw(this.getBatch(), this.getAlpha());
+        image.setPosition(this.getBody().getPosition().x * PPM - (26/2), this.getBody().getPosition().y* PPM - (27/2));
+        image.draw(this.getBatch(), this.getAlpha());
     }
 
     public void update(float delta)
@@ -82,14 +73,8 @@ public class Chest extends Entity implements ICollision {
 
     private void openAnimation(){
        if(!this.isClosed){
-            imagen.setRegion(atlas.findRegion("chest-4"));
+            image.setRegion(atlas.findRegion("chest-4"));
        }
-    }
-
-    private void playSound(){
-        if(!this.isClosed){
-            //Sonido de apertura de cofre
-        }
     }
 
     @Override
@@ -98,32 +83,6 @@ public class Chest extends Entity implements ICollision {
             this.isClosed = false;
             openAnimation();
             this.item = null;
-            //playSound();
-            //Se muestra el elemento que contiene
         }
     }
-
-    /**
-     * Método que chequea si hay
-     * un item dentro del cofre
-     *
-     * @return
-     */
-    private boolean hasItem(){
-        if(this.item != null)
-            return true;
-        return false;
-    }
-
-    /**
-     * Método que chequa si el cofre está
-     * en condiciones para ser abierto
-     *
-     * @param tieneItem
-     * @return
-     */
-    private boolean canBeOpened(boolean tieneItem){
-        return (tieneItem && isClosed);
-    }
-
 }

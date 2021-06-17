@@ -5,14 +5,15 @@ import com.badlogic.gdx.math.Vector2;
 public final class Constants {
 
     public static final float PPM = 32;
-    public static final int CANTIDAD_LLAVES = 3;
-    public static final int CANTIDAD_BATERIAS = 3;
-    public static final int CANTIDAD_VENDAS = 2;
-    public static final int CANTIDAD_FAROLES = 2;
-    public static final int CANTIDAD_VIDAS = 3;
+    public static final int AMOUNT_KEYS = 3;
+    public static final int AMOUNT_BATTERIES = 3;
+    public static final int AMOUNT_BANDAGES = 2;
+    public static final int AMOUNT_LANTERN = 2;
+    public static final int AMOUNT_LIVES = 3;
+    public static final int AMOUNT_ITEMS = AMOUNT_KEYS+AMOUNT_BATTERIES+AMOUNT_BANDAGES+AMOUNT_LANTERN;
 
-    public static final float ENERGIA_BATERIAS = 0.25f;
-    public static final float DISTANCIA_LUMINARIA = 384f;
+    public static final float BATTERY_ENERGY = 0.25f;
+    public static final float LIGHT_DISTANCE = 384f;
 
     public static final Vector2 POS_CHEST_1 = new Vector2(106,1605);
     public static final Vector2 POS_CHEST_2 = new Vector2(128,480);

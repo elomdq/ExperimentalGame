@@ -29,7 +29,6 @@ public class Smeller extends Enemy {
         this.configSteeringBehavior(47, 4000, 1, 2.3f);
 
         this.arriveBhehavior = new Arrive<Vector2>(this.getSteeringBehavior(), this.target.getSteeringBehavior())
-                //.setTarget(target.getSteeringEntity())
                 .setArrivalTolerance(0.1f)
                 .setDecelerationRadius(1)
                 .setTimeToTarget(0.001f);
@@ -70,13 +69,11 @@ public class Smeller extends Enemy {
         if(getHealth()>=100){
             if(this.targetisInRange(target, range)){
                 //en rango
-
                 this.getSteeringBehavior().setBehavior(this.arriveBhehavior);
 
             }else {
 
                 //fuera de rango
-
                 this.getSteeringBehavior().setBehavior(this.pursueBehavior);
             }
         }else {

@@ -22,8 +22,8 @@ import static com.helloworld.box2dprueba.utils.Constants.*;
 public class Player extends Character {
 
     private Integer health;
-    private Iluminacion lighting;
-    private List<ItemEquipable> inventory;
+    private Illumination lighting;
+    private List<EquippableItem> inventory;
     private boolean tagged;
 
     private Map<String, Music> soundEffects;
@@ -34,7 +34,7 @@ public class Player extends Character {
     public Player(World world, SpriteBatch batch, float x, float y, int width, int height, boolean isStatic, boolean fixRotation, String texturePath, int frameWidth, int frameHeight, int frames) {
         super(world, batch, x, y, width, height, isStatic, fixRotation, texturePath, frameWidth, frameHeight, frames);
         inventory = new ArrayList<>();
-        this.health = CANTIDAD_VIDAS;
+        this.health = AMOUNT_LIVES;
         soundEffects= new HashMap<>();
         soundEffects.put("bandage", Gdx.audio.newMusic(Gdx.files.internal("sounds/Bandage.mp3")));
         soundEffects.put("lantern", Gdx.audio.newMusic(Gdx.files.internal("sounds/Lantern.mp3")));
@@ -53,19 +53,19 @@ public class Player extends Character {
         this.health = health;
     }
 
-    public List<ItemEquipable> getInventory() {
+    public List<EquippableItem> getInventory() {
         return inventory;
     }
 
-    public void setInventory(List<ItemEquipable> inventory) {
+    public void setInventory(List<EquippableItem> inventory) {
         this.inventory = inventory;
     }
 
-    public void setIluminacion(Iluminacion luminaria) {
+    public void setIluminacion(Illumination luminaria) {
         this.lighting = luminaria;
     }
 
-    public Iluminacion getIluminacion() {
+    public Illumination getIluminacion() {
         return this.lighting;
     }
 
@@ -96,31 +96,31 @@ public class Player extends Character {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             horizontalForce -= 1;
-            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationLeft());
-            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setActualAnimation(this.getAnimation().getAnimationLeft());
+            this.getAnimation().getActualAnimation().setFrameDuration(0.1f);
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             horizontalForce += 1;
-            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationRight());
-            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setActualAnimation(this.getAnimation().getAnimationRight());
+            this.getAnimation().getActualAnimation().setFrameDuration(0.1f);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             verticalForce += 1;
-            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationUp());
-            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setActualAnimation(this.getAnimation().getAnimationUp());
+            this.getAnimation().getActualAnimation().setFrameDuration(0.1f);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             verticalForce -= 1;
-            this.getAnimation().setAnimacionActual(this.getAnimation().getAnimationDown());
-            this.getAnimation().getAnimacionActual().setFrameDuration(0.1f);
+            this.getAnimation().setActualAnimation(this.getAnimation().getAnimationDown());
+            this.getAnimation().getActualAnimation().setFrameDuration(0.1f);
         }
 
         if (!Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.W)
                 && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.A))
-            this.getAnimation().getAnimacionActual().setFrameDuration(0);
+            this.getAnimation().getActualAnimation().setFrameDuration(0);
 
 
         this.getBody().setLinearVelocity(horizontalForce * 5, verticalForce * 5);
@@ -129,7 +129,7 @@ public class Player extends Character {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
             if(this.getCantidadDeFaroles()>0) {
-                ((Lantern) inventory.remove(getFarolFromInventario())).desequipar(this);
+                ((Lantern) inventory.remove(getFarolFromInventario())).unequip(this);
                 soundEffects.get("lantern").play();
             }
         }
@@ -147,9 +147,9 @@ public class Player extends Character {
 
                 ConeLight linterna = ((Flashlight) lighting).getLight();
 
-                linterna.setDistance( linterna.getDistance() + (ENERGIA_BATERIAS*DISTANCIA_LUMINARIA)/PPM );
+                linterna.setDistance( linterna.getDistance() + (BATTERY_ENERGY * LIGHT_DISTANCE)/PPM );
 
-                ((Batery) inventory.get(getBateriaFromInventario())).setUsable(false);
+                ((Battery) inventory.get(getBateriaFromInventario())).setUsable(false);
                 soundEffects.get("batery").play();
             }
         }
@@ -166,8 +166,8 @@ public class Player extends Character {
 
         int cantidadDeLlaves = 0;
 
-        for (ItemEquipable item : inventory) {
-            if (item instanceof Llave)
+        for (EquippableItem item : inventory) {
+            if (item instanceof Key)
                 cantidadDeLlaves++;
         }
 
@@ -184,8 +184,8 @@ public class Player extends Character {
 
         int cantidadDeBaterias = 0;
 
-        for(ItemEquipable item : inventory){
-            if(item instanceof Batery && ((Batery)item).isUsable())
+        for(EquippableItem item : inventory){
+            if(item instanceof Battery && ((Battery)item).isUsable())
                 cantidadDeBaterias++;
         }
 
@@ -203,7 +203,7 @@ public class Player extends Character {
 
         int cantidadDeFaroles = 0;
 
-        for (ItemEquipable item : inventory) {
+        for (EquippableItem item : inventory) {
             if (item instanceof Lantern)
                 cantidadDeFaroles++;
         }
@@ -221,7 +221,7 @@ public class Player extends Character {
 
         int cantidadDeBandages = 0;
 
-        for (ItemEquipable item : inventory) {
+        for (EquippableItem item : inventory) {
             if (item instanceof Bandage)
                 cantidadDeBandages++;
         }
@@ -239,7 +239,7 @@ public class Player extends Character {
 
         int index = -1;
 
-        for (ItemEquipable item : inventory) {
+        for (EquippableItem item : inventory) {
             if (item instanceof Lantern) {
                 index = inventory.indexOf(item);
                 break;
@@ -259,8 +259,8 @@ public class Player extends Character {
 
         int index = -1;
 
-        for(ItemEquipable item : inventory){
-            if(item instanceof Batery && ((Batery)item).isUsable()){
+        for(EquippableItem item : inventory){
+            if(item instanceof Battery && ((Battery)item).isUsable()){
                 index = inventory.indexOf(item);
                 break;
             }
@@ -282,13 +282,13 @@ public class Player extends Character {
     /**
      * Método busca una llave en el inventario y la retorna.
      */
-    private Llave keyToDelete() {
+    private Key keyToDelete() {
 
-        Llave key = null;
+        Key key = null;
 
-        for (ItemEquipable item : inventory) {
-            if (item instanceof Llave)
-                key = (Llave) item;
+        for (EquippableItem item : inventory) {
+            if (item instanceof Key)
+                key = (Key) item;
         }
 
         return key;
@@ -316,7 +316,7 @@ public class Player extends Character {
 
         //Comportamiento que tendrá con un farol
         if(fixture.getUserData() instanceof Lantern){
-            if(!((Lantern)fixture.getUserData()).getEstaEquipado() && !this.getInventory().contains(((Lantern)fixture.getUserData()))){
+            if(!((Lantern)fixture.getUserData()).getEquipped() && !this.getInventory().contains(((Lantern)fixture.getUserData()))){
                 inventory.add((Lantern)fixture.getUserData());
             }
         }
@@ -332,7 +332,7 @@ public class Player extends Character {
     }
 
     public void useVenda() {
-        for (ItemEquipable item : inventory) {
+        for (EquippableItem item : inventory) {
             if (item instanceof Bandage) {
                 this.inventory.remove(item);
                 this.setHealth(getHealth() + 1);
@@ -352,7 +352,7 @@ public class Player extends Character {
 
         int index = -1;
 
-        for (ItemEquipable item : inventory) {
+        for (EquippableItem item : inventory) {
             if (item instanceof Bandage) {
                 index = inventory.indexOf(item);
                 break;
