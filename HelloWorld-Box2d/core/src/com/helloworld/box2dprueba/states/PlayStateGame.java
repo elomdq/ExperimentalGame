@@ -22,6 +22,7 @@ import com.helloworld.box2dprueba.objetos.Farol;
 import com.helloworld.box2dprueba.objetos.Linterna;
 import com.helloworld.box2dprueba.objetos.Cofre;
 import com.helloworld.box2dprueba.scenes.Hud;
+import com.helloworld.box2dprueba.score.Score;
 import com.helloworld.box2dprueba.utils.MyContactListener;
 import com.helloworld.box2dprueba.entidades.enemigos.Banshee;
 import com.helloworld.box2dprueba.entidades.enemigos.Skeleton;
@@ -173,8 +174,6 @@ public class PlayStateGame extends State {
                 89,
                 true,
                 false);
-        /*puerta.getBody().getFixtureList().get(0).setDensity(0f);
-        puerta.getBody().getFixtureList().get(0).setSensor(true);*/
 
         //seteo de cofres e items equipables
         chests = assignItems(createItems(),createChests());
@@ -200,6 +199,8 @@ public class PlayStateGame extends State {
         world.step(1/60f, 6, 2);
 
         cameraUpdate();
+
+        Score.defineScore(jugador);
 
         //seteando limites de camara
         float startX = camera.viewportWidth / 2;

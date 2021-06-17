@@ -17,11 +17,13 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.google.gson.Gson;
 import com.helloworld.box2dprueba.entidades.Jugador;
 import com.helloworld.box2dprueba.score.Score;
+import com.helloworld.box2dprueba.score.AuxFiles;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class EndGameState extends State{
 
@@ -127,7 +129,7 @@ public class EndGameState extends State{
 
                     score.setName(nombre.getText()); // aca iria el nombre que ingresa el jugador al finalizar
 
-                    generateJSON();
+                    AuxFiles.updateScores(AuxFiles.returnSortedList(), score);
                     gsm.setState(GameStateManager.GameState.MENU);
                 }
             });
@@ -166,7 +168,6 @@ public class EndGameState extends State{
             table.row();
             table.add(button).height(40).width(330).padTop(80);
         }
-
     }
 
     /*public EndGameState(GameStateManager gsm) {
@@ -202,25 +203,25 @@ public class EndGameState extends State{
     }
 
     //metodos para ingresar nombre y guardar score
-    private void generateJSON(){
-
-        Gson gson = new Gson();
-
-        File file = new File("score.json");
-
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
-
-            gson.toJson(score,Score.class,bw);
-
-            bw.close();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
-
-    }
+//    private void generateJSON(){
+//
+//        Gson gson = new Gson();
+//
+//        File file = new File("score.json");
+//
+//        try {
+//            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
+//
+//            gson.toJson(score,Score.class,bw);
+//
+//            bw.close();
+//
+//        } catch (IOException e) {
+//
+//            e.printStackTrace();
+//
+//        }
+//
+//    }
 
 }

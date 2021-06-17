@@ -12,9 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ArraySelection;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.helloworld.box2dprueba.score.AuxFiles;
 import com.helloworld.box2dprueba.score.Score;
 
 import java.util.ArrayList;
+
 
 public class ScoreState extends State{
 
@@ -110,7 +112,7 @@ public class ScoreState extends State{
         table.top();
         table.add(title).padTop(80).padBottom(60).colspan(2).center();
         table.row();
-        deploydScores(table, scoreList); /** ACA TENES QUE PASARLE LA LISTA POR PARAMETRO, SACA LA QUE PUSE YO DE PRUEBA O USALA PARA CARGAR LA TUYA, ARRIBA ESTA INICIADA Y CARGADA */
+        deploydScores(table, AuxFiles.returnSortedList());
         table.row().expandY();
         table.add(button).top().width(224).height(40).padTop(60).colspan(2);
         table.row();
@@ -145,5 +147,4 @@ public class ScoreState extends State{
             table.row();
         }
     }
-
 }

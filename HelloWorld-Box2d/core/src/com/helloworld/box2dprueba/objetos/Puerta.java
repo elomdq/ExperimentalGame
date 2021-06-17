@@ -32,7 +32,7 @@ public class Puerta extends Entidad implements ICollision {
     public void collision(Fixture fixture){
 
 
-        if(((Jugador)fixture.getUserData()).getCantidadDeLlaves() == CANTIDAD_LLAVES) {
+        if(((Jugador)fixture.getUserData()).getCantidadDeLlaves() >= CANTIDAD_LLAVES) {
 
             this.estaAbierta = true;
 

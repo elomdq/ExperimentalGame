@@ -34,9 +34,15 @@ public final class Constants {
     public static final int SCORE_MAX = 1000;
     public static final int SCORE_MIN = 100;
 
-    public static final int SCORE_LIVES = 5;
-    public static final int SCORE_BATTERIES = 3;
-    public static final int SCORE_BANDAGES = 2;
-    public static final int SCORE_LANTERNS = 2;
+    public static final int SCORE_LIVES = 15;
+    public static final int SCORE_BATTERIES = 13;
+    public static final int SCORE_BANDAGES = 12;
+    public static final int SCORE_LANTERNS = 12;
+
+    public static final String SCORE_1 = "core/assets/scores/score1.json";
+    public static final String SCORE_2 = "core/assets/scores/score2.json";
+    public static final String SCORE_3 = "core/assets/scores/score3.json";
+    public static final String SCORE_4 = "core/assets/scores/score4.json";
+    public static final String SCORE_5 = "core/assets/scores/score5.json";
 
 }
