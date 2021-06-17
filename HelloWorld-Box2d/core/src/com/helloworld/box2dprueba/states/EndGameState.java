@@ -120,7 +120,8 @@ public class EndGameState extends State{
 
                     score.setName(name.getText()); // aca iria el nombre que ingresa el jugador al finalizar
 
-                    AuxFiles.updateScores(AuxFiles.returnSortedList(), score);
+                    //AuxFiles.updateScores(AuxFiles.returnSortedList(), score);
+                    AuxFiles.generateJSON(score);
                     gsm.setState(GameStateManager.GameState.MENU);
                 }
             });

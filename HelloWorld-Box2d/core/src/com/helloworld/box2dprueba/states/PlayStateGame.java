@@ -106,11 +106,6 @@ public class PlayStateGame extends State {
                 32,
                 3);
 
-        /*jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-        jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
-        jugador.setVidas(1);
-*/
 
         //Seteo de Enemigos
 
