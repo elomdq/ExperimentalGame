@@ -16,10 +16,10 @@ com/helloworld/box2dprueba/utils/TiledObjectUtil.java
  com.helloworld.box2dprueba.utils.TiledObjectUtil
 com/helloworld/box2dprueba/objetos/Iluminacion.java
  com.helloworld.box2dprueba.objetos.Iluminacion
-com/helloworld/box2dprueba/score/Score.java
- com.helloworld.box2dprueba.score.Score
 com/helloworld/box2dprueba/objetos/Linterna.java
  com.helloworld.box2dprueba.objetos.Linterna
+com/helloworld/box2dprueba/entidades/Entidad.java
+ com.helloworld.box2dprueba.entidades.Entidad
 com/helloworld/box2dprueba/entidades/AI/AIUtils/Health.java
  com.helloworld.box2dprueba.entidades.AI.AIUtils.Health
  com.helloworld.box2dprueba.entidades.AI.AIUtils.Health$1
@@ -52,8 +52,8 @@ com/helloworld/box2dprueba/objetos/Puerta.java
  com.helloworld.box2dprueba.objetos.Puerta
 com/helloworld/box2dprueba/utils/MyContactListener.java
  com.helloworld.box2dprueba.utils.MyContactListener
-com/helloworld/box2dprueba/entidades/Entidad.java
- com.helloworld.box2dprueba.entidades.Entidad
+com/helloworld/box2dprueba/utils/ICollision.java
+ com.helloworld.box2dprueba.utils.ICollision
 com/helloworld/box2dprueba/utils/Constants.java
  com.helloworld.box2dprueba.utils.Constants
 com/helloworld/box2dprueba/entidades/enemigos/Skeleton.java
@@ -66,15 +66,13 @@ com/helloworld/box2dprueba/objetos/Bandage.java
  com.helloworld.box2dprueba.objetos.Bandage
 com/helloworld/box2dprueba/entities/Box2dLocation.java
  com.helloworld.box2dprueba.entities.Box2dLocation
-com/helloworld/box2dprueba/utils/ICollision.java
- com.helloworld.box2dprueba.utils.ICollision
-com/helloworld/box2dprueba/states/GameStateManager.java
- com.helloworld.box2dprueba.states.GameStateManager
- com.helloworld.box2dprueba.states.GameStateManager$1
- com.helloworld.box2dprueba.states.GameStateManager$GameState
+com/helloworld/box2dprueba/score/Score.java
+ com.helloworld.box2dprueba.score.Score
 com/helloworld/box2dprueba/states/MenuState.java
  com.helloworld.box2dprueba.states.MenuState
  com.helloworld.box2dprueba.states.MenuState$1
+ com.helloworld.box2dprueba.states.MenuState$2
+ com.helloworld.box2dprueba.states.MenuState$3
  com.helloworld.box2dprueba.states.MenuState$Evento
 com/helloworld/box2dprueba/states/PlayStateGame.java
  com.helloworld.box2dprueba.states.PlayStateGame
@@ -89,5 +87,11 @@ com/helloworld/box2dprueba/states/State.java
  com.helloworld.box2dprueba.states.State
 com/helloworld/box2dprueba/JuegoApp.java
  com.helloworld.box2dprueba.JuegoApp
+com/helloworld/box2dprueba/states/GameStateManager.java
+ com.helloworld.box2dprueba.states.GameStateManager
+ com.helloworld.box2dprueba.states.GameStateManager$1
+ com.helloworld.box2dprueba.states.GameStateManager$GameState
 com/helloworld/box2dprueba/states/ScoreState.java
  com.helloworld.box2dprueba.states.ScoreState
+ com.helloworld.box2dprueba.states.ScoreState$1
+ com.helloworld.box2dprueba.states.ScoreState$Evento

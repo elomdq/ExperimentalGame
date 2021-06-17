@@ -16,7 +16,7 @@ public class GameStateManager {
         SPLASH,
         MENU,
         PLAY,
-        SCORES,
+        SCORE,
         ENDGAME
     }
 
@@ -62,7 +62,7 @@ public class GameStateManager {
             case SPLASH: return new SplashState(this);
             case MENU: return new MenuState(this);
             case PLAY: return new PlayStateGame(this);
-            case SCORES: return new ScoreState(this);
+            case SCORE: return new ScoreState(this);
             default:
                 break;
         }

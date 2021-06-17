@@ -190,7 +190,8 @@ public class EndGameState extends State{
 
     //para limpiar texturas, audio y otras entidades y facilitar el manejo de memoria
     public void dispose(){
-
+        /*font.dispose();
+        font2.dispose();*/
         stage.dispose();
         skin.dispose();
     }

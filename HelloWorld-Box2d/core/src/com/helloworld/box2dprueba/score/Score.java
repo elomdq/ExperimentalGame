@@ -33,6 +33,10 @@ public class Score implements Serializable {
         return score;
     }
 
+    public String getScoreString() {
+        return String.valueOf(score);
+    }
+
     public void setScore(int score) {
         this.score = score;
     }
@@ -69,4 +73,9 @@ public class Score implements Serializable {
         return localScore;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.name + "                   " + this.score;
+    }
 }
