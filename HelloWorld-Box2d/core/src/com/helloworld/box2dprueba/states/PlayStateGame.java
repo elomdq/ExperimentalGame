@@ -44,7 +44,6 @@ public class PlayStateGame extends State {
 
     public static Jugador jugador;
     private Skeleton skeleton1;
-    private Skeleton skeleton2;
     private Banshee banshee;
     private Smeller smeller1;
     private Smeller smeller2;
@@ -52,7 +51,6 @@ public class PlayStateGame extends State {
     private Hud hud;
 
     private List<Cofre> chests;
-    //private Texture cofreTexture;
 
     private RayHandler rayHandler;
     private float distance;
@@ -112,12 +110,14 @@ public class PlayStateGame extends State {
         jugador.getInventario().add(new Llave(world,batch,0,0,1,1,true, true));
         jugador.setVidas(1);
 
+
+        //Seteo de Enemigos
+
         skeleton1 = new Skeleton(world,
                 batch,
                 jugador,
                 1310,
                 646);
-
 
         banshee = new Banshee(world,
                 batch,
@@ -139,6 +139,7 @@ public class PlayStateGame extends State {
                 1510,
                 3.2f);
 
+        //Seteo de Linterna
         linterna = new Linterna(world,
                 batch,
                 jugador.getBody().getPosition().x,
@@ -268,21 +269,26 @@ public class PlayStateGame extends State {
     @Override
     public void dispose() {
         world.dispose();
-        b2dr.dispose();
         map.dispose();
+        b2dr.dispose();
         tmr.dispose();
-        batch.dispose();
+
+        //batch.dispose();
         rayHandler.dispose();
-        jugador.dispose();
         linterna.dispose();
+
+        jugador.dispose();
+
         banshee.dispose();
         skeleton1.dispose();
         smeller1.dispose();
-        //skeleton2.dispose();
         smeller2.dispose();
+
         backgroundMusic.dispose();
-        smeller1.dispose();
+
         hud.dispose();
+
+        puerta.dispose();
         for (Cofre cofre : chests) {
             cofre.dispose();
         }
