@@ -16,12 +16,10 @@ jobs:
 
       - name: Get team members
         id: team_members
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           members=$(curl -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.ORG_ACCESS_TOKEN }}" \
             https://api.github.com/orgs/eloymrp/teams/test-team/members)
           echo "$members"
           users=$(echo "$members" | jq '[.[] | .login]')
@@ -33,7 +31,7 @@ jobs:
         run: |
           prs=$(curl -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.ORG_ACCESS_TOKEN }}" \
             https://api.github.com/repos/elomdq/ExperimentalGame/pulls?state=closed)
           team_prs=$(echo "$prs" | jq --argjson team "$steps.team_members.outputs.users" '[.[] | select(.user.login as $login | $team | index($login))]')
           formated_text=$(echo "$team_prs" | jp '[.[] | "- \(.title) by \(.user.login) (<\(.html_url)|link>) - Open for \((now - (.created_at | fromdateiso8601)) / 86400 | floor) days"]')
