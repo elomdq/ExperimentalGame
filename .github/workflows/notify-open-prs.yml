@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEAM_NAME: test-team
-      TOKEN: {{ secrets.GITHUB_TOKEN }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
 
@@ -18,7 +18,7 @@ jobs:
         run: |
           members=$(curl -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token $TOKEN" \
             https://api.github.com/orgs/eloymrp/teams/$TEAM_NAME/members)
           users=$(echo "$members" | jq '[.[] | .login]')
           echo "Users: users"
