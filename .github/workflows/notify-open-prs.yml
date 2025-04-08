@@ -9,8 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEAM_NAME: test-team
-      TOKEN: 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
-      # TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
 
