@@ -37,6 +37,6 @@ jobs:
             https://api.github.com/repos/elomdq/ExperimentalGame/pulls?state=closed)
           echo "${{ steps.team_members.outputs.users }}"
           team_prs=$(echo "$prs" | jq --argjson team '${{ steps.team_members.outputs.users }}' '[.[] | select(.user.login as $login | $team | index($login))]')
-          formated_text=$(echo "$team_prs" | jp '[.[] | "- \(.title) by \(.user.login) (<\(.html_url)|link>) - Open for \((now - (.created_at | fromdateiso8601)) / 86400 | floor) days"]')
+          formated_text=$(echo "$team_prs" | jq '[.[] | "- \(.title) by \(.user.login) (<\(.html_url)|link>) - Open for \((now - (.created_at | fromdateiso8601)) / 86400 | floor) days"]')
           echo "$formated_text"
       
