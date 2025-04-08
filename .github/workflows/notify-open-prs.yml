@@ -1,0 +1,37 @@
+name: PR Notificator
+run-name: Searching open PRs
+on:
+  push:
+      branches:
+        - NO-JIRA_TestingWorkflows
+jobs:
+  Searching:
+    runs-on: ubuntu-latest
+    env:
+      TEAM_NAME: test-team
+      TOKEN: {{ secrets.GITHUB_TOKEN }}
+
+    steps:
+
+      - name: Get team members
+        id: team_members
+        run: |
+          members=$(curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/orgs/eloymrp/teams/$TEAM_NAME/members)
+          users=$(echo "$members" | jq '[.[] | .login]')
+          echo "Users: users"
+          echo "users=$users" >> $GITHUB_OUTPUT
+
+      - name: Get PRS
+        id: get_open_prs
+        run: |
+          prs=$(curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/elomdq/ExperimentalGame/pulls?state=closed)
+          team_prs=$(echo "$prs" | jq --argjson team "$steps.team_members.outputs.users" '[.[] | select(.user.login as $login | $team | index($login))]')
+          formated_text=$(echo "$team_prs" | jp '[.[] | "- \(.title) by \(.user.login) (<\(.html_url)|link>) - Open for \((now - (.created_at | fromdateiso8601)) / 86400 | floor) days"]')
+          echo "$formated_text"
+      
