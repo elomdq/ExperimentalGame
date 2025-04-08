@@ -21,8 +21,8 @@ jobs:
         run: |
           members=$(curl -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token $TOKEN" \
-            https://api.github.com/orgs/eloymrp/teams/$TEAM_NAME/members)
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/orgs/eloymrp/teams/test-team/members)
           echo "$members"
           users=$(echo "$members" | jq '[.[] | .login]')
           echo "Users: users"
