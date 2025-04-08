@@ -23,8 +23,10 @@ jobs:
             https://api.github.com/orgs/eloymrp/teams/test-team/members)
           echo "$members"
           users=$(echo "$members" | jq '[.[] | .login]')
-          echo "Users: users"
-          echo "users=$users" >> $GITHUB_OUTPUT
+          echo "Users: $users"
+          echo "users<<EOF" >> $GITHUB_OUTPUT
+          echo "$users" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Get PRS
         id: get_open_prs
