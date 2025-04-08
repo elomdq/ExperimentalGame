@@ -9,12 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEAM_NAME: test-team
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
       - name: Get team members
         id: team_members
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           members=$(curl -L \
             -H "Accept: application/vnd.github+json" \
